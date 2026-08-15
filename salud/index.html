@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Cuánto aumentó tu salud?</title>
+    <title>Gastos en salud</title>
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="¿Cuánto aumentó tu salud?">
+    <meta property="og:title" content="Gastos en salud">
     <meta property="og:description" content="IAPOS y medicamentos: diciembre 2023 vs. 2025.">
     <meta name="twitter:card" content="summary_large_image">
 
@@ -66,16 +66,14 @@
 
     <div class="max-w-[1200px] mx-auto pt-10 px-4 md:px-6">
         <div class="text-center text-white mb-8">
-            <h2 class="text-2xl md:text-4xl font-black uppercase italic">¿Cuánto aumentó tu salud?</h2>
-            <p class="text-sm mt-2 opacity-90 font-medium italic">Bonos y órdenes de IAPOS, y una canasta de 20 medicamentos, entre diciembre de 2023 y 2025.</p>
+            <h2 class="text-2xl md:text-4xl font-black uppercase italic">Gastos en salud</h2>
+            <p class="text-sm mt-2 opacity-90 font-medium italic">Variación de precios de bonos y órdenes de IAPOS, y de una canasta de 20 medicamentos, entre diciembre de 2023 y hoy.</p>
         </div>
 
         <div id="svcGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
 
-        <div class="mt-10 pt-6 border-t border-white/20 text-[10px] text-white/60 leading-relaxed space-y-2 max-w-[1000px] mx-auto">
-            <p><strong class="text-white/80">Fuente:</strong> informe "El impacto del ajuste en la salud — Santa Fe" (Comunidad), en base a disposiciones de IAPOS y relevamiento propio de precios de medicamentos. Los valores de IAPOS corresponden a diciembre de 2023 y 2025; el relevamiento de medicamentos, a 2023 y 2025.</p>
-            <p><strong class="text-white/80">Nota:</strong> a diferencia de otras herramientas del sitio, estos datos aún no están actualizados a la fecha más reciente — se actualizarán en una próxima revisión.</p>
-            <p>Desarrollada por <strong class="text-white/80">Comunidad</strong>.</p>
+        <div class="mt-8 max-w-[700px] mx-auto rounded-2xl px-6 py-5 text-center" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);">
+            <p class="text-white text-xs md:text-sm font-semibold leading-relaxed">Desde julio de 2025 existen además dos bonos nuevos que no existían antes: el <strong>Bono Quirúrgico ($54.000)</strong> y el <strong>Bono de Prestaciones Especiales ($180.000)</strong>.</p>
         </div>
 
         <div class="text-center pt-8 pb-4">
@@ -84,7 +82,7 @@
     </div>
 
     <script>
-        const services = [{"key": "bono_consulta", "label": "IAPOS — Bono de consulta", "p23": 70, "ph": 900, "consumo": "Coseguro por consulta médica", "nivel_nota": "Bono que abona el afiliado de IAPOS por cada consulta médica, además del descuento que ya recibe en su salario.", "levels": null, "extra": null, "variacion": 1185.7}, {"key": "orden_consulta", "label": "IAPOS — Orden de consulta", "p23": 350, "ph": 3600, "consumo": "Orden para acceder a una consulta", "nivel_nota": "El pedido de bonos para una consulta puede llegar a estirarse hasta 60 u 80 según la complejidad del tratamiento.", "levels": null, "extra": null, "variacion": 928.6}, {"key": "orden_internacion", "label": "IAPOS — Orden de internación", "p23": 1380, "ph": 36000, "consumo": "Orden para una internación", "nivel_nota": "Desde julio de 2025 existen además dos bonos nuevos que no existían antes: el Bono Quirúrgico ($54.000) y el Bono de Prestaciones Especiales ($180.000).", "levels": null, "extra": null, "variacion": 2508.7}, {"key": "sistema_abierto", "label": "IAPOS — Sistema Abierto (titular solo)", "p23": 36392, "ph": 291954, "consumo": "Cuota mensual, titular sin grupo familiar", "nivel_nota": "Incluye obra social + Servicio Complementario. Diciembre 2023: $34.192 + $2.200. 2025: $266.954 + $25.000. Es para quienes dejaron de ser empleados públicos y pagan de forma particular para sostener la cobertura de IAPOS.", "levels": null, "extra": null, "variacion": 702.2}, {"key": "medicamentos", "label": "Medicamentos (promedio de 20 fármacos)", "p23": null, "ph": null, "consumo": "Promedio de 20 medicamentos de uso frecuente", "nivel_nota": "Promedio simple de los aumentos de 20 medicamentos relevados por Comunidad entre 2023 y 2025 (ver el detalle de cada uno debajo).", "levels": [{"label": "Acenocumarol (Anticoagulante)", "p23": 11050, "ph": 26171, "variacion": 136.8}, {"label": "Allopurinol (Para la gota)", "p23": 1721, "ph": 5388, "variacion": 213.1}, {"label": "Amlodipina (Antihipertensivo)", "p23": 8852, "ph": 29087, "variacion": 228.6}, {"label": "Atenolol (Antiarrítmico)", "p23": 3874, "ph": 17414, "variacion": 349.5}, {"label": "Atorvastatin (Dislipemia)", "p23": 10462, "ph": 34752, "variacion": 232.2}, {"label": "Budesonide/Formoterol (EPOC / Asma)", "p23": 31136, "ph": 111650, "variacion": 258.6}, {"label": "Carbamezapina (Antiepiléptico)", "p23": 5561, "ph": 19702, "variacion": 254.3}, {"label": "Carvedilol (Antiarrítmico)", "p23": 6082, "ph": 18809, "variacion": 209.3}, {"label": "Dorzolamida/Timolol (Glaucoma)", "p23": 10747, "ph": 42087, "variacion": 291.6}, {"label": "Enalapril (Antihipertensivo)", "p23": 3191, "ph": 8967, "variacion": 181.0}, {"label": "Furosemida (Diurético)", "p23": 11008, "ph": 22832, "variacion": 107.4}, {"label": "Gabapentin (Anticonvulsivo)", "p23": 5698, "ph": 22229, "variacion": 290.1}, {"label": "Levotiroxina (Hipotiroidismo)", "p23": 8234, "ph": 31779, "variacion": 285.9}, {"label": "Losartan (Hipertensivo)", "p23": 7207, "ph": 24022, "variacion": 233.3}, {"label": "Oxicarbazepina (Antiepiléptico)", "p23": 36484, "ph": 120476, "variacion": 230.2}, {"label": "Risperidona (Antipsicótico)", "p23": 31385, "ph": 105309, "variacion": 235.5}, {"label": "Salbutamol (Asma / EPOC)", "p23": 1979, "ph": 5486, "variacion": 177.2}, {"label": "Clopidogrel (Antiag. Plaquetario)", "p23": 17161, "ph": 59905, "variacion": 249.1}, {"label": "Mesalazina (Tto. Colitis ulcerosa)", "p23": 38893, "ph": 153791, "variacion": 295.4}, {"label": "Hidroclorotiazida (Diurético)", "p23": 2895, "ph": 7943, "variacion": 174.4}], "extra": "Inflación general medida por IPEC en el mismo período: 231%.", "variacion_manual": null, "variacion": 231.7}];
+        const services = [{"key": "bono_consulta", "label": "IAPOS — Bono de consulta", "p23": 70, "ph": 900, "consumo": "Coseguro por consulta médica", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1185.7}, {"key": "orden_consulta", "label": "IAPOS — Orden de consulta", "p23": 350, "ph": 3600, "consumo": "Orden para acceder a una consulta", "nivel_nota": null, "levels": null, "extra": null, "variacion": 928.6}, {"key": "orden_internacion", "label": "IAPOS — Orden de internación", "p23": 1380, "ph": 36000, "consumo": "Orden para una internación", "nivel_nota": null, "levels": null, "extra": null, "variacion": 2508.7}, {"key": "sistema_abierto", "label": "IAPOS — Sistema Abierto (titular solo)", "p23": 36392, "ph": 291954, "consumo": "Cuota mensual, titular sin grupo familiar", "nivel_nota": "Incluye obra social + Servicio Complementario. Diciembre 2023: $34.192 + $2.200. 2025: $266.954 + $25.000. Es para quienes dejaron de ser empleados públicos y pagan de forma particular para sostener la cobertura de IAPOS.", "levels": null, "extra": null, "variacion": 702.2}, {"key": "medicamentos", "label": "Medicamentos (promedio de 20 fármacos)", "p23": null, "ph": null, "consumo": "Promedio de 20 medicamentos de uso frecuente", "nivel_nota": "Promedio simple de los aumentos de 20 medicamentos relevados por Comunidad entre 2023 y 2025 (ver el detalle de cada uno debajo).", "levels": [{"label": "Acenocumarol (Anticoagulante)", "p23": 11050, "ph": 26171, "variacion": 136.8}, {"label": "Allopurinol (Para la gota)", "p23": 1721, "ph": 5388, "variacion": 213.1}, {"label": "Amlodipina (Antihipertensivo)", "p23": 8852, "ph": 29087, "variacion": 228.6}, {"label": "Atenolol (Antiarrítmico)", "p23": 3874, "ph": 17414, "variacion": 349.5}, {"label": "Atorvastatin (Dislipemia)", "p23": 10462, "ph": 34752, "variacion": 232.2}, {"label": "Budesonide/Formoterol (EPOC / Asma)", "p23": 31136, "ph": 111650, "variacion": 258.6}, {"label": "Carbamezapina (Antiepiléptico)", "p23": 5561, "ph": 19702, "variacion": 254.3}, {"label": "Carvedilol (Antiarrítmico)", "p23": 6082, "ph": 18809, "variacion": 209.3}, {"label": "Dorzolamida/Timolol (Glaucoma)", "p23": 10747, "ph": 42087, "variacion": 291.6}, {"label": "Enalapril (Antihipertensivo)", "p23": 3191, "ph": 8967, "variacion": 181.0}, {"label": "Furosemida (Diurético)", "p23": 11008, "ph": 22832, "variacion": 107.4}, {"label": "Gabapentin (Anticonvulsivo)", "p23": 5698, "ph": 22229, "variacion": 290.1}, {"label": "Levotiroxina (Hipotiroidismo)", "p23": 8234, "ph": 31779, "variacion": 285.9}, {"label": "Losartan (Hipertensivo)", "p23": 7207, "ph": 24022, "variacion": 233.3}, {"label": "Oxicarbazepina (Antiepiléptico)", "p23": 36484, "ph": 120476, "variacion": 230.2}, {"label": "Risperidona (Antipsicótico)", "p23": 31385, "ph": 105309, "variacion": 235.5}, {"label": "Salbutamol (Asma / EPOC)", "p23": 1979, "ph": 5486, "variacion": 177.2}, {"label": "Clopidogrel (Antiag. Plaquetario)", "p23": 17161, "ph": 59905, "variacion": 249.1}, {"label": "Mesalazina (Tto. Colitis ulcerosa)", "p23": 38893, "ph": 153791, "variacion": 295.4}, {"label": "Hidroclorotiazida (Diurético)", "p23": 2895, "ph": 7943, "variacion": 174.4}], "extra": "Inflación general medida por IPEC en el mismo período: 231%.", "variacion_manual": null, "variacion": 231.7}];
         const icons = {"bono_consulta": "<rect x=\"10\" y=\"6\" width=\"28\" height=\"36\" rx=\"2\"/><line x1=\"16\" y1=\"16\" x2=\"32\" y2=\"16\"/><line x1=\"16\" y1=\"24\" x2=\"32\" y2=\"24\"/><line x1=\"16\" y1=\"32\" x2=\"26\" y2=\"32\"/>", "orden_consulta": "<rect x=\"10\" y=\"8\" width=\"28\" height=\"34\" rx=\"3\"/><rect x=\"17\" y=\"4\" width=\"14\" height=\"8\" rx=\"2\"/><polyline points=\"16,24 21,29 32,18\"/>", "orden_internacion": "<rect x=\"6\" y=\"26\" width=\"36\" height=\"10\" rx=\"2\"/><line x1=\"10\" y1=\"26\" x2=\"10\" y2=\"14\"/><rect x=\"10\" y=\"14\" width=\"14\" height=\"8\" rx=\"2\"/><line x1=\"6\" y1=\"36\" x2=\"6\" y2=\"42\"/><line x1=\"42\" y1=\"36\" x2=\"42\" y2=\"42\"/>", "sistema_abierto": "<rect x=\"6\" y=\"10\" width=\"36\" height=\"26\" rx=\"4\"/><circle cx=\"16\" cy=\"20\" r=\"4\"/><line x1=\"24\" y1=\"18\" x2=\"36\" y2=\"18\"/><line x1=\"24\" y1=\"24\" x2=\"36\" y2=\"24\"/><line x1=\"10\" y1=\"30\" x2=\"22\" y2=\"30\"/>", "medicamentos": "<rect x=\"6\" y=\"18\" width=\"36\" height=\"12\" rx=\"6\"/><line x1=\"24\" y1=\"18\" x2=\"24\" y2=\"30\"/>"};
 
         let revealed = [];
@@ -109,6 +107,7 @@
         });
 
         function buildInfoHtml(s, idx) {
+            if (!s.nivel_nota && !s.levels && !s.extra) return '';
             let extra = '';
             if (s.levels) {
                 extra = `<div class="lvl">` + s.levels.map(l => `${l.label}: <b>+${arNum(l.variacion)}%</b> ($${fmt(l.p23)} → $${fmt(l.ph)})`).join('<br>') + `</div>`;
@@ -116,7 +115,7 @@
             let extraNote = s.extra ? `<div class="lvl">${s.extra}</div>` : '';
             return `<div class="info-wrap">
                 <button type="button" class="info-btn" onclick="toggleInfo(${idx}, event)">ⓘ</button>
-                <div id="info-${idx}" class="info-pop">${s.nivel_nota}${extra}${extraNote}</div>
+                <div id="info-${idx}" class="info-pop">${s.nivel_nota || ''}${extra}${extraNote}</div>
             </div>`;
         }
 
