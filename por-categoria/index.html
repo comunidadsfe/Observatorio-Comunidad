@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Sentís que la plata rinde menos? — Por categoría</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="¿Sentís que la plata rinde menos?">
+    <meta property="og:description" content="Comparación de precios por categoría: noviembre 2023 vs. hoy.">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAABvklEQVR42u3Vu24TQRgF4HNmZ3YXbxwrJUIiiDSIIlyq0NBR0FDRpuIBqHg9XgAK6FJyE0YgmRDHe5udORR2jC2LiAILCe1omh3NnE/659csD4cvsM1hsOXRAz3QA/8pkPwBS4Ab55eLlwECJtFMIw1hsDbn5w2QEF4IgAFKcbEIBKAReQkgwDA+G02fFOVZQCmW4jTyPHIW2YiNWIpfu+Qwbw+sryIfD6pWKCMn0VxLugd5Va0bdpU6i+b53rSVXnt3vHsu6kcwt9LghXFwY28cdd11AxNngZUzj3aqqyY0MvtpfVKnT0flSW1fVoOCCpsAAUEFw4fWDY3u534ScHvQvOtSgHez+ktrM4cM4ZN394q2EN42mSEf5uWdK9VR3r73iWWkFlmL2OUPh0AHDBmPR9Oxd62YER+7JGEEgah915H83Nnvwd50/luX3Ej9aeAuYwWeRnPg/Jsme1XnGSVsAEtjFmkBEEYktbyeIAqyZAIFEVR3ccMCCAXAEflK+lqJ5ikW2DMXO4ywupeal1HAHCY1D9evIiOud5HdbNOw+vGbobXu79+iHuiBfwzYGLVdoNhJF48I/3a2AOInLwnN8lu9droAAAAASUVORK5CYII=">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        :root { --comunidad-violeta: #3D1488; --comunidad-fucsia: #EF3C6B; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--comunidad-violeta); padding-bottom: 40px; }
+
+        .icon-badge { width: 56px; height: 56px; border-radius: 16px; background: #f1f5f9; color: var(--comunidad-violeta); display: flex; align-items: center; justify-content: center; padding: 10px; }
+        .icon-badge.revealed { background: var(--comunidad-violeta); color: white; }
+        .placa { position: relative; background: white; border-radius: 20px; padding: 18px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 230px; justify-content: space-between; }
+        .placa-btn { width: 100%; padding: 10px 8px; border-radius: 10px; color: white; font-size: 10px; font-weight: 800; text-transform: uppercase; line-height: 1.25; background: var(--comunidad-violeta); }
+        .placa-name { font-weight: 900; text-transform: uppercase; font-size: 11px; color: var(--comunidad-violeta); letter-spacing: 0.01em; }
+        .placa-note { font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-top: -6px; }
+        .text-loss { color: #dc2626; }
+        .text-gain { color: #16a34a; }
+        input[readonly] { background-color: #f1f5f9; cursor: not-allowed; color: var(--comunidad-violeta) !important; font-weight: 800; }
+
+        .info-wrap { position: absolute; top: 10px; right: 10px; z-index: 5; }
+        .info-btn { width: 20px; height: 20px; border-radius: 9999px; background: #e2e8f0; color: var(--comunidad-violeta); font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; line-height: 1; }
+        .info-pop { position: absolute; top: 26px; right: 0; width: 190px; background: #1f2937; color: white; font-size: 10.5px; font-weight: 600; line-height: 1.45; padding: 10px 12px; border-radius: 10px; text-align: left; z-index: 30; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s, transform .15s; pointer-events: none; }
+        .info-wrap:hover .info-pop, .info-pop.show { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .info-wrap.light .info-btn { background: rgba(255,255,255,0.25); color: white; }
+
+        #canvas-poster { position: absolute; left: -9999px; width: 600px; font-family: 'Montserrat', sans-serif; overflow: hidden; }
+        #poster-panel { padding: 50px 40px 30px; text-align: center; color: white; }
+        #poster-icon { width: 110px; height: 110px; margin: 0 auto 20px; }
+        #poster-percent { font-size: 74px; font-weight: 900; font-style: italic; line-height: 1; margin-bottom: 16px; }
+        #poster-frase { font-size: 23px; font-weight: 700; line-height: 1.35; margin-bottom: 24px; }
+        #poster-frase b { font-weight: 900; text-decoration: underline; text-underline-offset: 3px; }
+        #poster-firma { font-size: 11px; font-weight: 800; text-transform: uppercase; opacity: 0.6; letter-spacing: 1.5px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 14px; }
+        #poster-firma img { display: block; height: 26px; margin: 8px auto 0; opacity: 0.85; }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-40" style="background: rgba(0,0,0,0.15);">
+        <div class="max-w-[1200px] mx-auto px-6 py-3 flex items-center justify-between text-white">
+            <a href="../" class="font-black uppercase italic text-sm tracking-wide">Comunidad</a>
+            <div class="hidden md:flex gap-6 text-[11px] font-black uppercase tracking-wide opacity-90">
+                <a href="../#herramientas" class="hover:opacity-70">Herramientas</a>
+                <a href="../#informes" class="hover:opacity-70">Informes</a>
+                <a href="#" class="hover:opacity-70">Instagram</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="canvas-poster">
+        <div id="poster-panel">
+            <div id="poster-icon"></div>
+            <div id="poster-percent">-0.0%</div>
+            <div id="poster-frase"></div>
+            <div id="poster-firma">Comunidad<img src="data:image/png;base64,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" alt=""></div>
+        </div>
+    </div>
+
+    <div class="max-w-[1200px] mx-auto pt-10 px-4 md:px-6">
+        <div class="text-center text-white mb-6">
+            <h2 class="text-2xl md:text-4xl font-black uppercase italic">¿Sentís que la plata rinde menos?</h2>
+            <p class="text-sm mt-2 opacity-90 font-medium italic">Elegí una categoría y compará cuánto te alcanzaba en noviembre de 2023 y cuánto te alcanza hoy.</p>
+        </div>
+
+        <div id="incomeControls" class="bg-white rounded-2xl p-5 shadow-xl max-w-md mx-auto mb-8"></div>
+
+        <div id="generalCard" class="relative bg-white/10 border border-white/20 rounded-2xl p-5 max-w-md mx-auto mb-8 text-center text-white flex items-center gap-4">
+            <div class="info-wrap light">
+                <button type="button" class="info-btn" onclick="toggleInfo('general', event)">ⓘ</button>
+                <div id="info-general" class="info-pop">Promedio de las nueve divisiones del IPC, ponderadas según su peso en el consumo de los hogares de Santa Fe.</div>
+            </div>
+            <div class="icon-badge revealed shrink-0"><svg class="w-10 h-10" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,34 18,22 26,28 42,10"/><polyline points="32,10 42,10 42,20"/></svg></div>
+            <div class="text-left">
+                <div class="text-[10px] font-black uppercase tracking-widest opacity-80">Nivel General (todas las categorías)</div>
+                <div id="generalResult" class="text-3xl font-black italic">--%</div>
+                <div id="generalSub" class="text-[10px] font-bold opacity-70 mt-1">Cargá tu ingreso para ver el resultado</div>
+            </div>
+        </div>
+
+        <div id="catGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
+
+        <div class="text-center mt-8">
+            <a href="../alimentos/" class="inline-block px-6 py-3 rounded-xl font-black uppercase text-xs text-white" style="background-color: var(--comunidad-fucsia);">¿Querés el detalle producto por producto de Alimentos? Entrá acá →</a>
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-white/20 text-[10px] text-white/60 leading-relaxed space-y-2 max-w-[1000px] mx-auto">
+            <p><strong class="text-white/80">Fuente de precios:</strong> IPEC (Santa Fe), Índice de Precios al Consumidor, noviembre 2023 a julio 2026. Alimentos usa el costo total de una canasta de 48 productos relevados por IPEC; el resto de las categorías, el índice oficial de cada división. Nafta es un dato de precio propio, no de IPEC. <a href="https://www.estadisticasantafe.gob.ar/contenido/informes-ipc/" target="_blank" class="underline">Ver informes de IPEC →</a></p>
+            <p><strong class="text-white/80">Fuente de ingresos:</strong> valores de referencia a noviembre 2023 y a la fecha, según fuente indicada en cada perfil.</p>
+            <p>Se actualiza manualmente cuando IPEC publica un informe nuevo. Desarrollada por <strong class="text-white/80">Comunidad</strong>.</p>
+        </div>
+
+        <div class="text-center pt-8 pb-10">
+            <a href="../" class="inline-block text-white text-[11px] font-black uppercase underline underline-offset-4 opacity-70 hover:opacity-100">← Volver a Observatorio Comunidad</a>
+        </div>
+    </div>
+
+    <script>
+        const categories = [{"key": "alimentos", "label": "Alimentos", "p23": 81143.17, "ph": 335791.61, "note": "Costo total de la canasta de 48 productos IPEC", "link": "https://comunidadsfe.github.io/Aumentos-en-alimentos/"}, {"key": "indumentaria", "label": "Indumentaria", "p23": 5316.24, "ph": 14160.83, "note": "Índice IPC — ropa, calzado y accesorios"}, {"key": "vivienda", "label": "Vivienda y servicios básicos", "p23": 3687.22, "ph": 26585.85, "note": "Índice IPC — alquiler, gas, agua, electricidad"}, {"key": "equipamiento", "label": "Equipamiento y mant. del hogar", "p23": 5582.47, "ph": 17295.5, "note": "Índice IPC"}, {"key": "salud", "label": "Atención médica y salud", "p23": 6098.36, "ph": 30251.8, "note": "Índice IPC"}, {"key": "transporte", "label": "Transporte y comunicaciones", "p23": 5474.3, "ph": 25629.58, "note": "Índice IPC"}, {"key": "esparcimiento", "label": "Esparcimiento", "p23": 5132.52, "ph": 18148.91, "note": "Índice IPC"}, {"key": "educacion", "label": "Educación", "p23": 5070.76, "ph": 23285.99, "note": "Índice IPC"}, {"key": "otros", "label": "Otros bienes y servicios", "p23": 4973.88, "ph": 26486.53, "note": "Índice IPC"}, {"key": "nafta", "label": "Nafta", "p23": 470, "ph": 2094, "note": "Precio surtidor, dato propio (no IPEC)"}];
+        const nivelGeneral = {"p23": 5407.62, "ph": 23577.41};
+        const presets = {"smvm": {"v23": 156000, "vh": 363000, "label": "Salario Mínimo (SMVM)", "fuente": "Fuente: Salario Mínimo Vital y Móvil"}, "jubilacion": {"v23": 160713, "vh": 463174, "label": "Jubilación Mínima", "fuente": "Fuente: ANSES, Jubilación Mínima"}, "municipal": {"v23": 246008, "vh": 975000, "label": "Mínimo Garantizado Municipal", "fuente": "Fuente: Paritarias Festram"}, "comercio": {"v23": 332959, "vh": 1023016.21, "label": "Salario Comercio", "fuente": "Fuente: CUEC, Categoría Maestranza A, sin antigüedad"}, "docente": {"v23": 269522, "vh": 1037205, "label": "Salario Docente", "fuente": "Fuente: Paritaria docente, Maestro de Grado, sin antigüedad"}};
+        const icons = {
+            nivelgeneral: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,34 18,22 26,28 42,10"/><polyline points="32,10 42,10 42,20"/></svg>`,
+            alimentos: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16,18 C16,8 32,8 32,18"/><polygon points="8,18 40,18 34,42 14,42"/><line x1="14" y1="27" x2="34" y2="27"/></svg>`,
+            indumentaria: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="16,6 24,10 32,6 40,14 36,20 32,16 32,42 16,42 16,16 12,20 8,14"/></svg>`,
+            vivienda: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8,24 L24,8 L40,24"/><rect x="12" y="24" width="24" height="16"/><rect x="20" y="30" width="8" height="10"/></svg>`,
+            equipamiento: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="19" r="12"/><line x1="18" y1="31" x2="30" y2="31"/><line x1="19" y1="36" x2="29" y2="36"/><line x1="21" y1="41" x2="27" y2="41"/></svg>`,
+            salud: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><line x1="24" y1="15" x2="24" y2="33"/><line x1="15" y1="24" x2="33" y2="24"/></svg>`,
+            transporte: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6,30 L10,18 L38,18 L42,30 Z"/><rect x="4" y="28" width="40" height="10"/><circle cx="14" cy="40" r="4"/><circle cx="34" cy="40" r="4"/></svg>`,
+            esparcimiento: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="14" width="32" height="20" rx="4"/><polygon points="20,18 20,30 32,24"/></svg>`,
+            educacion: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="24,8 44,18 24,28 4,18"/><line x1="38" y1="21" x2="38" y2="32"/><circle cx="38" cy="34" r="2"/></svg>`,
+            otros: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="18" width="32" height="24"/><line x1="8" y1="26" x2="40" y2="26"/><line x1="24" y1="18" x2="24" y2="42"/><path d="M16,18 C16,10 24,10 24,18"/><path d="M32,18 C32,10 24,10 24,18"/></svg>`,
+            nafta: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="10" width="18" height="30" rx="2"/><rect x="12" y="14" width="10" height="7"/><path d="M26,22 h6 a4,4 0 0 1 4,4 v10"/><circle cx="36" cy="38" r="2"/><line x1="6" y1="40" x2="26" y2="40"/></svg>`
+        };
+        const ICONS_RAW = {"nivelgeneral": "<polyline points=\"6,34 18,22 26,28 42,10\"/><polyline points=\"32,10 42,10 42,20\"/>", "alimentos": "<path d=\"M16,18 C16,8 32,8 32,18\"/><polygon points=\"8,18 40,18 34,42 14,42\"/><line x1=\"14\" y1=\"27\" x2=\"34\" y2=\"27\"/>", "indumentaria": "<polygon points=\"16,6 24,10 32,6 40,14 36,20 32,16 32,42 16,42 16,16 12,20 8,14\"/>", "vivienda": "<path d=\"M8,24 L24,8 L40,24\"/><rect x=\"12\" y=\"24\" width=\"24\" height=\"16\"/><rect x=\"20\" y=\"30\" width=\"8\" height=\"10\"/>", "equipamiento": "<circle cx=\"24\" cy=\"19\" r=\"12\"/><line x1=\"18\" y1=\"31\" x2=\"30\" y2=\"31\"/><line x1=\"19\" y1=\"36\" x2=\"29\" y2=\"36\"/><line x1=\"21\" y1=\"41\" x2=\"27\" y2=\"41\"/>", "salud": "<circle cx=\"24\" cy=\"24\" r=\"18\"/><line x1=\"24\" y1=\"15\" x2=\"24\" y2=\"33\"/><line x1=\"15\" y1=\"24\" x2=\"33\" y2=\"24\"/>", "transporte": "<path d=\"M6,30 L10,18 L38,18 L42,30 Z\"/><rect x=\"4\" y=\"28\" width=\"40\" height=\"10\"/><circle cx=\"14\" cy=\"40\" r=\"4\"/><circle cx=\"34\" cy=\"40\" r=\"4\"/>", "esparcimiento": "<rect x=\"8\" y=\"14\" width=\"32\" height=\"20\" rx=\"4\"/><polygon points=\"20,18 20,30 32,24\"/>", "educacion": "<polygon points=\"24,8 44,18 24,28 4,18\"/><line x1=\"38\" y1=\"21\" x2=\"38\" y2=\"32\"/><circle cx=\"38\" cy=\"34\" r=\"2\"/>", "otros": "<rect x=\"8\" y=\"18\" width=\"32\" height=\"24\"/><line x1=\"8\" y1=\"26\" x2=\"40\" y2=\"26\"/><line x1=\"24\" y1=\"18\" x2=\"24\" y2=\"42\"/><path d=\"M16,18 C16,10 24,10 24,18\"/><path d=\"M32,18 C32,10 24,10 24,18\"/>", "nafta": "<rect x=\"8\" y=\"10\" width=\"18\" height=\"30\" rx=\"2\"/><rect x=\"12\" y=\"14\" width=\"10\" height=\"7\"/><path d=\"M26,22 h6 a4,4 0 0 1 4,4 v10\"/><circle cx=\"36\" cy=\"38\" r=\"2\"/><line x1=\"6\" y1=\"40\" x2=\"26\" y2=\"40\"/>"};
+        const tooltips = {"nivelgeneral": "Promedio de las nueve divisiones del IPC, ponderadas según su peso en el consumo de los hogares de Santa Fe.", "alimentos": "Costo total de una canasta de 48 productos de alimentación básica relevados por IPEC.", "indumentaria": "Variación de precios de ropa, calzado y accesorios.", "vivienda": "Variación de precios de alquiler, expensas, gas, agua, electricidad y otros gastos del hogar.", "equipamiento": "Variación de precios de muebles, electrodomésticos y artículos para el mantenimiento de la vivienda.", "salud": "Variación de precios de consultas médicas, medicamentos, prepagas y otros gastos de salud.", "transporte": "Variación de precios de transporte público, combustibles, telefonía e internet.", "esparcimiento": "Variación de precios de recreación, entretenimiento, turismo y cultura.", "educacion": "Variación de precios de cuotas, útiles y otros gastos educativos.", "otros": "Variación de precios de bienes y servicios diversos no incluidos en las demás categorías (cuidado personal, servicios varios, etc.).", "nafta": "Precio promedio de la nafta súper, noviembre 2023 vs. hoy. Dato provisto directamente por el usuario (no proviene del IPC de IPEC)."};
+
+        let presetKey = 'comercio';
+        let customIncome = { v23: 0, vh: 0 };
+        let revealed = [];
+
+        const fmt = (n) => new Intl.NumberFormat('es-AR').format(Math.round(n));
+
+        function getIncome() {
+            if (presetKey === 'custom') return customIncome;
+            return presets[presetKey];
+        }
+
+        function handlePresetChange(sel) {
+            presetKey = sel.value;
+            renderIncomeControls();
+            renderAll();
+        }
+
+        function formatCustomIncome(input, key) {
+            let v = input.value.replace(/\D/g, "");
+            input.value = v !== "" ? "$ " + fmt(v) : "";
+            customIncome[key] = parseFloat(v) || 0;
+            renderAll();
+        }
+
+        function renderIncomeControls() {
+            const cont = document.getElementById('incomeControls');
+            let html = `<p class="text-[10px] uppercase font-black text-slate-400 mb-2 tracking-widest">Ingreso de referencia</p>
+                <select onchange="handlePresetChange(this)" class="w-full p-3 bg-white border-2 rounded-lg font-black text-sm text-slate-700" style="border-color:var(--comunidad-violeta)">
+                ${Object.keys(presets).map(k => `<option value="${k}" ${presetKey===k?'selected':''}>${presets[k].label}</option>`).join('')}
+                <option value="custom" ${presetKey==='custom'?'selected':''}>Cargar mi propio ingreso</option>
+                </select>`;
+            if (presetKey === 'custom') {
+                html += `<div class="grid grid-cols-2 gap-2 mt-3">
+                    <input type="text" inputmode="numeric" placeholder="$ Nov-23" oninput="formatCustomIncome(this,'v23')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
+                    <input type="text" inputmode="numeric" placeholder="$ Hoy" oninput="formatCustomIncome(this,'vh')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
+                </div>`;
+            } else {
+                html += `<p class="text-[11px] font-bold mt-3" style="color:var(--comunidad-violeta)">${presets[presetKey].fuente}</p>`;
+            }
+            cont.innerHTML = html;
+        }
+
+        function toggleReveal(idx) {
+            const pos = revealed.indexOf(idx);
+            if (pos > -1) revealed.splice(pos, 1); else revealed.push(idx);
+            renderAll();
+        }
+
+        function toggleInfo(idx, ev) {
+            ev.stopPropagation();
+            document.querySelectorAll('.info-pop.show').forEach(el => { if (el.id !== `info-${idx}`) el.classList.remove('show'); });
+            const el = document.getElementById(`info-${idx}`);
+            if (el) el.classList.toggle('show');
+        }
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.info-pop.show').forEach(el => el.classList.remove('show'));
+        });
+
+        function pctChange(i23, iH, p23, ph) { return (((iH / ph) / (i23 / p23)) - 1) * 100; }
+        function inflacion(p23, ph) { return ((ph / p23) - 1) * 100; }
+        function arNum(n) { return n.toFixed(1).replace('.', ','); }
+        function buildFrase(v, nombre) {
+            const magnitud = arNum(Math.abs(v));
+            const direccion = v < 0 ? "menos" : "más";
+            return `Desde noviembre de 2023 podés comprar <b>${magnitud}% ${direccion}</b> en ${nombre}`;
+        }
+
+        function renderGeneral(income, hasIncome) {
+            const gEl = document.getElementById('generalResult');
+            const gSub = document.getElementById('generalSub');
+            if (hasIncome) {
+                const v = pctChange(income.v23, income.vh, nivelGeneral.p23, nivelGeneral.ph);
+                gEl.innerText = (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+                gEl.className = 'text-3xl font-black italic ' + (v < 0 ? 'text-red-300' : 'text-green-300');
+                gSub.innerText = `Ingreso +${arNum((((income.vh/income.v23)-1)*100))}% · precios generales +${arNum(inflacion(nivelGeneral.p23, nivelGeneral.ph))}% (nov-23 a jul-26)`;
+            } else {
+                gEl.innerText = '--%';
+                gEl.className = 'text-3xl font-black italic';
+                gSub.innerText = 'Cargá tu ingreso para ver el resultado';
+            }
+        }
+
+        function renderGrid(income, hasIncome) {
+            const cont = document.getElementById('catGrid');
+            cont.innerHTML = categories.map((c, idx) => {
+                const iconHtml = icons[c.key];
+                const infoHtml = `<div class="info-wrap">
+                    <button type="button" class="info-btn" onclick="toggleInfo(${idx}, event)">ⓘ</button>
+                    <div id="info-${idx}" class="info-pop">${tooltips[c.key] || ''}</div>
+                </div>`;
+                if (!revealed.includes(idx) || !hasIncome) {
+                    return `<div class="placa">
+                        ${infoHtml}
+                        <div class="icon-badge">${iconHtml}</div>
+                        <div class="placa-name">${c.label}</div>
+                        <button type="button" onclick="toggleReveal(${idx})" class="placa-btn" ${hasIncome ? '' : 'disabled style="opacity:.5;cursor:not-allowed"'}>¿Cuánto rinde tu plata en ${c.label}?</button>
+                    </div>`;
+                }
+                const v = pctChange(income.v23, income.vh, c.p23, c.ph);
+                const infl = inflacion(c.p23, c.ph);
+                const vClass = v < 0 ? 'text-loss' : 'text-gain';
+                const vStr = (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+                const linkHtml = c.link ? `<a href="${c.link}" target="_blank" class="text-[9px] font-black uppercase underline" style="color:var(--comunidad-fucsia)">Detalle producto x producto →</a>` : '';
+                return `<div class="placa">
+                    ${infoHtml}
+                    <div class="icon-badge revealed">${iconHtml}</div>
+                    <div class="placa-name">${c.label}</div>
+                    <div class="placa-note">Inflación: +${infl.toFixed(1)}%</div>
+                    <div class="text-2xl font-black italic ${vClass}">${vStr}</div>
+                    <div class="grid grid-cols-2 gap-1 w-full">
+                        <button type="button" onclick="toggleReveal(${idx})" class="py-2 rounded-lg text-[9px] font-black uppercase border-2 border-slate-300 text-slate-500">Ocultar</button>
+                        <button type="button" onclick="handlePoster(${idx})" class="py-2 rounded-lg text-white text-[9px] font-black uppercase" style="background:var(--comunidad-fucsia)">Compartir</button>
+                    </div>
+                    ${linkHtml}
+                </div>`;
+            }).join('');
+        }
+
+        function renderAll() {
+            const income = getIncome();
+            const hasIncome = income.v23 > 0 && income.vh > 0;
+            renderGeneral(income, hasIncome);
+            renderGrid(income, hasIncome);
+        }
+
+        async function createPoster(percentStr, fraseHtml, iconKey) {
+            try {
+                const c = document.getElementById('canvas-poster');
+                document.getElementById('poster-icon').innerHTML = ICONS_RAW[iconKey] ? `<svg viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%">${ICONS_RAW[iconKey]}</svg>` : '';
+                document.getElementById('poster-percent').innerText = percentStr;
+                document.getElementById('poster-frase').innerHTML = fraseHtml;
+                document.getElementById('poster-panel').style.background = percentStr.trim().startsWith('-') ? 'linear-gradient(160deg,#dc2626,#7f1d1d)' : 'linear-gradient(160deg,#16a34a,#14532d)';
+                await new Promise(r => setTimeout(r, 150));
+                const can = await html2canvas(c, { useCORS: true });
+                can.toBlob(blob => {
+                    if (!blob) { alert("No se pudo generar la imagen. Probá de nuevo."); return; }
+                    try {
+                        const f = new File([blob], "Resultado.png", { type: 'image/png' });
+                        if (navigator.share) {
+                            navigator.share({ files: [f] }).catch(() => {
+                                const a = document.createElement('a'); a.download = "resultado.png"; a.href = can.toDataURL(); a.click();
+                            });
+                        } else {
+                            const a = document.createElement('a'); a.download = "resultado.png"; a.href = can.toDataURL(); a.click();
+                        }
+                    } catch (err) {
+                        console.error("Error al compartir/descargar la placa:", err);
+                        alert("No se pudo compartir la placa. Probá descargarla de nuevo.");
+                    }
+                });
+            } catch (err) {
+                console.error("Error al generar la placa:", err);
+                alert("No se pudo generar la placa. Probá de nuevo en unos segundos.");
+            }
+        }
+
+        function handlePoster(idx) {
+            const c = categories[idx];
+            const income = getIncome();
+            const v = pctChange(income.v23, income.vh, c.p23, c.ph);
+            const pctStr = (v > 0 ? "+" : "") + arNum(v) + "%";
+            createPoster(pctStr, buildFrase(v, c.label), c.key);
+        }
+
+        renderIncomeControls();
+        renderAll();
+    </script>
+</body>
+</html>

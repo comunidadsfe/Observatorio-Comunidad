@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observatorio Comunidad</title>
+<meta property="og:title" content="Observatorio Comunidad">
+<meta property="og:description" content="Evolución de precios, salarios y costo de vida en Santa Fe.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { --comunidad-violeta: #3D1488; --comunidad-fucsia: #EF3C6B; }
+  body { font-family: 'Montserrat', sans-serif; background: var(--comunidad-violeta); }
+  .tool-card { background: white; border-radius: 20px; padding: 28px 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.18); display:flex; flex-direction:column; gap:14px; }
+  .tool-icon { width:56px; height:56px; border-radius:16px; background:#f1f5f9; color:var(--comunidad-violeta); display:flex; align-items:center; justify-content:center; }
+  .tool-title { font-weight:900; text-transform:uppercase; color:var(--comunidad-violeta); font-size:1rem; }
+  .tool-desc { font-size:0.8rem; color:#64748b; line-height:1.4; flex-grow:1; }
+  .tool-btn { background: var(--comunidad-fucsia); color:white; text-align:center; padding:12px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.75rem; text-decoration:none; }
+  .informe-card { background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:16px; padding:20px; color:white; }
+  .informe-title { font-weight:900; text-transform:uppercase; font-size:0.85rem; margin-bottom:6px; }
+  .informe-link { color:#ffd8e2; font-size:0.75rem; font-weight:700; text-decoration:underline; }
+  .navbar { background: rgba(0,0,0,0.15); }
+</style>
+</head>
+<body>
+
+<nav class="navbar sticky top-0 z-40">
+  <div class="max-w-[1100px] mx-auto px-6 py-4 flex items-center justify-between text-white">
+    <span class="font-black uppercase italic text-sm tracking-wide">Comunidad</span>
+    <div class="hidden md:flex gap-6 text-[11px] font-black uppercase tracking-wide opacity-90">
+      <a href="#herramientas" class="hover:opacity-70">Herramientas</a>
+      <a href="#informes" class="hover:opacity-70">Informes</a>
+      <a href="#" class="hover:opacity-70">Instagram</a>
+    </div>
+  </div>
+</nav>
+
+<header class="max-w-[900px] mx-auto text-center text-white pt-14 pb-10 px-6">
+  <h1 class="text-3xl md:text-5xl font-black uppercase italic leading-tight">Observatorio Comunidad</h1>
+  <p class="mt-4 text-sm md:text-base opacity-90 max-w-[650px] mx-auto">Te presentamos nuestros informes y nuestras herramientas para que veas de manera sencilla cómo aumentó el costo de vida en Santa Fe.</p>
+</header>
+
+<section id="herramientas" class="max-w-[1100px] mx-auto px-6 pb-16">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <div class="tool-card">
+      <div class="tool-icon"><svg class="w-8 h-8" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16,18 C16,8 32,8 32,18"/><polygon points="8,18 40,18 34,42 14,42"/><line x1="14" y1="27" x2="34" y2="27"/></svg></div>
+      <div class="tool-title">Aumentos en Alimentos</div>
+      <div class="tool-desc">Comparación producto por producto (IPEC, Alvear, Coto) entre diciembre 2023 y hoy. Armá tu propia canasta.</div>
+      <a href="alimentos/" class="tool-btn">Ingresar →</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon"><svg class="w-8 h-8" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,34 18,22 26,28 42,10"/><polyline points="32,10 42,10 42,20"/></svg></div>
+      <div class="tool-title">¿Tus ingresos rinden menos?</div>
+      <div class="tool-desc">Compará la variación de tus ingresos contra la inflación de cada categoría del IPC medido por IPEC: alimentos, indumentaria, vivienda, salud y más.</div>
+      <a href="por-categoria/" class="tool-btn">Ingresar →</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon"><svg class="w-8 h-8" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="10" width="28" height="28" rx="4"/><line x1="10" y1="20" x2="38" y2="20"/><line x1="17" y1="6" x2="17" y2="14"/><line x1="31" y1="6" x2="31" y2="14"/></svg></div>
+      <div class="tool-title">¿Llegás a fin de mes?</div>
+      <div class="tool-desc">Cargá tus ingresos y tus gastos fijos (alquiler, tarifas, salud, transporte) y mirá cuánto te queda.</div>
+      <a href="llegas-a-fin-de-mes/" class="tool-btn">Abrir calculadora →</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon"><svg class="w-8 h-8" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="26,4 10,26 22,26 18,44 38,18 24,18"/></svg></div>
+      <div class="tool-title">¿Cuánto aumentaron las tarifas?</div>
+      <div class="tool-desc">Electricidad, agua, gas natural, colectivo y SEOM: comparación de tarifas entre diciembre 2023 y agosto 2026.</div>
+      <a href="tarifas/" class="tool-btn">Ingresar →</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon"><svg class="w-8 h-8" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="18" width="36" height="12" rx="6"/><line x1="24" y1="18" x2="24" y2="30"/></svg></div>
+      <div class="tool-title">Gastos en salud</div>
+      <div class="tool-desc">Comparación de bonos y órdenes de IAPOS, y de una canasta de 20 medicamentos, entre diciembre 2023 y hoy.</div>
+      <a href="salud/" class="tool-btn">Ingresar →</a>
+    </div>
+
+  </div>
+</section>
+
+<section id="informes" class="max-w-[1100px] mx-auto px-6 pb-20">
+  <h2 class="text-white text-center font-black uppercase italic text-xl mb-2">¿Cómo calculamos estos datos?</h2>
+  <p class="text-white/70 text-center text-sm mb-8 max-w-[600px] mx-auto">En base a los cuadros tarifarios vigentes y a los informes que publicamos sobre cada tema.</p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="informe-card">
+      <div class="informe-title">Informe de Tarifas</div>
+      <a class="informe-link" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf" target="_blank">Descargar PDF →</a>
+    </div>
+    <div class="informe-card">
+      <div class="informe-title">Informe de Prepagas y Medicamentos</div>
+      <a class="informe-link" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf" target="_blank">Descargar PDF →</a>
+    </div>
+    <div class="informe-card">
+      <div class="informe-title">Informe de Alquileres</div>
+      <a class="informe-link" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf" target="_blank">Descargar PDF →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="text-center text-white/60 text-[11px] pb-10 px-6">
+  <p>Desarrollado por Comunidad · Datos: IPEC Santa Fe, INDEC, paritarias, cuadros tarifarios vigentes y relevamientos propios.</p>
+</footer>
+
+</body>
+</html>

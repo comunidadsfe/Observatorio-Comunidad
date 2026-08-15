@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Comunidad | Santa Fe</title>
+    <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/logo.jpg?v=2">
+    
+    <meta property="og:title" content="Comunidad">
+    <meta property="og:description" content="Trabajamos cada vez más y vivimos cada vez peor .Usá esta herramienta para saber cuánto gastas.">
+    <meta property="og:image" content="https://i.postimg.cc/nrFh3Q2K/placanueva.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://comunidadsfe.github.io/Lo-que-cuesta-vivir-en-Santa-Fe/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://i.postimg.cc/nrFh3Q2K/placanueva.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        :root {
+            --comunidad-violeta: #3D1488;
+            --comunidad-fucsia: #EF3C6B;
+            --bg-page: var(--comunidad-violeta);
+            --bg-container: #FFFFFF;
+        }
+
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-page); padding: 20px; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .main-header { text-align: center; margin-bottom: 30px; width: 100%; max-width: 600px; }
+        .main-header h1 { color: white; font-weight: 800; text-transform: uppercase; font-size: 1.5rem; margin: 0 0 15px 0; }
+        .main-header p { color: white; font-weight: 400; font-size: 1rem; line-height: 1.4; margin: 0 auto; max-width: 500px; }
+        
+        .btn-share-top { display: inline-flex; align-items: center; justify-content: center; background-color: #25D366; color: white; text-decoration: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; }
+        
+        .container { max-width: 480px; width: 100%; background: var(--bg-container); padding: 35px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); box-sizing: border-box; margin-bottom: 40px; }
+        h2 { text-align: center; color: var(--comunidad-violeta); margin-bottom: 30px; font-weight: 800; text-transform: uppercase; font-size: 1rem; }
+        
+        .field { margin-bottom: 20px; }
+        .sub-field { margin-top: 15px; padding-left: 15px; border-left: 3px solid var(--comunidad-fucsia); display: none; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: var(--comunidad-violeta); }
+        input, select { width: 100%; padding: 14px; border: 2px solid #e9ecef; border-radius: 12px; font-size: 16px; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        
+        .nota-aclaratoria { font-size: 11px; color: #6c757d; margin-top: 5px; font-weight: 400; line-height: 1.2; }
+        .button-group { display: flex; gap: 12px; margin-top: 20px; }
+        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-family: 'Montserrat', sans-serif;}
+        .btn-calc { background-color: var(--comunidad-fucsia); color: white; }
+        .btn-reset { background-color: #dee2e6; color: #495057; }
+
+        #placa-resultado { display: none; margin-top: 30px; padding: 40px 20px; border-radius: 20px; text-align: center; background-color: var(--comunidad-violeta); color: white; border: 5px solid var(--comunidad-fucsia); }
+        .placa-monto { font-size: 3rem; font-weight: 800; color: var(--comunidad-fucsia); margin: 10px 0; }
+        .placa-footer { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; text-align: center; }
+        .placa-creditos { text-transform: uppercase; font-weight: 800; font-size: 0.9rem; color: white; }
+
+        .actions-group { display: none; flex-direction: column; gap: 12px; width: 100%; margin-top: 20px; }
+        .btn-share { background-color: #25D366; color: white; }
+        .btn-download { background-color: var(--comunidad-fucsia); color: white; }
+
+        .btn-insta-min { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--comunidad-violeta); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; margin: -10px auto 30px auto; padding: 10px 20px; border: 2px solid var(--comunidad-fucsia); border-radius: 50px; background: white; transition: 0.3s; width: fit-content; }
+        .btn-insta-min:hover { transform: scale(1.05); }
+
+        .form-container { background: white; border-radius: 24px; padding: 30px; max-width: 480px; width: 100%; margin: 0 auto 40px auto; color: var(--comunidad-violeta); box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 2px solid var(--comunidad-fucsia); box-sizing: border-box; }
+        .form-input { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; font-weight: 600; outline: none; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        .form-input:focus { border-color: var(--comunidad-fucsia); }
+        .option-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        .option-btn { flex: 1; padding: 10px; border: 2px solid #e2e8f0; border-radius: 10px; font-weight: 800; text-transform: uppercase; font-size: 0.7rem; color: #64748b; transition: all 0.2s; cursor: pointer; background: #f8fafc; font-family: 'Montserrat', sans-serif; }
+        .option-btn.active { background: var(--comunidad-violeta); color: white; border-color: var(--comunidad-violeta); }
+        .btn-submit { background: var(--comunidad-fucsia); color: white; width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; margin-top: 10px; font-family: 'Montserrat', sans-serif; }
+
+        .section-divider { width: 100%; text-align: center; color: white; margin: 40px 0 20px 0; }
+        .section-divider h3 { font-size: 1.1rem; font-weight: 600; padding: 0 15px; line-height: 1.4; }
+
+        .informes-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; max-width: 1100px; width: 100%; margin-bottom: 60px; }
+        .informe-card { background: white; color: var(--comunidad-violeta); padding: 25px; border-radius: 20px; flex: 1; min-width: 280px; max-width: 320px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .pdf-viewer { width: 100%; height: 200px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 15px; }
+        .btn-pdf-dl { background: var(--comunidad-fucsia); color: white; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; text-align: center; width: 100%; }
+    </style>
+</head>
+<body>
+
+<nav style="width:100%; background:rgba(0,0,0,0.15); position:sticky; top:0; z-index:40; margin:-20px -20px 0; padding:12px 24px; box-sizing:border-box;">
+    <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; color:white;">
+        <a href="../" style="font-weight:800; text-transform:uppercase; font-style:italic; font-size:0.85rem; color:white; text-decoration:none; letter-spacing:0.02em;">Comunidad</a>
+        <div style="display:flex; gap:20px; font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; opacity:0.9;">
+            <a href="../#herramientas" style="color:white; text-decoration:none;">Herramientas</a>
+            <a href="../#informes" style="color:white; text-decoration:none;">Informes</a>
+            <a href="#" style="color:white; text-decoration:none;">Instagram</a>
+        </div>
+    </div>
+</nav>
+
+<header class="main-header">
+    <h1>¿Sabes cuánto te cuesta vivir en Santa Fe?</h1>
+    <p>Relevamos los aumentos de tarifas, transporte, alquileres y prepagas en Santa Fe. Con esos datos diseñamos esta herramienta para que calcules tus gastos en función de tus ingresos. Podés completar todo o sólo los gastos que te interese calcular.</p>
+    <a href="https://wa.me/?text=https%3A%2F%2Fcomunidadsfe.github.io%2FLo-que-cuesta-vivir-en-Santa-Fe%2F" target="_blank" class="btn-share-top">Compartir calculadora 📱</a>
+</header>
+
+<div class="container">
+    <h2>¿Cuánto te queda de tus ingresos después de estos gastos básicos?</h2>
+
+    <div class="field">
+        <label>Ingresos (individual o familiar)</label>
+        <select id="tipo_ingreso" onchange="toggleIngresoManual()">
+            <option value="" disabled selected>Seleccioná tu situación o perfil...</option>
+            <option value="manual">Cargar mis ingresos manualmente</option>
+            <option value="463174">Jubilación Mínima</option>
+            <option value="940586">Ingreso Promedio estratos medios (INDEC)</option>
+            <option value="975000">Mínimo Garantizado Municipal</option>
+            <option value="1037205">Salario Docente</option>
+            <option value="1063650">Salario Comercio</option>
+        </select>
+        <div id="fuente_ingreso" class="nota-aclaratoria" style="display: none; margin-top: 8px; font-weight: 600;"></div>
+    </div>
+
+    <div class="field" id="contenedor_ingreso_manual" style="display: none;">
+        <label>Ingresos Mensuales ($)</label>
+        <input type="text" id="ingreso" placeholder="Ej: 1.000.000" oninput="formatearMonto(this)">
+    </div>
+
+    <div class="field">
+        <label>Alquiler</label>
+        <select id="alquiler">
+            <option value="0">No alquilo</option>
+            <option value="430000">1 ambiente</option>
+            <option value="600000">2 ambientes</option>
+            <option value="700000">3 ambientes</option>
+            <option value="830000">4 ambientes</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Alimentos</label>
+        <select id="canasta_basica" onchange="toggleFuenteCanasta()">
+            <option value="0">Elegir</option>
+            <option value="220468">Una persona</option>
+            <option value="440936">Dos personas</option>
+            <option value="542351">Tres personas</option>
+            <option value="681246">Cuatro personas</option>
+            <option value="716521">Cinco personas</option>
+            <option value="840000">Seis personas o más</option>
+        </select>
+        <div id="fuente_canasta" class="nota-aclaratoria" style="display: none; margin-top: 8px; font-weight: 600;">* Datos Canasta Básica Alimentaria (INDEC), línea de indigencia, mayo 2026.</div>
+    </div>
+
+    <div class="field">
+        <label>Tarifas (Luz, Gas, Agua)</label>
+        <select id="tarifas">
+            <option value="" disabled selected>Selecciona tu situación</option>
+            <option value="141722.99">Con subsidios consumo medio</option>
+            <option value="181337.99">Sin subsidios consumo medio</option>
+            <option value="186886.99">Con subsidios consumo medio/alto</option>
+            <option value="214289.99">Sin subsidios consumo medio/alto</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Salud</label>
+        <select id="salud">
+            <option value="0">Uso la salud pública</option>
+            <option value="106000">Prepaga Individual Económica</option>
+            <option value="121916">Prepaga Individual Media</option>
+            <option value="385454">Prepaga Familiar Económica</option>
+            <option value="500463">Prepaga Familiar Media</option>
+            <option value="0">Tengo Obra Social</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Monotributo</label>
+        <select id="monotributo">
+            <option value="0">No pago / No aplica</option>
+            <option value="42386.74">Categoría A</option>
+            <option value="48250.78">Categoría B</option>
+            <option value="56501.85">Categoría C</option>
+            <option value="72414.10">Categoría D</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>¿Te movés en auto o en moto?</label>
+        <select id="mueve_vehiculo" onchange="toggleVehiculo()">
+            <option value="no">No</option>
+            <option value="moto">Sí, en moto</option>
+            <option value="auto">Sí, en auto</option>
+        </select>
+        <div id="seccion_vehiculo" class="sub-field">
+            <label>Nafta (Litros/Mes)</label>
+            <input type="number" id="nafta" placeholder="Cantidad de litros">
+            <div class="nota-aclaratoria">*Valor de litro en YPF Santa Fe: $2.087 (mayo 2026).</div>
+            
+            <div id="seccion_seom" style="display:none; margin-top:15px;">
+                <label>¿Cuánto gastás en SEOM? ($)</label>
+                <input type="text" id="seom" placeholder="Monto en pesos" oninput="formatearMonto(this)">
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <label>¿Te movés en colectivo?</label>
+        <select id="mueve_bondi" onchange="toggleBondi()">
+            <option value="no">No</option>
+            <option value="si">Sí</option>
+        </select>
+        <div id="seccion_bondi" class="sub-field">
+            <label>Cantidad de Boletos/Mes</label>
+            <input type="number" id="colectivo_cant" placeholder="Cantidad" style="margin-bottom: 10px;">
+            <select id="colectivo_tipo">
+                <option value="2111.11">Tarifa plena</option>
+                <option value="1900">Boleto frecuente</option>
+                <option value="1477.78">Tarifa Centro</option>
+                <option value="1266.67">Estudiantil</option>
+                <option value="1055.56">Jubilados</option>
+                <option value="844.44">Escolar</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button class="btn-calc" onclick="calcular()">calcular</button>
+        <button class="btn-reset" onclick="location.reload()">Reiniciar</button>
+    </div>
+
+    <div id="placa-resultado">
+        <div id="placa-contexto" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; color: rgba(255,255,255,0.75);"></div>
+        <div id="placa-titulo" style="font-weight: 800; text-transform: uppercase;"></div>
+        <div id="placa-monto" class="placa-monto"></div>
+        <div id="placa-porc" style="font-weight: 600; margin-bottom: 20px;"></div>
+        <div class="placa-footer"><div class="placa-creditos" style="text-transform: uppercase; font-weight: 800; font-size: 0.9rem; color: white;"></div></div>
+    </div>
+
+    <div id="actions-group" class="actions-group">
+        <button class="btn-share" onclick="compartirPlaca()">Compartir Resultado 🚀</button>
+        <button class="btn-download" onclick="descargarPlaca()">Descargar Placa 📸</button>
+    </div>
+</div>
+
+<a href="https://www.instagram.com/comunidadsf" target="_blank" class="btn-insta-min">
+    <svg style="width: 16px; height: 16px; fill: #EF3C6B;" viewBox="0 0 24 24">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0 3.259-.014 3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.058-1.69-.072-4.949-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+    Seguinos en Instagram
+</a>
+
+<div class="form-container" id="formSection">
+    <h3 style="text-align: center; text-transform: uppercase; font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; font-style: italic;">¿Querés recibir nuestros informes?</h3>
+    
+    <div class="option-group">
+        <button onclick="setFormMode('wa')" id="optWA" class="option-btn active italic">Por WhatsApp</button>
+        <button onclick="setFormMode('mail')" id="optMail" class="option-btn italic">Por Mail</button>
+    </div>
+
+    <form id="contactForm" target="hidden_iframe" onsubmit="return handleFormSubmit()">
+        <div id="fieldsContainer">
+            </div>
+        <button type="submit" class="btn-submit italic">Enviar Datos</button>
+    </form>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
+</div>
+
+<div class="section-divider">
+    <h3>¿Cómo calculamos estos datos? En base a los cuadros tarifarios vigentes e informes que publicamos sobre estos temas. Desde acá podés acceder a ellos</h3>
+</div>
+
+<div class="informes-grid">
+    <div class="informe-card">
+        <strong>Tarifas</strong>
+        <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf&embedded=true"></iframe>
+        <a href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf" target="_blank" class="btn-pdf-dl">Descargar PDF</a>
+    </div>
+    <div class="informe-card">
+        <strong>Salud</strong>
+        <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf&embedded=true"></iframe>
+        <a href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf" target="_blank" class="btn-pdf-dl">Descargar PDF</a>
+    </div>
+    <div class="informe-card">
+        <strong>Alquileres</strong>
+        <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf&embedded=true"></iframe>
+        <a href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf" target="_blank" class="btn-pdf-dl">Descargar PDF</a>
+    </div>
+</div>
+
+<div style="text-align:center; padding: 25px 20px 10px;">
+    <a href="../" style="color:white; font-size:11px; font-weight:800; text-transform:uppercase; text-decoration:underline; text-underline-offset:4px; opacity:0.7;">← Volver a Observatorio Comunidad</a>
+</div>
+
+<script>
+    let currentMode = 'wa';
+    let submitted = false;
+
+    function setFormMode(mode) {
+        currentMode = mode;
+        const container = document.getElementById('fieldsContainer');
+        document.getElementById('optWA').className = mode === 'wa' ? 'option-btn active italic' : 'option-btn italic';
+        document.getElementById('optMail').className = mode === 'mail' ? 'option-btn active italic' : 'option-btn italic';
+
+        if (mode === 'wa') {
+            container.innerHTML = `
+                <input type="text" id="nameField" name="entry.1321869567" placeholder="Nombre y Apellido" class="form-input">
+                <input type="text" id="whatsappField" name="entry.135638054" placeholder="WhatsApp" class="form-input">
+                <input type="hidden" name="entry.593198354" value="">
+            `;
+        } else {
+            container.innerHTML = `
+                <input type="hidden" name="entry.1321869567" value="">
+                <input type="hidden" name="entry.135638054" value="">
+                <input type="email" id="mailField" name="entry.593198354" placeholder="Correo electrónico" class="form-input" required>
+            `;
+        }
+    }
+
+    function handleFormSubmit() {
+        if (currentMode === 'wa') {
+            const name = document.getElementById('nameField').value.trim();
+            const wa = document.getElementById('whatsappField').value.trim();
+            if (name === "" || wa === "") {
+                alert("Por favor, completá nombre y celular.");
+                return false;
+            }
+        }
+        const action = "https://docs.google.com/forms/d/e/1FAIpQLScC1OTPDh4_Xupab8GMIwe9XqWdxTLCPYgv4H8UqDOL3YZE2A/formResponse";
+        document.getElementById('contactForm').action = action;
+        submitted = true;
+        return true;
+    }
+
+    function showSuccess() {
+        document.getElementById('formSection').innerHTML = `
+            <div style="text-align: center; padding: 40px 0;">
+                <h3 style="text-transform: uppercase; font-weight: 800; font-size: 1.3rem; color: var(--comunidad-violeta); font-style: italic;">¡Gracias por sumarte!</h3>
+            </div>
+        `;
+    }
+
+    setFormMode('wa');
+
+    function toggleIngresoManual() {
+        const selector = document.getElementById('tipo_ingreso');
+        const contenedorManual = document.getElementById('contenedor_ingreso_manual');
+        const divFuente = document.getElementById('fuente_ingreso');
+        
+        const fuentes = {
+            "463174": "* Mayo 2026",
+            "940586": "* INDEC, Encuesta Permanente de Hogares",
+            "975000": "* Acuerdo Paritario (sin presentismo)",
+            "1037205": "* Maestro de Grado, 25 horas, sin antigüedad (sin presentismo)",
+            "1063650": "* CUEC, Categoría Maestranza A, sin antigüedad"
+        };
+
+        if (selector.value === 'manual') {
+            contenedorManual.style.display = 'block';
+            divFuente.style.display = 'none';
+            document.getElementById('ingreso').value = '';
+        } else if (fuentes[selector.value]) {
+            contenedorManual.style.display = 'none';
+            divFuente.innerText = fuentes[selector.value];
+            divFuente.style.display = 'block';
+        } else {
+            contenedorManual.style.display = 'none';
+            divFuente.style.display = 'none';
+        }
+    }
+
+    function toggleFuenteCanasta() {
+        const selector = document.getElementById('canasta_basica');
+        const divFuente = document.getElementById('fuente_canasta');
+        divFuente.style.display = (selector.value !== '0') ? 'block' : 'none';
+    }
+
+    const formato = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
+    
+    function formatearMonto(input) {
+        let valor = input.value.replace(/\D/g, "");
+        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        input.value = valor;
+    }
+
+    function toggleVehiculo() {
+        const val = document.getElementById('mueve_vehiculo').value;
+        const seccionVehiculo = document.getElementById('seccion_vehiculo');
+        const seccionSeom = document.getElementById('seccion_seom');
+        if (val === 'no') {
+            seccionVehiculo.style.display = 'none';
+        } else {
+            seccionVehiculo.style.display = 'block';
+            seccionSeom.style.display = (val === 'auto') ? 'block' : 'none';
+        }
+    }
+
+    function toggleBondi() {
+        document.getElementById('seccion_bondi').style.display = document.getElementById('mueve_bondi').value === 'si' ? 'block' : 'none';
+    }
+
+    function calcular() {
+        const selector = document.getElementById('tipo_ingreso');
+        if (selector.value === "") { alert("Seleccioná una opción en Ingresos."); return; }
+
+        let ingreso = 0;
+        let textoContexto = "";
+
+        if (selector.value === 'manual') {
+            const ingresoRaw = document.getElementById('ingreso').value.replace(/\./g, "");
+            ingreso = parseFloat(ingresoRaw) || 0;
+            textoContexto = "En base a tus ingresos";
+        } else {
+            ingreso = parseFloat(selector.value);
+            const textosPresets = {
+                "463174": "En base a una jubilación mínima",
+                "940586": "En base a los Ingresos Promedios (INDEC)",
+                "975000": "En base al Mínimo Garantizado Municipal",
+                "1037205": "En base a un salario docente",
+                "1063650": "En base a un salario de comercio"
+            };
+            textoContexto = textosPresets[selector.value] || "";
+        }
+
+        const canastaVal = parseFloat(document.getElementById('canasta_basica').value) || 0;
+        const tarifasVal = parseFloat(document.getElementById('tarifas').value) || 0;
+        
+        if (ingreso <= 0) { alert("Ingresá tus ingresos mensuales."); return; }
+
+        let gastosVehiculo = 0;
+        let naftaLitros = 0;
+        let seomMonto = 0;
+        const vehiculoTipo = document.getElementById('mueve_vehiculo').value;
+
+        if (vehiculoTipo !== 'no') {
+            naftaLitros = parseFloat(document.getElementById('nafta').value) || 0;
+            const naftaCosto = naftaLitros * 2087;
+            if (vehiculoTipo === 'auto') {
+                seomMonto = parseFloat(document.getElementById('seom').value.replace(/\./g, "")) || 0;
+            }
+            gastosVehiculo = naftaCosto + seomMonto;
+        }
+
+        let gastosBondi = 0;
+        if (document.getElementById('mueve_bondi').value === 'si') {
+            gastosBondi = (parseFloat(document.getElementById('colectivo_cant').value) || 0) * parseFloat(document.getElementById('colectivo_tipo').value);
+        }
+
+        const gastos = parseFloat(document.getElementById('alquiler').value) + 
+                       canastaVal +
+                       tarifasVal + 
+                       parseFloat(document.getElementById('salud').value) + 
+                       parseFloat(document.getElementById('monotributo').value) + 
+                       gastosVehiculo + gastosBondi;
+        
+        const saldo = ingreso - gastos;
+        const porc = (saldo / ingreso) * 100;
+        
+        document.getElementById('placa-resultado').style.display = 'block';
+        document.getElementById('actions-group').style.display = 'flex';
+        
+        document.getElementById('placa-contexto').innerText = textoContexto;
+        
+        if (saldo >= 0) {
+            document.getElementById('placa-titulo').innerText = "Te quedan para llegar a fin de mes";
+            document.getElementById('placa-monto').innerText = formato.format(saldo);
+        } else {
+            document.getElementById('placa-titulo').innerText = "No te alcanza para llegar a fin de mes...";
+            document.getElementById('placa-monto').innerText = formato.format(saldo); 
+        }
+        document.getElementById('placa-porc').innerText = saldo >= 0 ? "Te queda el " + porc.toFixed(1) + "% de tus ingresos" : "Tus gastos superan tus ingresos en un " + Math.abs(porc).toFixed(1) + "%";
+
+        const footer = document.querySelector('.placa-creditos');
+        if ((porc < 40) || (saldo < 550000)) {
+            footer.innerText = "NO SOS VOS, ES EL MODELO DE POLETTI, PULLARO Y MILEI QUE TE DESORGANIZÓ LA VIDA.";
+        } else {
+            footer.innerText = "AUNQUE TUS INGRESOS TE ALCANCEN, CON ESTE MODELO ES MUY DIFÍCIL QUE EL LABURANTE PROGRESE";
+        }
+
+        const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSf10sjhc3sqswcC3dbHmoGV_u16KQ61puIsik-IPwwMGdXaeQ/formResponse";
+        const formData = new FormData();
+
+        formData.append("entry.668034584", new Date().toLocaleString('es-AR'));
+        formData.append("entry.1191741997", ingreso);
+        formData.append("entry.1685417240", document.getElementById('alquiler').options[document.getElementById('alquiler').selectedIndex].text);
+        formData.append("entry.229273650", document.getElementById('canasta_basica').options[document.getElementById('canasta_basica').selectedIndex].text);
+        formData.append("entry.719316164", document.getElementById('tarifas').options[document.getElementById('tarifas').selectedIndex].text);
+        formData.append("entry.1909112986", document.getElementById('salud').options[document.getElementById('salud').selectedIndex].text);
+        formData.append("entry.68412020", document.getElementById('monotributo').options[document.getElementById('monotributo').selectedIndex].text);
+        formData.append("entry.1885204949", vehiculoTipo.toUpperCase());
+        formData.append("entry.332861644", naftaLitros);
+        formData.append("entry.1698485502", naftaLitros * 2087);
+        formData.append("entry.1639785983", seomMonto);
+        formData.append("entry.1245079105", document.getElementById('mueve_bondi').value === 'si' ? "SÍ" : "NO");
+        formData.append("entry.300146095", parseFloat(document.getElementById('colectivo_cant').value) || 0);
+        formData.append("entry.893556157", document.getElementById('mueve_bondi').value === 'si' ? document.getElementById('colectivo_tipo').options[document.getElementById('colectivo_tipo').selectedIndex].text : "No aplica");
+        formData.append("entry.905310130", gastosBondi);
+        formData.append("entry.484866896", saldo);
+
+        fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
+        document.getElementById('placa-resultado').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function compartirPlaca() {
+        const placa = document.getElementById('placa-resultado');
+        const canvas = await html2canvas(placa, { scale: 2, useCORS: true });
+        canvas.toBlob(async (blob) => {
+            const file = new File([blob], 'mi-presupuesto.png', { type: 'image/png' });
+            if (navigator.share) { try { await navigator.share({ files: [file], title: 'Mi Presupuesto Comunidad' }); } catch (err) { console.error(err); } }
+            else { alert("Usá el botón de Descargar!"); }
+        });
+    }
+
+    function descargarPlaca() {
+        const placa = document.getElementById('placa-resultado');
+        html2canvas(placa, { scale: 2, useCORS: true }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'mi-presupuesto-comunidad.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    }
+</script>
+</body>
+</html>
