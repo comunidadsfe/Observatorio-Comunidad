@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Comunidad | Santa Fe</title>
+    <title>¿Sabés cuánto te cuesta vivir en Santa Fe? — Comunidad</title>
     <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/logo.jpg?v=2">
     
     <meta property="og:title" content="Comunidad">
@@ -257,6 +257,7 @@
             </div>
         <button type="submit" class="btn-submit italic">Enviar Datos</button>
     </form>
+    <script>var submitted = false;</script>
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
 </div>
 
@@ -288,7 +289,7 @@
 
 <script>
     let currentMode = 'wa';
-    let submitted = false;
+    const fromObservatorio = new URLSearchParams(location.search).get('src') === 'observatorio';
 
     function setFormMode(mode) {
         currentMode = mode;
@@ -465,10 +466,18 @@
         document.getElementById('placa-porc').innerText = saldo >= 0 ? "Te queda el " + porc.toFixed(1) + "% de tus ingresos" : "Tus gastos superan tus ingresos en un " + Math.abs(porc).toFixed(1) + "%";
 
         const footer = document.querySelector('.placa-creditos');
+        const footerWrap = footer.closest('.placa-footer');
         if ((porc < 40) || (saldo < 550000)) {
-            footer.innerText = "NO SOS VOS, ES EL MODELO DE POLETTI, PULLARO Y MILEI QUE TE DESORGANIZÓ LA VIDA.";
+            if (fromObservatorio) {
+                footer.innerText = "";
+                if (footerWrap) footerWrap.style.display = "none";
+            } else {
+                footer.innerText = "NO SOS VOS, ES EL MODELO DE POLETTI, PULLARO Y MILEI QUE TE DESORGANIZÓ LA VIDA.";
+                if (footerWrap) footerWrap.style.display = "";
+            }
         } else {
             footer.innerText = "AUNQUE TUS INGRESOS TE ALCANCEN, CON ESTE MODELO ES MUY DIFÍCIL QUE EL LABURANTE PROGRESE";
+            if (footerWrap) footerWrap.style.display = "";
         }
 
         const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSf10sjhc3sqswcC3dbHmoGV_u16KQ61puIsik-IPwwMGdXaeQ/formResponse";

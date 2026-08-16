@@ -9,8 +9,11 @@
     <meta property="og:title" content="¿Tus ingresos rinden menos?">
     <meta property="og:description" content="Comparación de precios por categoría: noviembre 2023 vs. hoy.">
     <meta name="twitter:card" content="summary_large_image">
-
+    <meta property="og:image" content="https://comunidadsfe.github.io/Observatorio-Comunidad/og-observatorio.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAABvklEQVR42u3Vu24TQRgF4HNmZ3YXbxwrJUIiiDSIIlyq0NBR0FDRpuIBqHg9XgAK6FJyE0YgmRDHe5udORR2jC2LiAILCe1omh3NnE/659csD4cvsM1hsOXRAz3QA/8pkPwBS4Ab55eLlwECJtFMIw1hsDbn5w2QEF4IgAFKcbEIBKAReQkgwDA+G02fFOVZQCmW4jTyPHIW2YiNWIpfu+Qwbw+sryIfD6pWKCMn0VxLugd5Va0bdpU6i+b53rSVXnt3vHsu6kcwt9LghXFwY28cdd11AxNngZUzj3aqqyY0MvtpfVKnT0flSW1fVoOCCpsAAUEFw4fWDY3u534ScHvQvOtSgHez+ktrM4cM4ZN394q2EN42mSEf5uWdK9VR3r73iWWkFlmL2OUPh0AHDBmPR9Oxd62YER+7JGEEgah915H83Nnvwd50/luX3Ej9aeAuYwWeRnPg/Jsme1XnGSVsAEtjFmkBEEYktbyeIAqyZAIFEVR3ccMCCAXAEflK+lqJ5ikW2DMXO4ywupeal1HAHCY1D9evIiOud5HdbNOw+vGbobXu79+iHuiBfwzYGLVdoNhJF48I/3a2AOInLwnN8lu9droAAAAASUVORK5CYII=">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAxElEQVR42s2RzUoDQRCEv5qf7AYNiK+QnD36Zj6qNy8i8exBhMzOTnnYjAZy2ovYNHRBU1RVtx52T6ypwMr6h4S0DIFBIKBj9xXQLgmCyYryyZoNIkKDCO49yIuZJDhZh810yOVY021otj5auIttF+YRvdd4H+djjc9l2MqpR/FWfhxLpDUY5S+HUba1zyUFv33enC0tci8lv065WvVs1DPSRZIoD3JbMhiyaBC7oiHhn/R02u+VrhfX4M8eZ68k5M06kW/DZ1EKsBMj+gAAAABJRU5ErkJggg==">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -104,8 +107,10 @@
 
         <div id="catGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
 
-        <div class="text-center mt-8">
+        <div class="text-center mt-8 flex flex-col items-center gap-3">
             <a href="../alimentos/" class="inline-block px-6 py-3 rounded-xl font-black uppercase text-xs text-white" style="background-color: var(--comunidad-fucsia);">¿Querés el detalle producto por producto de Alimentos? Entrá acá →</a>
+            <a href="../tarifas/" class="inline-block px-6 py-3 rounded-xl font-black uppercase text-xs text-white" style="background-color: var(--comunidad-violeta); border: 2px solid rgba(255,255,255,0.3);">¿Querés el detalle de Tarifas? Entrá acá →</a>
+            <a href="../salud/" class="inline-block px-6 py-3 rounded-xl font-black uppercase text-xs text-white" style="background-color: var(--comunidad-violeta); border: 2px solid rgba(255,255,255,0.3);">¿Querés el detalle de Salud? Entrá acá →</a>
         </div>
 
         <div class="mt-10 pt-6 border-t border-white/20 text-[10px] text-white/60 leading-relaxed space-y-2 max-w-[1000px] mx-auto">
@@ -144,6 +149,7 @@
                 <div id="fieldsContainer"></div>
                 <button type="submit" class="btn-submit italic">Enviar Datos</button>
             </form>
+            <script>var submitted = false;</script>
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
         </div>
 
@@ -172,7 +178,7 @@
         const ICONS_RAW = {"nivelgeneral": "<polyline points=\"6,34 18,22 26,28 42,10\"/><polyline points=\"32,10 42,10 42,20\"/>", "alimentos": "<path d=\"M16,18 C16,8 32,8 32,18\"/><polygon points=\"8,18 40,18 34,42 14,42\"/><line x1=\"14\" y1=\"27\" x2=\"34\" y2=\"27\"/>", "indumentaria": "<polygon points=\"16,6 24,10 32,6 40,14 36,20 32,16 32,42 16,42 16,16 12,20 8,14\"/>", "vivienda": "<path d=\"M8,24 L24,8 L40,24\"/><rect x=\"12\" y=\"24\" width=\"24\" height=\"16\"/><rect x=\"20\" y=\"30\" width=\"8\" height=\"10\"/>", "equipamiento": "<circle cx=\"24\" cy=\"19\" r=\"12\"/><line x1=\"18\" y1=\"31\" x2=\"30\" y2=\"31\"/><line x1=\"19\" y1=\"36\" x2=\"29\" y2=\"36\"/><line x1=\"21\" y1=\"41\" x2=\"27\" y2=\"41\"/>", "salud": "<circle cx=\"24\" cy=\"24\" r=\"18\"/><line x1=\"24\" y1=\"15\" x2=\"24\" y2=\"33\"/><line x1=\"15\" y1=\"24\" x2=\"33\" y2=\"24\"/>", "transporte": "<path d=\"M6,30 L10,18 L38,18 L42,30 Z\"/><rect x=\"4\" y=\"28\" width=\"40\" height=\"10\"/><circle cx=\"14\" cy=\"40\" r=\"4\"/><circle cx=\"34\" cy=\"40\" r=\"4\"/>", "esparcimiento": "<rect x=\"8\" y=\"14\" width=\"32\" height=\"20\" rx=\"4\"/><polygon points=\"20,18 20,30 32,24\"/>", "educacion": "<polygon points=\"24,8 44,18 24,28 4,18\"/><line x1=\"38\" y1=\"21\" x2=\"38\" y2=\"32\"/><circle cx=\"38\" cy=\"34\" r=\"2\"/>", "otros": "<rect x=\"8\" y=\"18\" width=\"32\" height=\"24\"/><line x1=\"8\" y1=\"26\" x2=\"40\" y2=\"26\"/><line x1=\"24\" y1=\"18\" x2=\"24\" y2=\"42\"/><path d=\"M16,18 C16,10 24,10 24,18\"/><path d=\"M32,18 C32,10 24,10 24,18\"/>", "nafta": "<rect x=\"8\" y=\"10\" width=\"18\" height=\"30\" rx=\"2\"/><rect x=\"12\" y=\"14\" width=\"10\" height=\"7\"/><path d=\"M26,22 h6 a4,4 0 0 1 4,4 v10\"/><circle cx=\"36\" cy=\"38\" r=\"2\"/><line x1=\"6\" y1=\"40\" x2=\"26\" y2=\"40\"/>"};
         const tooltips = {"nivelgeneral": "Promedio de las nueve divisiones del IPC, ponderadas según su peso en el consumo de los hogares de Santa Fe.", "alimentos": "Costo total de una canasta de 48 productos de alimentación básica relevados por IPEC.", "indumentaria": "Variación de precios de ropa, calzado y accesorios.", "vivienda": "Variación de precios de alquiler, expensas, gas, agua, electricidad y otros gastos del hogar.", "equipamiento": "Variación de precios de muebles, electrodomésticos y artículos para el mantenimiento de la vivienda.", "salud": "Variación de precios de consultas médicas, medicamentos, prepagas y otros gastos de salud.", "transporte": "Variación de precios de transporte público, combustibles, telefonía e internet.", "esparcimiento": "Variación de precios de recreación, entretenimiento, turismo y cultura.", "educacion": "Variación de precios de cuotas, útiles y otros gastos educativos.", "otros": "Variación de precios de bienes y servicios diversos no incluidos en las demás categorías (cuidado personal, servicios varios, etc.).", "nafta": "Precio litro de nafta super en estaciones de servicio de YPF en Santa Fe (dato relevado por Comunidad, no por IPEC)."};
 
-        let presetKey = 'comercio';
+        let presetKey = '';
         let customIncome = { v23: 0, vh: 0 };
         let revealed = [];
 
@@ -180,6 +186,7 @@
 
         function getIncome() {
             if (presetKey === 'custom') return customIncome;
+            if (presetKey === '' || !presets[presetKey]) return { v23: 0, vh: 0 };
             return presets[presetKey];
         }
 
@@ -200,6 +207,7 @@
             const cont = document.getElementById('incomeControls');
             let html = `<p class="text-[10px] uppercase font-black text-slate-400 mb-2 tracking-widest">Ingreso de referencia</p>
                 <select onchange="handlePresetChange(this)" class="w-full p-3 bg-white border-2 rounded-lg font-black text-sm text-slate-700" style="border-color:var(--comunidad-violeta)">
+                <option value="" ${presetKey===''?'selected':''} disabled>Elegí tu ingreso de referencia...</option>
                 ${Object.keys(presets).map(k => `<option value="${k}" ${presetKey===k?'selected':''}>${presets[k].label}</option>`).join('')}
                 <option value="custom" ${presetKey==='custom'?'selected':''}>Cargar mi propio ingreso</option>
                 </select>`;
@@ -208,7 +216,7 @@
                     <input type="text" inputmode="numeric" placeholder="$ Nov-23" oninput="formatCustomIncome(this,'v23')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
                     <input type="text" inputmode="numeric" placeholder="$ Hoy" oninput="formatCustomIncome(this,'vh')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
                 </div>`;
-            } else {
+            } else if (presetKey !== '') {
                 html += `<p class="text-[11px] font-bold mt-3" style="color:var(--comunidad-violeta)">${presets[presetKey].fuente}</p>`;
             }
             cont.innerHTML = html;
@@ -243,15 +251,17 @@
         function renderGeneral(income, hasIncome) {
             const gEl = document.getElementById('generalResult');
             const gSub = document.getElementById('generalSub');
+            const infl = inflacion(nivelGeneral.p23, nivelGeneral.ph);
+            const inflStr = (infl > 0 ? '+' : '') + infl.toFixed(1) + '%';
+            gEl.innerText = inflStr;
+            gEl.className = 'text-3xl font-black italic text-red-300';
             if (hasIncome) {
                 const v = pctChange(income.v23, income.vh, nivelGeneral.p23, nivelGeneral.ph);
-                gEl.innerText = (v > 0 ? '+' : '') + v.toFixed(1) + '%';
-                gEl.className = 'text-3xl font-black italic ' + (v < 0 ? 'text-red-300' : 'text-green-300');
-                gSub.innerText = `Ingreso +${arNum((((income.vh/income.v23)-1)*100))}% · precios generales +${arNum(inflacion(nivelGeneral.p23, nivelGeneral.ph))}% (nov-23 a jul-26)`;
+                const vClass = v < 0 ? 'text-red-300' : 'text-green-300';
+                const vStr = (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+                gSub.innerHTML = `Precios generales, punta a punta (nov-23 a hoy)<br><span class="text-[11px] font-black uppercase tracking-wide opacity-90">Tus ingresos vs esto: </span><span class="font-black italic ${vClass}">${vStr}</span>`;
             } else {
-                gEl.innerText = '--%';
-                gEl.className = 'text-3xl font-black italic';
-                gSub.innerText = 'Cargá tu ingreso para ver el resultado';
+                gSub.innerText = 'Precios generales, punta a punta (nov-23 a hoy). Cargá tu ingreso para comparar.';
             }
         }
 
@@ -351,7 +361,6 @@
         }
 
         let currentMode = 'wa';
-        let submitted = false;
 
         function setFormMode(mode) {
             currentMode = mode;

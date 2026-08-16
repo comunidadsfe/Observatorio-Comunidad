@@ -7,6 +7,11 @@
 <meta property="og:title" content="Observatorio Comunidad">
 <meta property="og:description" content="Evolución de precios, salarios y costo de vida en Santa Fe.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://comunidadsfe.github.io/Observatorio-Comunidad/og-observatorio.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAABvklEQVR42u3Vu24TQRgF4HNmZ3YXbxwrJUIiiDSIIlyq0NBR0FDRpuIBqHg9XgAK6FJyE0YgmRDHe5udORR2jC2LiAILCe1omh3NnE/659csD4cvsM1hsOXRAz3QA/8pkPwBS4Ab55eLlwECJtFMIw1hsDbn5w2QEF4IgAFKcbEIBKAReQkgwDA+G02fFOVZQCmW4jTyPHIW2YiNWIpfu+Qwbw+sryIfD6pWKCMn0VxLugd5Va0bdpU6i+b53rSVXnt3vHsu6kcwt9LghXFwY28cdd11AxNngZUzj3aqqyY0MvtpfVKnT0flSW1fVoOCCpsAAUEFw4fWDY3u534ScHvQvOtSgHez+ktrM4cM4ZN394q2EN42mSEf5uWdK9VR3r73iWWkFlmL2OUPh0AHDBmPR9Oxd62YER+7JGEEgah915H83Nnvwd50/luX3Ej9aeAuYwWeRnPg/Jsme1XnGSVsAEtjFmkBEEYktbyeIAqyZAIFEVR3ccMCCAXAEflK+lqJ5ikW2DMXO4ywupeal1HAHCY1D9evIiOud5HdbNOw+vGbobXu79+iHuiBfwzYGLVdoNhJF48I/3a2AOInLwnN8lu9droAAAAASUVORK5CYII=">
+<link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAxElEQVR42s2RzUoDQRCEv5qf7AYNiK+QnD36Zj6qNy8i8exBhMzOTnnYjAZy2ovYNHRBU1RVtx52T6ypwMr6h4S0DIFBIKBj9xXQLgmCyYryyZoNIkKDCO49yIuZJDhZh810yOVY021otj5auIttF+YRvdd4H+djjc9l2MqpR/FWfhxLpDUY5S+HUba1zyUFv33enC0tci8lv065WvVs1DPSRZIoD3JbMhiyaBC7oiHhn/R02u+VrhfX4M8eZ68k5M06kW/DZ1EKsBMj+gAAAABJRU5ErkJggg==">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -55,7 +60,7 @@
       <div class="tool-icon"><svg class="w-8 h-8" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="10" width="28" height="28" rx="4"/><line x1="10" y1="20" x2="38" y2="20"/><line x1="17" y1="6" x2="17" y2="14"/><line x1="31" y1="6" x2="31" y2="14"/></svg></div>
       <div class="tool-title">¿Llegás a fin de mes?</div>
       <div class="tool-desc">Cargá tus ingresos y tus gastos fijos (alquiler, tarifas, salud, transporte) y mirá cuánto te queda.</div>
-      <a href="llegas-a-fin-de-mes/" class="tool-btn">Abrir calculadora →</a>
+      <a href="llegas-a-fin-de-mes/?src=observatorio" class="tool-btn">Abrir calculadora →</a>
     </div>
 
     <div class="tool-card">
@@ -68,7 +73,7 @@
     <div class="tool-card">
       <div class="tool-icon"><svg class="w-8 h-8" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="26,4 10,26 22,26 18,44 38,18 24,18"/></svg></div>
       <div class="tool-title">¿Cuánto aumentaron las tarifas?</div>
-      <div class="tool-desc">Electricidad, agua, gas natural, colectivo y SEOM: comparación de tarifas entre diciembre 2023 y agosto 2026.</div>
+      <div class="tool-desc">Electricidad, agua, gas natural, colectivo y SEOM: comparación de tarifas entre diciembre 2023 y hoy.</div>
       <a href="tarifas/" class="tool-btn">Ingresar →</a>
     </div>
 
@@ -121,6 +126,7 @@
     <div id="fieldsContainer"></div>
     <button type="submit" class="btn-submit italic">Enviar Datos</button>
   </form>
+  <script>var submitted = false;</script>
   <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
 </div>
 
@@ -130,7 +136,6 @@
 
 <script>
   let currentMode = 'wa';
-  let submitted = false;
 
   function setFormMode(mode) {
       currentMode = mode;

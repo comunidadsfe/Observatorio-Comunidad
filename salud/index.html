@@ -9,6 +9,11 @@
     <meta property="og:title" content="Gastos en salud">
     <meta property="og:description" content="IAPOS y medicamentos: diciembre 2023 vs. 2025.">
     <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://comunidadsfe.github.io/Observatorio-Comunidad/og-observatorio.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAABvklEQVR42u3Vu24TQRgF4HNmZ3YXbxwrJUIiiDSIIlyq0NBR0FDRpuIBqHg9XgAK6FJyE0YgmRDHe5udORR2jC2LiAILCe1omh3NnE/659csD4cvsM1hsOXRAz3QA/8pkPwBS4Ab55eLlwECJtFMIw1hsDbn5w2QEF4IgAFKcbEIBKAReQkgwDA+G02fFOVZQCmW4jTyPHIW2YiNWIpfu+Qwbw+sryIfD6pWKCMn0VxLugd5Va0bdpU6i+b53rSVXnt3vHsu6kcwt9LghXFwY28cdd11AxNngZUzj3aqqyY0MvtpfVKnT0flSW1fVoOCCpsAAUEFw4fWDY3u534ScHvQvOtSgHez+ktrM4cM4ZN394q2EN42mSEf5uWdK9VR3r73iWWkFlmL2OUPh0AHDBmPR9Oxd62YER+7JGEEgah915H83Nnvwd50/luX3Ej9aeAuYwWeRnPg/Jsme1XnGSVsAEtjFmkBEEYktbyeIAqyZAIFEVR3ccMCCAXAEflK+lqJ5ikW2DMXO4ywupeal1HAHCY1D9evIiOud5HdbNOw+vGbobXu79+iHuiBfwzYGLVdoNhJF48I/3a2AOInLwnN8lu9droAAAAASUVORK5CYII=">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAxElEQVR42s2RzUoDQRCEv5qf7AYNiK+QnD36Zj6qNy8i8exBhMzOTnnYjAZy2ovYNHRBU1RVtx52T6ypwMr6h4S0DIFBIKBj9xXQLgmCyYryyZoNIkKDCO49yIuZJDhZh810yOVY021otj5auIttF+YRvdd4H+djjc9l2MqpR/FWfhxLpDUY5S+HUba1zyUFv33enC0tci8lv065WvVs1DPSRZIoD3JbMhiyaBC7oiHhn/R02u+VrhfX4M8eZ68k5M06kW/DZ1EKsBMj+gAAAABJRU5ErkJggg==">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,6 +46,9 @@
         .info-pop { position: absolute; top: 26px; right: 0; width: 250px; max-height: 320px; overflow-y: auto; background: #1f2937; color: white; font-size: 10.5px; font-weight: 600; line-height: 1.45; padding: 10px 12px; border-radius: 10px; text-align: left; z-index: 30; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s, transform .15s; pointer-events: none; }
         .info-wrap:hover .info-pop, .info-pop.show { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .info-pop .lvl { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.2); }
+
+        .med-modal-table td { border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+        .med-modal-table tr:last-child td { border-bottom: none; }
 
         #canvas-poster { position: absolute; left: -9999px; width: 600px; font-family: 'Montserrat', sans-serif; overflow: hidden; }
         #poster-panel { padding: 50px 40px 30px; text-align: center; color: white; }
@@ -83,7 +91,15 @@
         <div id="svcGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
 
         <div class="mt-8 max-w-[700px] mx-auto rounded-2xl px-6 py-5 text-center" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);">
-            <p class="text-white text-xs md:text-sm font-semibold leading-relaxed">Desde julio de 2025 existen además dos bonos nuevos que no existían antes: el <strong>Bono Quirúrgico ($60.000)</strong> y el <strong>Bono de Prestaciones Especiales ($200.000)</strong>.</p>
+            <p class="text-white text-xs md:text-sm font-semibold leading-relaxed"><strong>IAPOS —</strong> Desde julio de 2025 existen además dos bonos nuevos que no existían antes: el <strong>Bono Quirúrgico ($60.000)</strong> y el <strong>Bono de Prestaciones Especiales ($200.000)</strong>.</p>
+        </div>
+
+        <div id="medModal" class="fixed inset-0 z-50 p-5" style="display:none; background: rgba(0,0,0,0.6); align-items:center; justify-content:center;" onclick="if(event.target===this) closeMedModal()">
+            <div class="bg-white rounded-2xl p-6 max-w-[480px] w-full max-h-[80vh] overflow-y-auto relative" style="color: var(--comunidad-violeta);">
+                <button type="button" onclick="closeMedModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-100 font-black flex items-center justify-center" style="color: var(--comunidad-violeta);">✕</button>
+                <h4 class="font-black uppercase italic text-sm mb-4 pr-8">Medicamentos — Detalle por fármaco</h4>
+                <div id="medModalBody"></div>
+            </div>
         </div>
 
         <div class="mt-12 mb-10">
@@ -117,6 +133,7 @@
                 <div id="fieldsContainer"></div>
                 <button type="submit" class="btn-submit italic">Enviar Datos</button>
             </form>
+            <script>var submitted = false;</script>
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
         </div>
 
@@ -126,7 +143,7 @@
     </div>
 
     <script>
-        const services = [{"key": "bono_consulta", "label": "IAPOS — Bono de consulta", "p23": 70, "ph": 1000, "consumo": "Coseguro por consulta médica", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1328.6}, {"key": "orden_consulta", "label": "IAPOS — Orden de consulta", "p23": 350, "ph": 4000, "consumo": "Orden para acceder a una consulta", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1042.9}, {"key": "orden_internacion", "label": "IAPOS — Orden de internación", "p23": 1380, "ph": 40000, "consumo": "Orden para una internación", "nivel_nota": null, "levels": null, "extra": null, "variacion": 2798.6}, {"key": "sistema_abierto", "label": "IAPOS — Sistema Abierto (titular solo)", "p23": 36392, "ph": 291954, "consumo": "Cuota mensual, titular sin grupo familiar", "nivel_nota": "Incluye obra social + Servicio Complementario. Diciembre 2023: $34.192 + $2.200. 2025: $266.954 + $25.000. Es para quienes dejaron de ser empleados públicos y pagan de forma particular para sostener la cobertura de IAPOS.", "levels": null, "extra": null, "variacion": 702.2}, {"key": "medicamentos", "label": "Medicamentos (promedio de 19 fármacos)", "p23": null, "ph": null, "consumo": "Promedio de 19 medicamentos de uso frecuente", "nivel_nota": "Promedio simple de los aumentos de 19 medicamentos relevados por Comunidad entre 2023 y 2026 (ver el detalle de cada uno debajo).", "levels": [{"label": "Acenocumarol (Anticoagulante)", "p23": 11050, "ph": 33672.67, "variacion": 204.7}, {"label": "Allopurinol (Para la gota)", "p23": 1721, "ph": 6933.15, "variacion": 302.9}, {"label": "Amlodipina (Antihipertensivo)", "p23": 8852, "ph": 37423.93, "variacion": 322.8}, {"label": "Atenolol (Antiarrítmico)", "p23": 3874, "ph": 22405.62, "variacion": 478.4}, {"label": "Atorvastatin (Dislipemia)", "p23": 10462, "ph": 44713.77, "variacion": 327.4}, {"label": "Budesonide/Formoterol (EPOC / Asma)", "p23": 31136, "ph": 143650.69, "variacion": 361.4}, {"label": "Carbamezapina (Antiepiléptico)", "p23": 5561, "ph": 25349.31, "variacion": 355.8}, {"label": "Carvedilol (Antiarrítmico)", "p23": 6082, "ph": 24199.88, "variacion": 297.9}, {"label": "Dorzolamida/Timolol (Glaucoma)", "p23": 10747, "ph": 54150.33, "variacion": 403.9}, {"label": "Enalapril (Antihipertensivo)", "p23": 3191, "ph": 11537.54, "variacion": 261.6}, {"label": "Furosemida (Diurético)", "p23": 11008, "ph": 29376.23, "variacion": 166.9}, {"label": "Gabapentin (Anticonvulsivo)", "p23": 5698, "ph": 28600.44, "variacion": 401.9}, {"label": "Levotiroxina (Hipotiroidismo)", "p23": 8234, "ph": 40886.99, "variacion": 396.6}, {"label": "Losartan (Hipertensivo)", "p23": 7207, "ph": 30907.65, "variacion": 328.9}, {"label": "Oxicarbazepina (Antiepiléptico)", "p23": 36484, "ph": 155007.18, "variacion": 324.9}, {"label": "Risperidona (Antipsicótico)", "p23": 31385, "ph": 135492.58, "variacion": 331.7}, {"label": "Salbutamol (Asma / EPOC)", "p23": 1979, "ph": 7058.26, "variacion": 256.7}, {"label": "Clopidogrel (Antiag. Plaquetario)", "p23": 17161, "ph": 77074.22, "variacion": 349.1}, {"label": "Mesalazina (Tto. Colitis ulcerosa)", "p23": 38893, "ph": 197870.88, "variacion": 408.8}], "extra": "Inflación general medida por IPEC en el mismo período: 231%.", "variacion_manual": null, "variacion": 330.6}];
+        const services = [{"key": "bono_consulta", "label": "IAPOS — Bono de consulta", "p23": 70, "ph": 1000, "consumo": "Coseguro por consulta médica", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1328.6}, {"key": "orden_consulta", "label": "IAPOS — Orden de consulta", "p23": 350, "ph": 4000, "consumo": "Orden para acceder a una consulta", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1042.9}, {"key": "orden_internacion", "label": "IAPOS — Orden de internación", "p23": 1380, "ph": 40000, "consumo": "Orden para una internación", "nivel_nota": null, "levels": null, "extra": null, "variacion": 2798.6}, {"key": "sistema_abierto", "label": "IAPOS — Sistema Abierto (titular solo)", "p23": 36392, "ph": 291954, "consumo": "Cuota mensual, titular sin grupo familiar", "nivel_nota": "Incluye obra social + Servicio Complementario. Diciembre 2023: $34.192 + $2.200. 2025: $266.954 + $25.000. Es para quienes dejaron de ser empleados públicos y pagan de forma particular para sostener la cobertura de IAPOS.", "levels": null, "extra": null, "variacion": 702.2}, {"key": "medicamentos", "label": "Medicamentos (promedio de 19 fármacos)", "p23": null, "ph": null, "consumo": "Promedio de 19 medicamentos de uso frecuente", "nivel_nota": "Promedio simple de los aumentos de 19 medicamentos relevados por Comunidad entre 2023 y 2026 (ver el detalle de cada uno debajo).", "levels": [{"label": "Acenocumarol (Anticoagulante)", "p23": 11050, "ph": 33672.67, "variacion": 204.7}, {"label": "Allopurinol (Para la gota)", "p23": 1721, "ph": 6933.15, "variacion": 302.9}, {"label": "Amlodipina (Antihipertensivo)", "p23": 8852, "ph": 37423.93, "variacion": 322.8}, {"label": "Atenolol (Antiarrítmico)", "p23": 3874, "ph": 22405.62, "variacion": 478.4}, {"label": "Atorvastatín (Dislipemia)", "p23": 10462, "ph": 44713.77, "variacion": 327.4}, {"label": "Budesonide/Formoterol (EPOC / Asma)", "p23": 31136, "ph": 143650.69, "variacion": 361.4}, {"label": "Carbamazepina (Antiepiléptico)", "p23": 5561, "ph": 25349.31, "variacion": 355.8}, {"label": "Carvedilol (Antiarrítmico)", "p23": 6082, "ph": 24199.88, "variacion": 297.9}, {"label": "Dorzolamida/Timolol (Glaucoma)", "p23": 10747, "ph": 54150.33, "variacion": 403.9}, {"label": "Enalapril (Antihipertensivo)", "p23": 3191, "ph": 11537.54, "variacion": 261.6}, {"label": "Furosemida (Diurético)", "p23": 11008, "ph": 29376.23, "variacion": 166.9}, {"label": "Gabapentin (Anticonvulsivo)", "p23": 5698, "ph": 28600.44, "variacion": 401.9}, {"label": "Levotiroxina (Hipotiroidismo)", "p23": 8234, "ph": 40886.99, "variacion": 396.6}, {"label": "Losartán (Hipertensivo)", "p23": 7207, "ph": 30907.65, "variacion": 328.9}, {"label": "Oxcarbazepina (Antiepiléptico)", "p23": 36484, "ph": 155007.18, "variacion": 324.9}, {"label": "Risperidona (Antipsicótico)", "p23": 31385, "ph": 135492.58, "variacion": 331.7}, {"label": "Salbutamol (Asma / EPOC)", "p23": 1979, "ph": 7058.26, "variacion": 256.7}, {"label": "Clopidogrel (Antiag. Plaquetario)", "p23": 17161, "ph": 77074.22, "variacion": 349.1}, {"label": "Mesalazina (Tto. Colitis ulcerosa)", "p23": 38893, "ph": 197870.88, "variacion": 408.8}], "extra": "Inflación general medida por IPEC en el mismo período: 336%.", "variacion_manual": null, "variacion": 330.6}];
         const icons = {"bono_consulta": "<rect x=\"10\" y=\"6\" width=\"28\" height=\"36\" rx=\"2\"/><line x1=\"16\" y1=\"16\" x2=\"32\" y2=\"16\"/><line x1=\"16\" y1=\"24\" x2=\"32\" y2=\"24\"/><line x1=\"16\" y1=\"32\" x2=\"26\" y2=\"32\"/>", "orden_consulta": "<rect x=\"10\" y=\"8\" width=\"28\" height=\"34\" rx=\"3\"/><rect x=\"17\" y=\"4\" width=\"14\" height=\"8\" rx=\"2\"/><polyline points=\"16,24 21,29 32,18\"/>", "orden_internacion": "<rect x=\"6\" y=\"26\" width=\"36\" height=\"10\" rx=\"2\"/><line x1=\"10\" y1=\"26\" x2=\"10\" y2=\"14\"/><rect x=\"10\" y=\"14\" width=\"14\" height=\"8\" rx=\"2\"/><line x1=\"6\" y1=\"36\" x2=\"6\" y2=\"42\"/><line x1=\"42\" y1=\"36\" x2=\"42\" y2=\"42\"/>", "sistema_abierto": "<rect x=\"6\" y=\"10\" width=\"36\" height=\"26\" rx=\"4\"/><circle cx=\"16\" cy=\"20\" r=\"4\"/><line x1=\"24\" y1=\"18\" x2=\"36\" y2=\"18\"/><line x1=\"24\" y1=\"24\" x2=\"36\" y2=\"24\"/><line x1=\"10\" y1=\"30\" x2=\"22\" y2=\"30\"/>", "medicamentos": "<rect x=\"6\" y=\"18\" width=\"36\" height=\"12\" rx=\"6\"/><line x1=\"24\" y1=\"18\" x2=\"24\" y2=\"30\"/>"};
 
         let revealed = [];
@@ -151,16 +168,32 @@
         });
 
         function buildInfoHtml(s, idx) {
-            if (!s.nivel_nota && !s.levels && !s.extra) return '';
-            let extra = '';
             if (s.levels) {
-                extra = `<div class="lvl">` + s.levels.map(l => `${l.label}: <b>+${arNum(l.variacion)}%</b> ($${fmt(l.p23)} → $${fmt(l.ph)})`).join('<br>') + `</div>`;
+                return `<div class="info-wrap">
+                    <button type="button" class="info-btn" onclick="event.stopPropagation(); openMedModal(${idx});">ⓘ</button>
+                </div>`;
             }
+            if (!s.nivel_nota && !s.extra) return '';
             let extraNote = s.extra ? `<div class="lvl">${s.extra}</div>` : '';
             return `<div class="info-wrap">
                 <button type="button" class="info-btn" onclick="toggleInfo(${idx}, event)">ⓘ</button>
-                <div id="info-${idx}" class="info-pop">${s.nivel_nota || ''}${extra}${extraNote}</div>
+                <div id="info-${idx}" class="info-pop">${s.nivel_nota || ''}${extraNote}</div>
             </div>`;
+        }
+
+        function openMedModal(idx) {
+            const s = services[idx];
+            const rows = s.levels.map(l => `<tr><td class="py-2 pr-3 text-left font-semibold">${l.label}</td><td class="py-2 text-right font-black text-loss whitespace-nowrap">+${arNum(l.variacion)}%</td></tr>`).join('');
+            document.getElementById('medModalBody').innerHTML = `
+                <p class="font-semibold mb-4 leading-relaxed" style="font-size:13px;">${s.nivel_nota || ''}</p>
+                <table class="w-full med-modal-table"><tbody>${rows}</tbody></table>
+                ${s.extra ? `<p class="font-bold mt-4 pt-4 border-t" style="font-size:13px; border-color:#e2e8f0;">${s.extra}</p>` : ''}
+            `;
+            document.getElementById('medModal').style.display = 'flex';
+        }
+
+        function closeMedModal() {
+            document.getElementById('medModal').style.display = 'none';
         }
 
         function buildFrase(s) {
@@ -233,7 +266,6 @@
         }
 
         let currentMode = 'wa';
-        let submitted = false;
 
         function setFormMode(mode) {
             currentMode = mode;

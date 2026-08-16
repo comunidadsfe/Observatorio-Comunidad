@@ -126,7 +126,10 @@
             <h2 class="text-2xl md:text-4xl font-black uppercase italic">¿Sentís que la plata rinde menos?</h2>
             <p class="text-sm mt-2 opacity-90 font-medium italic">Elegí un producto y compará cuánto comprabas en 2023 y cuánto comprás hoy</p>
         </div>
-        <div id="quickIncomeControls" class="bg-white rounded-2xl p-5 shadow-xl max-w-md mx-auto mb-8"></div>
+        <div id="quickIncomeControls" class="bg-white rounded-2xl p-5 shadow-xl max-w-md mx-auto mb-4"></div>
+        <div class="text-center mb-6">
+            <button type="button" onclick="resetAllQuick()" class="text-white text-[10px] font-black uppercase underline underline-offset-4 opacity-70 hover:opacity-100">Reiniciar todas las placas ↺</button>
+        </div>
         <div id="quickGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4 collapsed"></div>
         <div class="text-center mt-4 md:hidden">
             <button type="button" id="quickExpandBtn" onclick="toggleQuickExpand()" class="text-white text-[11px] font-black uppercase underline underline-offset-4">Ver más productos ↓</button>
@@ -149,7 +152,7 @@
                     <p class="text-center font-black uppercase text-[10px] italic mb-2 animate-pulse" style="color: var(--comunidad-fucsia);">👇 Cargá tu ingreso para ver cuánto rinde</p>
                     <h2 class="text-xs font-black uppercase mb-2 tracking-widest italic" style="color: var(--comunidad-violeta);">1. Ingreso de referencia</h2>
                     <label for="presetIncome" class="sr-only">Elegir ingreso de referencia predefinido</label>
-                    <select id="presetIncome" class="w-full p-3 bg-white border-2 border-slate-300 rounded-lg font-bold mb-1" onchange="handlePresetChange()"><option value="custom">CARGA MANUAL</option><option value="smvm">Salario Mínimo (SMVM)</option><option value="jubilacion">Jubilación Mínima</option><option value="municipal">Mínimo Garantizado Municipal</option><option value="comercio">Salario Comercio</option><option value="docente">Salario Docente</option></select>
+                    <select id="presetIncome" class="w-full p-3 bg-white border-2 rounded-lg font-black text-sm text-slate-700" style="border-color:var(--comunidad-violeta)" onchange="handlePresetChange()"><option value="custom">CARGA MANUAL</option><option value="smvm">Salario Mínimo (SMVM)</option><option value="jubilacion">Jubilación Mínima</option><option value="municipal">Mínimo Garantizado Municipal</option><option value="comercio">Salario Comercio</option><option value="docente">Salario Docente</option></select>
                     <div id="incomeNote" class="text-[9px] font-black inline-block bg-blue-50 text-blue-800 px-2 py-1 rounded uppercase mb-4 h-6 italic leading-none flex items-center opacity-0 transition-opacity duration-300"></div>
                     <div class="grid grid-cols-2 gap-4">
                         <div><label for="inc2023" class="sr-only">Ingreso de referencia en 2023</label><input type="text" inputmode="numeric" id="inc2023" placeholder="$ 2023" class="w-full p-3 border-2 rounded-lg text-center font-bold" oninput="formatAndCalc(this)"></div>
@@ -186,6 +189,7 @@
                 </div>
             <button type="submit" class="btn-submit italic">Enviar Datos</button>
         </form>
+        <script>var submitted = false;</script>
         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
     </div>
 
@@ -218,7 +222,6 @@
     <script>
         // LÓGICA FORMULARIO DINÁMICO
         let currentMode = 'wa';
-        let submitted = false;
 
         function setFormMode(mode) {
             currentMode = mode;
@@ -402,7 +405,7 @@
         function getQuickSourceData(source) { return source === 'alvear' ? dataAlvear : (source === 'coto' ? dataCoto : dataIPEC); }
 
         // Ingreso de referencia PROPIO de la Vista Rápida (independiente de la calculadora de abajo).
-        let quickPresetKey = 'comercio';
+        let quickPresetKey = '';
         let quickCustomIncome = { v23: 0, vh: 0 };
 
         const quickPresetLabels = {
@@ -415,8 +418,10 @@
         };
 
         function getQuickIncome() {
+            if (quickPresetKey === '') return { v23: 0, vh: 0 };
             if (quickPresetKey === 'custom' && quickCustomIncome.v23 > 0 && quickCustomIncome.vh > 0) return quickCustomIncome;
-            if (quickPresetKey === 'custom') return presets.comercio; // mientras no termina de cargar el propio
+            if (quickPresetKey === 'custom') return { v23: 0, vh: 0 }; // mientras no termina de cargar el propio
+            if (!presets[quickPresetKey]) return { v23: 0, vh: 0 };
             return presets[quickPresetKey];
         }
 
@@ -437,16 +442,19 @@
         function renderQuickIncomeControls() {
             const cont = document.getElementById('quickIncomeControls');
             if (!cont) return;
-            let html = `<p class="text-[10px] uppercase font-black text-slate-400 mb-2 tracking-widest">Ingreso de referencia</p>
+            let html = `<p class="text-[10px] uppercase font-black text-slate-400 mb-2 tracking-widest">Ingreso de referencia (para saber cuánto rinde)</p>
                 <select onchange="handleQuickPresetChange(this)" class="w-full p-3 bg-white border-2 rounded-lg font-black text-sm text-slate-700" style="border-color:var(--comunidad-violeta)">
+                <option value="" ${quickPresetKey === '' ? 'selected' : ''} disabled>Elegí tu ingreso de referencia...</option>
                 <option value="comercio" ${quickPresetKey === 'comercio' ? 'selected' : ''}>Empleado de Comercio</option>
                 <option value="municipal" ${quickPresetKey === 'municipal' ? 'selected' : ''}>Empleado Municipal</option>
                 <option value="docente" ${quickPresetKey === 'docente' ? 'selected' : ''}>Docente</option>
                 <option value="jubilacion" ${quickPresetKey === 'jubilacion' ? 'selected' : ''}>Jubilación Mínima</option>
                 <option value="smvm" ${quickPresetKey === 'smvm' ? 'selected' : ''}>Salario Mínimo Vital y Móvil (SMVM)</option>
                 <option value="custom" ${quickPresetKey === 'custom' ? 'selected' : ''}>Cargar mi propio ingreso</option>
-            </select>
-            <p class="text-[12px] font-bold mt-3" style="color:var(--comunidad-violeta)">Calculado en base a: <span class="font-black">${quickPresetLabels[quickPresetKey]}</span></p>`;
+            </select>`;
+            if (quickPresetKey !== '') {
+                html += `<p class="text-[12px] font-bold mt-3" style="color:var(--comunidad-violeta)">Calculado en base a: <span class="font-black">${quickPresetLabels[quickPresetKey]}</span></p>`;
+            }
             if (quickPresetKey === 'custom') {
                 html += `<div class="grid grid-cols-2 gap-2 mt-3">
                     <input type="text" inputmode="numeric" placeholder="$ 2023" oninput="formatQuickCustomIncome(this,'v23')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
@@ -480,35 +488,50 @@
             if (btn) btn.innerText = quickExpanded ? "Ver menos ↑" : "Ver más productos ↓";
         }
 
+        function rawIncrease(p) { return ((p.ph / p.p23) - 1) * 100; }
+
         function renderQuickView() {
             const cont = document.getElementById('quickGrid');
             if (!cont) return;
             const income = getQuickIncome();
+            const hasIncome = income.v23 > 0 && income.vh > 0;
             cont.innerHTML = quickProducts.map((q, idx) => {
                 const d = getQuickSourceData(q.source);
                 const p = d[q.g].items[q.i];
                 const extraClass = idx >= 10 ? " quick-extra" : "";
                 const imgTag = `<img src="${quickImages[q.key]}" alt="${q.name}" class="w-full h-24 object-cover rounded-lg" loading="lazy">`;
+                const infl = rawIncrease(p);
+                const inflStr = (infl > 0 ? "+" : "") + arNum(infl) + "%";
+                const inflClass = infl < 0 ? "text-green-600" : "text-red-600";
+                const rawBlock = `<div class="text-[9px] uppercase font-black text-slate-400 leading-none">Aumentó desde 2023</div><div class="text-lg font-black ${inflClass}">${inflStr}</div>`;
                 if (!quickRevealed.includes(idx)) {
-                    return `<div class="bg-white rounded-2xl p-3 text-center shadow-xl flex flex-col items-center justify-between gap-2 min-h-[210px]${extraClass}">
+                    return `<div class="bg-white rounded-2xl p-3 text-center shadow-xl flex flex-col items-center justify-between gap-2 min-h-[230px]${extraClass}">
                         ${imgTag}
                         <div class="font-black uppercase text-[11px]" style="color:var(--comunidad-violeta)">${q.name}</div>
+                        ${rawBlock}
                         <button type="button" onclick="toggleQuickReveal(${idx})" class="w-full py-2 rounded-lg text-white text-[10px] font-black uppercase leading-tight" style="background:var(--comunidad-violeta)">¿Podés comprar más o menos ${q.question}?</button>
                     </div>`;
                 }
-                const u23 = (income.v23 / p.p23).toFixed(1);
-                const uH = (income.vh / p.ph).toFixed(1);
-                const v = (((income.vh / p.ph) / (income.v23 / p.p23)) - 1) * 100;
-                const vClass = v < 0 ? "text-red-600" : "text-green-600";
-                const vStr = (v > 0 ? "+" : "") + v.toFixed(1) + "%";
-                return `<div class="bg-white rounded-2xl p-3 text-center shadow-xl flex flex-col items-center gap-2${extraClass}">
-                    ${imgTag}
-                    <div class="font-black uppercase text-[11px]" style="color:var(--comunidad-violeta)">${q.name}</div>
-                    <div class="grid grid-cols-2 gap-2 w-full text-center py-2 border-t border-b border-slate-200">
+                let compareBlock;
+                if (hasIncome) {
+                    const u23 = (income.v23 / p.p23).toFixed(1);
+                    const uH = (income.vh / p.ph).toFixed(1);
+                    const v = (((income.vh / p.ph) / (income.v23 / p.p23)) - 1) * 100;
+                    const vClass = v < 0 ? "text-red-600" : "text-green-600";
+                    const vStr = (v > 0 ? "+" : "") + v.toFixed(1) + "%";
+                    compareBlock = `<div class="grid grid-cols-2 gap-2 w-full text-center py-2 border-t border-b border-slate-200">
                         <div><p class="text-[8px] uppercase font-black text-slate-400">2023</p><p class="text-lg font-black">${u23}</p><p class="text-[9px] font-bold text-slate-400 uppercase">${p.u}</p></div>
                         <div><p class="text-[8px] uppercase font-black text-slate-400">Hoy</p><p class="text-lg font-black">${uH}</p><p class="text-[9px] font-bold text-slate-400 uppercase">${p.u}</p></div>
                     </div>
-                    <div class="text-xl font-black ${vClass}">${vStr}</div>
+                    <div class="text-xl font-black ${vClass}">${vStr}</div>`;
+                } else {
+                    compareBlock = `<div class="text-[10px] font-black uppercase text-slate-400 py-3 border-t border-b border-slate-200 leading-snug">👆 Elegí tu ingreso de referencia arriba para ver cuánto rinde</div>`;
+                }
+                return `<div class="bg-white rounded-2xl p-3 text-center shadow-xl flex flex-col items-center gap-2${extraClass}">
+                    ${imgTag}
+                    <div class="font-black uppercase text-[11px]" style="color:var(--comunidad-violeta)">${q.name}</div>
+                    ${rawBlock}
+                    ${compareBlock}
                     <div class="grid grid-cols-2 gap-1 w-full">
                         <button type="button" onclick="resetQuickCard(${idx})" class="py-2 rounded-lg text-[9px] font-black uppercase border-2 border-slate-300 text-slate-500">Ocultar</button>
                         <button type="button" onclick="handleQuickPoster(${idx})" class="py-2 rounded-lg text-white text-[9px] font-black uppercase" style="background:var(--comunidad-fucsia)">Compartir</button>
@@ -529,9 +552,17 @@
             const d = getQuickSourceData(q.source);
             const p = d[q.g].items[q.i];
             const income = getQuickIncome();
-            const v = (((income.vh / p.ph) / (income.v23 / p.p23)) - 1) * 100;
-            const pctStr = (v > 0 ? "+" : "") + arNum(v) + "%";
-            createPoster(q.name.toUpperCase(), pctStr, quickImages[q.key], buildFrase(v, q.name));
+            const hasIncome = income.v23 > 0 && income.vh > 0;
+            if (hasIncome) {
+                const v = (((income.vh / p.ph) / (income.v23 / p.p23)) - 1) * 100;
+                const pctStr = (v > 0 ? "+" : "") + arNum(v) + "%";
+                createPoster(q.name.toUpperCase(), pctStr, quickImages[q.key], buildFrase(v, q.name));
+            } else {
+                const infl = rawIncrease(p);
+                const pctStr = (infl > 0 ? "+" : "") + arNum(infl) + "%";
+                const frase = `<b>${q.name}</b> aumentó <b>${arNum(infl)}%</b> desde diciembre de 2023`;
+                createPoster(q.name.toUpperCase(), pctStr, quickImages[q.key], frase);
+            }
         }
 
         const sourceNames = { ipec: "Canasta IPEC", alvear: "Productos Alvear", coto: "Productos Coto" };
@@ -632,7 +663,7 @@
                     let vStr = "--%", u23Str = "-", uhStr = "-", vClass = "text-slate-300";
                     if (isChecked && validData && (i23 >= p.p23 || iH >= p.ph)) { const v = (((iH/p.ph)/(i23/p.p23))-1)*100; vStr = (v>0?"+":"") + v.toFixed(1) + "%"; u23Str = (i23/p.p23).toFixed(1); uhStr = (iH/p.ph).toFixed(1); vClass = v < 0 ? "text-red-600" : "text-green-600"; }
                     const infl = ((p.ph/p.p23)-1)*100, inflStr = (infl>0?"+":"") + infl.toFixed(1) + "%", inflClass = infl < 0 ? "text-green-600" : "text-red-600";
-                    const pRef = `<div class="text-[9px] text-slate-400 font-bold mt-1 uppercase leading-none">Precio Ref: $${new Intl.NumberFormat('es-AR').format(p.p23)} / $${new Intl.NumberFormat('es-AR').format(p.ph)}</div><div class="text-[10px] font-black mt-1 uppercase leading-none ${inflClass}">Aumentó ${inflStr}</div>`;
+                    const pRef = `<div class="text-[11px] text-slate-400 font-bold mt-1 uppercase leading-none">Precio Ref: $${new Intl.NumberFormat('es-AR').format(p.p23)} / $${new Intl.NumberFormat('es-AR').format(p.ph)}</div><div class="text-[12px] font-black mt-1 uppercase leading-none ${inflClass}">Aumentó ${inflStr}</div>`;
                     if(gIdx === activeTabIdx) tableHtml += `<tr class="border-b" data-pid="${pid}"><td class="p-4 text-center check-col"><input type="checkbox" class="p-check w-5 h-5" ${isChecked?'checked':''} onchange="syncCheck('${pid}', this.checked)"></td><td class="p-4 font-bold text-slate-700">${p.n}${pRef}</td><td class="p-4 text-center"><span class="font-black text-lg">${u23Str}</span><br><span class="text-[9px] font-bold text-slate-400 uppercase">${p.u||''}</span></td><td class="p-4 text-center"><span class="font-black text-lg">${uhStr}</span><br><span class="text-[9px] font-bold text-slate-400 uppercase">${p.u||''}</span></td><td class="p-4 text-center relative"><span class="font-black text-xl ${vClass}">${vStr}</span></td></tr>`;
                     mobileHtml += `<div class="product-card" data-pid="${pid}"><div class="flex justify-between items-start mb-2"><span class="font-bold text-slate-800 text-xs leading-tight">${p.n}${pRef}</span><div class="check-col"><input type="checkbox" class="p-check w-6 h-6" ${isChecked?'checked':''} onchange="syncCheck('${pid}', this.checked)"></div></div><div class="grid grid-cols-2 gap-4 text-center py-2 border-t"><div class="border-r"><p class="text-[8px] uppercase font-black text-blue-900 italic">En 2023 comprabas</p><p class="text-lg font-black">${u23Str}</p><p class="text-[9px] font-bold text-slate-400 uppercase">${p.u||''}</p></div><div><p class="text-[8px] uppercase font-black text-blue-900 italic">Hoy comprás</p><p class="text-lg font-black">${uhStr}</p><p class="text-[9px] font-bold text-slate-400 uppercase">${p.u||''}</p></div></div><div class="flex justify-between items-center pt-2 border-t mt-1"><div class="text-xl font-black ${vClass}">${vStr}</div><button onclick="handlePosterRequest('${pid}', '${p.n}')" class="p-2 bg-slate-100 rounded-full"><svg class="w-4 h-4 fill-slate-400" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg></button></div></div>`;
                 });
