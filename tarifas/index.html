@@ -25,6 +25,17 @@
         .placa-name { font-weight: 900; text-transform: uppercase; font-size: 11px; color: var(--comunidad-violeta); letter-spacing: 0.01em; }
         .placa-note { font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-top: -6px; }
         .text-loss { color: #dc2626; }
+        .text-gain { color: #16a34a; }
+
+        .informe-card { background: white; border-radius:16px; padding:16px; color: var(--comunidad-violeta); display:flex; flex-direction:column; align-items:center; box-shadow: 0 10px 25px rgba(0,0,0,0.18); }
+        .informe-title { font-weight:900; text-transform:uppercase; font-size:0.8rem; margin-bottom:10px; text-align:center; }
+        .pdf-viewer { width:100%; height:180px; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:12px; }
+        .btn-descargar-pdf { background: var(--comunidad-fucsia); color:white; text-align:center; padding:10px 14px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.7rem; text-decoration:none; }
+        .form-container { background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:28px 24px; max-width:480px; margin:0 auto; }
+        .option-btn { flex:1; padding:10px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.7rem; background:rgba(255,255,255,0.1); color:white; border:2px solid rgba(255,255,255,0.3); }
+        .option-btn.active { background: var(--comunidad-fucsia); border-color: var(--comunidad-fucsia); }
+        .form-input { width:100%; padding:12px; border-radius:10px; border:2px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.95); font-weight:700; margin-bottom:10px; }
+        .btn-submit { width:100%; background: var(--comunidad-fucsia); color:white; text-align:center; padding:12px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.75rem; border:none; cursor:pointer; }
 
         .info-wrap { position: absolute; top: 10px; right: 10px; z-index: 5; }
         .info-btn { width: 20px; height: 20px; border-radius: 9999px; background: #e2e8f0; color: var(--comunidad-violeta); font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; line-height: 1; }
@@ -50,7 +61,7 @@
             <div class="hidden md:flex gap-6 text-[11px] font-black uppercase tracking-wide opacity-90">
                 <a href="../#herramientas" class="hover:opacity-70">Herramientas</a>
                 <a href="../#informes" class="hover:opacity-70">Informes</a>
-                <a href="#" class="hover:opacity-70">Instagram</a>
+                <a href="https://www.instagram.com/comunidadsf/" target="_blank" class="hover:opacity-70">Instagram</a>
             </div>
         </div>
     </nav>
@@ -70,11 +81,50 @@
             <p class="text-sm mt-2 opacity-90 font-medium italic">Luz, agua, gas, colectivo y SEOM: diciembre de 2023 vs. agosto de 2026, sin impuestos ni tasas.</p>
         </div>
 
+        <div class="max-w-md mx-auto mb-8">
+            <p class="text-center text-white font-black uppercase text-xs italic mb-2 animate-pulse">👇 Cargá tu ingreso para ver cuánto rinde</p>
+            <div id="incomeControls" class="bg-white rounded-2xl p-5 shadow-xl" style="border: 3px solid var(--comunidad-fucsia);"></div>
+        </div>
+
         <div id="svcGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
 
         <div class="mt-10 pt-6 border-t border-white/20 text-[10px] text-white/60 leading-relaxed space-y-2 max-w-[1000px] mx-auto">
             <p><strong class="text-white/80">Fuente:</strong> cuadros tarifarios oficiales de EPE, ASSA y Litoral Gas / ENARGAS (gas), diciembre 2023 y agosto 2026, sin impuestos ni tasas. Colectivo y SEOM son datos oficiales.</p>
             <p><strong class="text-white/80">Nota sobre niveles de ingreso:</strong> Luz y Gas se calculan por nivel (altos / bajos / medios); el valor mostrado en la placa corresponde a ingresos medios. Ver detalle completo de cada nivel tocando el ícono ⓘ.</p>
+        </div>
+
+        <div class="mt-12 mb-10">
+            <h3 class="text-white text-center font-black uppercase italic text-lg mb-6">¿Cómo calculamos estos datos? Leé nuestros informes</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Tarifas</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf" target="_blank">Descargar PDF</a>
+                </div>
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Prepagas y Medicamentos</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf" target="_blank">Descargar PDF</a>
+                </div>
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Alquileres</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf" target="_blank">Descargar PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container" id="formSection">
+            <h3 class="text-white text-lg font-black uppercase italic mb-6 text-center">¿Querés recibir nuestros informes?</h3>
+            <div class="flex gap-4 mb-6">
+                <button type="button" onclick="setFormMode('wa')" id="optWA" class="option-btn active italic">Por WhatsApp</button>
+                <button type="button" onclick="setFormMode('mail')" id="optMail" class="option-btn italic">Por Mail</button>
+            </div>
+            <form id="contactForm" target="hidden_iframe" onsubmit="return handleFormSubmit()">
+                <div id="fieldsContainer"></div>
+                <button type="submit" class="btn-submit italic">Enviar Datos</button>
+            </form>
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
         </div>
 
         <div class="text-center pt-8 pb-4">
@@ -85,6 +135,48 @@
     <script>
         const services = [{"key": "luz", "label": "Luz (EPE)", "pregunta": "la luz", "p23": 9376.35, "ph": 137168.42, "consumo": "400 kWh bimestrales", "nivel_nota": "Valor mostrado: Nivel de ingresos medios (N3), tarifa Sin Subsidio.", "levels": [{"label": "N1 — Ingresos altos (Sin Subsidio)", "p23": 17364.35, "ph": 137168.42, "variacion": 689.9}, {"label": "N2 — Ingresos bajos (Tarifa Social Provincial 1, zona cálida)", "p23": 9005.42, "ph": 61296.73, "variacion": 580.7}, {"label": "N3 — Ingresos medios (Sin Subsidio)", "p23": 9376.35, "ph": 137168.42, "variacion": 1362.9}], "extra": "Desde agosto de 2026 ya no hay niveles de ingreso: existe tarifa \"Sin Subsidio\" (plena), \"Con Subsidio\" (por zona) y Tarifa Social.", "variacion": 1362.9}, {"key": "agua", "label": "Agua (ASSA)", "pregunta": "el agua", "p23": 3167, "ph": 43300.29, "consumo": "60 m³ bimestrales", "nivel_nota": "ASSA no segmenta sus tarifas por nivel de ingresos: hay un único valor para todos los usuarios residenciales.", "levels": null, "extra": null, "variacion": 1267.2}, {"key": "gas", "label": "Gas (Litoral Gas)", "pregunta": "el gas", "p23": 3740.4, "ph": 42845.42, "consumo": "114 m³ bimestrales", "nivel_nota": "Valor mostrado: Nivel de ingresos medios (N3).", "levels": [{"label": "N1 — Ingresos altos", "p23": 6571.02, "ph": 42845.42, "variacion": 552.0}, {"label": "N2 — Ingresos bajos", "p23": 3291.86, "ph": 42845.42, "variacion": 1201.6}, {"label": "N3 — Ingresos medios", "p23": 3740.4, "ph": 42845.42, "variacion": 1045.5}], "extra": "Desde 2026 ya no hay segmentación por ingresos en gas: todos los usuarios R1 pagan la misma categoría (\"SinSEF\"), por eso los tres niveles convergen en el mismo valor de agosto 2026.", "variacion": 1045.5}, {"key": "colectivo", "label": "Colectivo", "pregunta": "el colectivo", "p23": 220, "ph": 1900, "consumo": "Tarifa básica", "nivel_nota": "Tarifas oficiales.", "levels": null, "extra": null, "variacion": 763.6}, {"key": "seom", "label": "SEOM", "pregunta": "el SEOM", "p23": 270, "ph": 1000, "consumo": "Primera hora", "nivel_nota": "Tarifas oficiales.", "levels": null, "extra": null, "variacion": 270.4}];
         const icons = {"luz": "<polygon points=\"26,4 10,26 22,26 18,44 38,18 24,18\"/>", "agua": "<path d=\"M24,6 C34,20 38,28 38,34 C38,42 32,44 24,44 C16,44 10,42 10,34 C10,28 14,20 24,6 Z\"/>", "gas": "<path d=\"M24,5 C29,13 33,19 33,27 C33,36 29,42 24,42 C19,42 15,36 15,28 C15,24 17,21 19,19 C19,25 22,27 22,23 C22,16 20,10 24,5 Z\"/>", "colectivo": "<path d=\"M6,30 L10,18 L38,18 L42,30 Z\"/><rect x=\"4\" y=\"28\" width=\"40\" height=\"10\"/><circle cx=\"14\" cy=\"40\" r=\"4\"/><circle cx=\"34\" cy=\"40\" r=\"4\"/>", "seom": "<rect x=\"8\" y=\"8\" width=\"32\" height=\"32\" rx=\"6\"/><path d=\"M19,34 V14 h7 a6,6 0 0 1 0,12 h-7\"/>"};
+
+        const presets = {"smvm": {"v23": 156000, "vh": 363000, "label": "Salario Mínimo (SMVM)", "fuente": "Fuente: Salario Mínimo Vital y Móvil"}, "jubilacion": {"v23": 160713, "vh": 463174, "label": "Jubilación Mínima", "fuente": "Fuente: ANSES, Jubilación Mínima"}, "municipal": {"v23": 246008, "vh": 975000, "label": "Mínimo Garantizado Municipal", "fuente": "Fuente: Paritarias Festram"}, "comercio": {"v23": 332959, "vh": 1023016.21, "label": "Salario Comercio", "fuente": "Fuente: CUEC, Categoría Maestranza A, sin antigüedad"}, "docente": {"v23": 269522, "vh": 1037205, "label": "Salario Docente", "fuente": "Fuente: Paritaria docente, Maestro de Grado, sin antigüedad"}};
+        let presetKey = 'comercio';
+        let customIncome = { v23: 0, vh: 0 };
+
+        function getIncome() {
+            if (presetKey === 'custom') return customIncome;
+            return presets[presetKey];
+        }
+
+        function handlePresetChange(sel) {
+            presetKey = sel.value;
+            renderIncomeControls();
+            renderGrid();
+        }
+
+        function formatCustomIncome(input, key) {
+            let v = input.value.replace(/\D/g, "");
+            input.value = v !== "" ? "$ " + fmt(v) : "";
+            customIncome[key] = parseFloat(v) || 0;
+            renderGrid();
+        }
+
+        function renderIncomeControls() {
+            const cont = document.getElementById('incomeControls');
+            let html = `<p class="text-[10px] uppercase font-black text-slate-400 mb-2 tracking-widest">Ingreso de referencia</p>
+                <select onchange="handlePresetChange(this)" class="w-full p-3 bg-white border-2 rounded-lg font-black text-sm text-slate-700" style="border-color:var(--comunidad-violeta)">
+                ${Object.keys(presets).map(k => `<option value="${k}" ${presetKey===k?'selected':''}>${presets[k].label}</option>`).join('')}
+                <option value="custom" ${presetKey==='custom'?'selected':''}>Cargar mi propio ingreso</option>
+                </select>`;
+            if (presetKey === 'custom') {
+                html += `<div class="grid grid-cols-2 gap-2 mt-3">
+                    <input type="text" inputmode="numeric" placeholder="$ Dic-23" oninput="formatCustomIncome(this,'v23')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
+                    <input type="text" inputmode="numeric" placeholder="$ Hoy" oninput="formatCustomIncome(this,'vh')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
+                </div>`;
+            } else {
+                html += `<p class="text-[11px] font-bold mt-3" style="color:var(--comunidad-violeta)">${presets[presetKey].fuente}</p>`;
+            }
+            cont.innerHTML = html;
+        }
+
+        function pctChange(i23, iH, p23, ph) { return (((iH / ph) / (i23 / p23)) - 1) * 100; }
 
         let revealed = [];
         const fmt = (n) => new Intl.NumberFormat('es-AR').format(Math.round(n));
@@ -136,12 +228,21 @@
                         <button type="button" onclick="toggleReveal(${idx})" class="placa-btn">¿Cuánto aumentó ${s.pregunta}?</button>
                     </div>`;
                 }
+                const income = getIncome();
+                const hasIncome = income.v23 > 0 && income.vh > 0;
+                const incomeExtra = hasIncome ? (() => {
+                    const v = pctChange(income.v23, income.vh, s.p23, s.ph);
+                    const vClass = v < 0 ? 'text-loss' : 'text-gain';
+                    const vStr = (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+                    return `<div class="placa-note" style="margin-top:0;">Tus ingresos vs esto</div><div class="text-lg font-black italic ${vClass}">${vStr}</div>`;
+                })() : '';
                 return `<div class="placa">
                     ${infoHtml}
                     <div class="icon-badge revealed">${iconHtml}</div>
                     <div class="placa-name">${s.label}</div>
                     <div class="placa-note">${s.consumo}: $${fmt(s.p23)} → $${fmt(s.ph)}</div>
                     <div class="text-2xl font-black italic text-loss">+${arNum(s.variacion)}%</div>
+                    ${incomeExtra}
                     <div class="grid grid-cols-2 gap-1 w-full">
                         <button type="button" onclick="toggleReveal(${idx})" class="py-2 rounded-lg text-[9px] font-black uppercase border-2 border-slate-300 text-slate-500">Ocultar</button>
                         <button type="button" onclick="handlePoster(${idx})" class="py-2 rounded-lg text-white text-[9px] font-black uppercase" style="background:var(--comunidad-fucsia)">Compartir</button>
@@ -187,7 +288,58 @@
             createPoster(pctStr, buildFrase(s), s.key);
         }
 
+        let currentMode = 'wa';
+        let submitted = false;
+
+        function setFormMode(mode) {
+            currentMode = mode;
+            const container = document.getElementById('fieldsContainer');
+            document.getElementById('optWA').className = mode === 'wa' ? 'option-btn active italic' : 'option-btn italic';
+            document.getElementById('optMail').className = mode === 'mail' ? 'option-btn active italic' : 'option-btn italic';
+            if (mode === 'wa') {
+                container.innerHTML = `
+                    <label for="nameField" class="sr-only">Nombre y Apellido</label>
+                    <input type="text" id="nameField" name="entry.1321869567" placeholder="Nombre y Apellido" class="form-input">
+                    <label for="whatsappField" class="sr-only">WhatsApp</label>
+                    <input type="text" inputmode="tel" id="whatsappField" name="entry.135638054" placeholder="WhatsApp" class="form-input">
+                    <input type="hidden" name="entry.593198354" value="">
+                `;
+            } else {
+                container.innerHTML = `
+                    <input type="hidden" name="entry.1321869567" value="">
+                    <input type="hidden" name="entry.135638054" value="">
+                    <label for="mailField" class="sr-only">Correo electrónico</label>
+                    <input type="email" id="mailField" name="entry.593198354" placeholder="Correo electrónico" class="form-input" required>
+                `;
+            }
+        }
+
+        function handleFormSubmit() {
+            if (currentMode === 'wa') {
+                const name = document.getElementById('nameField').value.trim();
+                const wa = document.getElementById('whatsappField').value.trim();
+                if (name === "" || wa === "") {
+                    alert("Por favor, completá nombre y celular.");
+                    return false;
+                }
+            }
+            const action = "https://docs.google.com/forms/d/e/1FAIpQLScC1OTPDh4_Xupab8GMIwe9XqWdxTLCPYgv4H8UqDOL3YZE2A/formResponse";
+            document.getElementById('contactForm').action = action;
+            submitted = true;
+            return true;
+        }
+
+        function showSuccess() {
+            document.getElementById('formSection').innerHTML = `
+                <div class="text-center py-6">
+                    <h3 class="text-2xl font-black uppercase italic text-white">¡Gracias por sumarte!</h3>
+                </div>
+            `;
+        }
+
+        renderIncomeControls();
         renderGrid();
+        setFormMode('wa');
     </script>
 </body>
 </html>

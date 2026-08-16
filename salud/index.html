@@ -26,6 +26,16 @@
         .placa-note { font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-top: -6px; }
         .text-loss { color: #dc2626; }
 
+        .informe-card { background: white; border-radius:16px; padding:16px; color: var(--comunidad-violeta); display:flex; flex-direction:column; align-items:center; box-shadow: 0 10px 25px rgba(0,0,0,0.18); }
+        .informe-title { font-weight:900; text-transform:uppercase; font-size:0.8rem; margin-bottom:10px; text-align:center; }
+        .pdf-viewer { width:100%; height:180px; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:12px; }
+        .btn-descargar-pdf { background: var(--comunidad-fucsia); color:white; text-align:center; padding:10px 14px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.7rem; text-decoration:none; }
+        .form-container { background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:28px 24px; max-width:480px; margin:0 auto; }
+        .option-btn { flex:1; padding:10px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.7rem; background:rgba(255,255,255,0.1); color:white; border:2px solid rgba(255,255,255,0.3); }
+        .option-btn.active { background: var(--comunidad-fucsia); border-color: var(--comunidad-fucsia); }
+        .form-input { width:100%; padding:12px; border-radius:10px; border:2px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.95); font-weight:700; margin-bottom:10px; }
+        .btn-submit { width:100%; background: var(--comunidad-fucsia); color:white; text-align:center; padding:12px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.75rem; border:none; cursor:pointer; }
+
         .info-wrap { position: absolute; top: 10px; right: 10px; z-index: 5; }
         .info-btn { width: 20px; height: 20px; border-radius: 9999px; background: #e2e8f0; color: var(--comunidad-violeta); font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; line-height: 1; }
         .info-pop { position: absolute; top: 26px; right: 0; width: 250px; max-height: 320px; overflow-y: auto; background: #1f2937; color: white; font-size: 10.5px; font-weight: 600; line-height: 1.45; padding: 10px 12px; border-radius: 10px; text-align: left; z-index: 30; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s, transform .15s; pointer-events: none; }
@@ -50,7 +60,7 @@
             <div class="hidden md:flex gap-6 text-[11px] font-black uppercase tracking-wide opacity-90">
                 <a href="../#herramientas" class="hover:opacity-70">Herramientas</a>
                 <a href="../#informes" class="hover:opacity-70">Informes</a>
-                <a href="#" class="hover:opacity-70">Instagram</a>
+                <a href="https://www.instagram.com/comunidadsf/" target="_blank" class="hover:opacity-70">Instagram</a>
             </div>
         </div>
     </nav>
@@ -67,13 +77,47 @@
     <div class="max-w-[1200px] mx-auto pt-10 px-4 md:px-6">
         <div class="text-center text-white mb-8">
             <h2 class="text-2xl md:text-4xl font-black uppercase italic">Gastos en salud</h2>
-            <p class="text-sm mt-2 opacity-90 font-medium italic">Variación de precios de bonos y órdenes de IAPOS, y de una canasta de 20 medicamentos, entre diciembre de 2023 y hoy.</p>
+            <p class="text-sm mt-2 opacity-90 font-medium italic">Variación de precios de bonos y órdenes de IAPOS, y de una canasta de 19 medicamentos, entre diciembre de 2023 y hoy.</p>
         </div>
 
         <div id="svcGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
 
         <div class="mt-8 max-w-[700px] mx-auto rounded-2xl px-6 py-5 text-center" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);">
-            <p class="text-white text-xs md:text-sm font-semibold leading-relaxed">Desde julio de 2025 existen además dos bonos nuevos que no existían antes: el <strong>Bono Quirúrgico ($54.000)</strong> y el <strong>Bono de Prestaciones Especiales ($180.000)</strong>.</p>
+            <p class="text-white text-xs md:text-sm font-semibold leading-relaxed">Desde julio de 2025 existen además dos bonos nuevos que no existían antes: el <strong>Bono Quirúrgico ($60.000)</strong> y el <strong>Bono de Prestaciones Especiales ($200.000)</strong>.</p>
+        </div>
+
+        <div class="mt-12 mb-10">
+            <h3 class="text-white text-center font-black uppercase italic text-lg mb-6">¿Cómo calculamos estos datos? Leé nuestros informes</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Tarifas</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf" target="_blank">Descargar PDF</a>
+                </div>
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Prepagas y Medicamentos</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf" target="_blank">Descargar PDF</a>
+                </div>
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Alquileres</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf" target="_blank">Descargar PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container" id="formSection">
+            <h3 class="text-white text-lg font-black uppercase italic mb-6 text-center">¿Querés recibir nuestros informes?</h3>
+            <div class="flex gap-4 mb-6">
+                <button type="button" onclick="setFormMode('wa')" id="optWA" class="option-btn active italic">Por WhatsApp</button>
+                <button type="button" onclick="setFormMode('mail')" id="optMail" class="option-btn italic">Por Mail</button>
+            </div>
+            <form id="contactForm" target="hidden_iframe" onsubmit="return handleFormSubmit()">
+                <div id="fieldsContainer"></div>
+                <button type="submit" class="btn-submit italic">Enviar Datos</button>
+            </form>
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
         </div>
 
         <div class="text-center pt-8 pb-4">
@@ -82,7 +126,7 @@
     </div>
 
     <script>
-        const services = [{"key": "bono_consulta", "label": "IAPOS — Bono de consulta", "p23": 70, "ph": 900, "consumo": "Coseguro por consulta médica", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1185.7}, {"key": "orden_consulta", "label": "IAPOS — Orden de consulta", "p23": 350, "ph": 3600, "consumo": "Orden para acceder a una consulta", "nivel_nota": null, "levels": null, "extra": null, "variacion": 928.6}, {"key": "orden_internacion", "label": "IAPOS — Orden de internación", "p23": 1380, "ph": 36000, "consumo": "Orden para una internación", "nivel_nota": null, "levels": null, "extra": null, "variacion": 2508.7}, {"key": "sistema_abierto", "label": "IAPOS — Sistema Abierto (titular solo)", "p23": 36392, "ph": 291954, "consumo": "Cuota mensual, titular sin grupo familiar", "nivel_nota": "Incluye obra social + Servicio Complementario. Diciembre 2023: $34.192 + $2.200. 2025: $266.954 + $25.000. Es para quienes dejaron de ser empleados públicos y pagan de forma particular para sostener la cobertura de IAPOS.", "levels": null, "extra": null, "variacion": 702.2}, {"key": "medicamentos", "label": "Medicamentos (promedio de 20 fármacos)", "p23": null, "ph": null, "consumo": "Promedio de 20 medicamentos de uso frecuente", "nivel_nota": "Promedio simple de los aumentos de 20 medicamentos relevados por Comunidad entre 2023 y 2025 (ver el detalle de cada uno debajo).", "levels": [{"label": "Acenocumarol (Anticoagulante)", "p23": 11050, "ph": 26171, "variacion": 136.8}, {"label": "Allopurinol (Para la gota)", "p23": 1721, "ph": 5388, "variacion": 213.1}, {"label": "Amlodipina (Antihipertensivo)", "p23": 8852, "ph": 29087, "variacion": 228.6}, {"label": "Atenolol (Antiarrítmico)", "p23": 3874, "ph": 17414, "variacion": 349.5}, {"label": "Atorvastatin (Dislipemia)", "p23": 10462, "ph": 34752, "variacion": 232.2}, {"label": "Budesonide/Formoterol (EPOC / Asma)", "p23": 31136, "ph": 111650, "variacion": 258.6}, {"label": "Carbamezapina (Antiepiléptico)", "p23": 5561, "ph": 19702, "variacion": 254.3}, {"label": "Carvedilol (Antiarrítmico)", "p23": 6082, "ph": 18809, "variacion": 209.3}, {"label": "Dorzolamida/Timolol (Glaucoma)", "p23": 10747, "ph": 42087, "variacion": 291.6}, {"label": "Enalapril (Antihipertensivo)", "p23": 3191, "ph": 8967, "variacion": 181.0}, {"label": "Furosemida (Diurético)", "p23": 11008, "ph": 22832, "variacion": 107.4}, {"label": "Gabapentin (Anticonvulsivo)", "p23": 5698, "ph": 22229, "variacion": 290.1}, {"label": "Levotiroxina (Hipotiroidismo)", "p23": 8234, "ph": 31779, "variacion": 285.9}, {"label": "Losartan (Hipertensivo)", "p23": 7207, "ph": 24022, "variacion": 233.3}, {"label": "Oxicarbazepina (Antiepiléptico)", "p23": 36484, "ph": 120476, "variacion": 230.2}, {"label": "Risperidona (Antipsicótico)", "p23": 31385, "ph": 105309, "variacion": 235.5}, {"label": "Salbutamol (Asma / EPOC)", "p23": 1979, "ph": 5486, "variacion": 177.2}, {"label": "Clopidogrel (Antiag. Plaquetario)", "p23": 17161, "ph": 59905, "variacion": 249.1}, {"label": "Mesalazina (Tto. Colitis ulcerosa)", "p23": 38893, "ph": 153791, "variacion": 295.4}, {"label": "Hidroclorotiazida (Diurético)", "p23": 2895, "ph": 7943, "variacion": 174.4}], "extra": "Inflación general medida por IPEC en el mismo período: 231%.", "variacion_manual": null, "variacion": 231.7}];
+        const services = [{"key": "bono_consulta", "label": "IAPOS — Bono de consulta", "p23": 70, "ph": 1000, "consumo": "Coseguro por consulta médica", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1328.6}, {"key": "orden_consulta", "label": "IAPOS — Orden de consulta", "p23": 350, "ph": 4000, "consumo": "Orden para acceder a una consulta", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1042.9}, {"key": "orden_internacion", "label": "IAPOS — Orden de internación", "p23": 1380, "ph": 40000, "consumo": "Orden para una internación", "nivel_nota": null, "levels": null, "extra": null, "variacion": 2798.6}, {"key": "sistema_abierto", "label": "IAPOS — Sistema Abierto (titular solo)", "p23": 36392, "ph": 291954, "consumo": "Cuota mensual, titular sin grupo familiar", "nivel_nota": "Incluye obra social + Servicio Complementario. Diciembre 2023: $34.192 + $2.200. 2025: $266.954 + $25.000. Es para quienes dejaron de ser empleados públicos y pagan de forma particular para sostener la cobertura de IAPOS.", "levels": null, "extra": null, "variacion": 702.2}, {"key": "medicamentos", "label": "Medicamentos (promedio de 19 fármacos)", "p23": null, "ph": null, "consumo": "Promedio de 19 medicamentos de uso frecuente", "nivel_nota": "Promedio simple de los aumentos de 19 medicamentos relevados por Comunidad entre 2023 y 2026 (ver el detalle de cada uno debajo).", "levels": [{"label": "Acenocumarol (Anticoagulante)", "p23": 11050, "ph": 33672.67, "variacion": 204.7}, {"label": "Allopurinol (Para la gota)", "p23": 1721, "ph": 6933.15, "variacion": 302.9}, {"label": "Amlodipina (Antihipertensivo)", "p23": 8852, "ph": 37423.93, "variacion": 322.8}, {"label": "Atenolol (Antiarrítmico)", "p23": 3874, "ph": 22405.62, "variacion": 478.4}, {"label": "Atorvastatin (Dislipemia)", "p23": 10462, "ph": 44713.77, "variacion": 327.4}, {"label": "Budesonide/Formoterol (EPOC / Asma)", "p23": 31136, "ph": 143650.69, "variacion": 361.4}, {"label": "Carbamezapina (Antiepiléptico)", "p23": 5561, "ph": 25349.31, "variacion": 355.8}, {"label": "Carvedilol (Antiarrítmico)", "p23": 6082, "ph": 24199.88, "variacion": 297.9}, {"label": "Dorzolamida/Timolol (Glaucoma)", "p23": 10747, "ph": 54150.33, "variacion": 403.9}, {"label": "Enalapril (Antihipertensivo)", "p23": 3191, "ph": 11537.54, "variacion": 261.6}, {"label": "Furosemida (Diurético)", "p23": 11008, "ph": 29376.23, "variacion": 166.9}, {"label": "Gabapentin (Anticonvulsivo)", "p23": 5698, "ph": 28600.44, "variacion": 401.9}, {"label": "Levotiroxina (Hipotiroidismo)", "p23": 8234, "ph": 40886.99, "variacion": 396.6}, {"label": "Losartan (Hipertensivo)", "p23": 7207, "ph": 30907.65, "variacion": 328.9}, {"label": "Oxicarbazepina (Antiepiléptico)", "p23": 36484, "ph": 155007.18, "variacion": 324.9}, {"label": "Risperidona (Antipsicótico)", "p23": 31385, "ph": 135492.58, "variacion": 331.7}, {"label": "Salbutamol (Asma / EPOC)", "p23": 1979, "ph": 7058.26, "variacion": 256.7}, {"label": "Clopidogrel (Antiag. Plaquetario)", "p23": 17161, "ph": 77074.22, "variacion": 349.1}, {"label": "Mesalazina (Tto. Colitis ulcerosa)", "p23": 38893, "ph": 197870.88, "variacion": 408.8}], "extra": "Inflación general medida por IPEC en el mismo período: 231%.", "variacion_manual": null, "variacion": 330.6}];
         const icons = {"bono_consulta": "<rect x=\"10\" y=\"6\" width=\"28\" height=\"36\" rx=\"2\"/><line x1=\"16\" y1=\"16\" x2=\"32\" y2=\"16\"/><line x1=\"16\" y1=\"24\" x2=\"32\" y2=\"24\"/><line x1=\"16\" y1=\"32\" x2=\"26\" y2=\"32\"/>", "orden_consulta": "<rect x=\"10\" y=\"8\" width=\"28\" height=\"34\" rx=\"3\"/><rect x=\"17\" y=\"4\" width=\"14\" height=\"8\" rx=\"2\"/><polyline points=\"16,24 21,29 32,18\"/>", "orden_internacion": "<rect x=\"6\" y=\"26\" width=\"36\" height=\"10\" rx=\"2\"/><line x1=\"10\" y1=\"26\" x2=\"10\" y2=\"14\"/><rect x=\"10\" y=\"14\" width=\"14\" height=\"8\" rx=\"2\"/><line x1=\"6\" y1=\"36\" x2=\"6\" y2=\"42\"/><line x1=\"42\" y1=\"36\" x2=\"42\" y2=\"42\"/>", "sistema_abierto": "<rect x=\"6\" y=\"10\" width=\"36\" height=\"26\" rx=\"4\"/><circle cx=\"16\" cy=\"20\" r=\"4\"/><line x1=\"24\" y1=\"18\" x2=\"36\" y2=\"18\"/><line x1=\"24\" y1=\"24\" x2=\"36\" y2=\"24\"/><line x1=\"10\" y1=\"30\" x2=\"22\" y2=\"30\"/>", "medicamentos": "<rect x=\"6\" y=\"18\" width=\"36\" height=\"12\" rx=\"6\"/><line x1=\"24\" y1=\"18\" x2=\"24\" y2=\"30\"/>"};
 
         let revealed = [];
@@ -188,7 +232,57 @@
             createPoster(pctStr, buildFrase(s), s.key);
         }
 
+        let currentMode = 'wa';
+        let submitted = false;
+
+        function setFormMode(mode) {
+            currentMode = mode;
+            const container = document.getElementById('fieldsContainer');
+            document.getElementById('optWA').className = mode === 'wa' ? 'option-btn active italic' : 'option-btn italic';
+            document.getElementById('optMail').className = mode === 'mail' ? 'option-btn active italic' : 'option-btn italic';
+            if (mode === 'wa') {
+                container.innerHTML = `
+                    <label for="nameField" class="sr-only">Nombre y Apellido</label>
+                    <input type="text" id="nameField" name="entry.1321869567" placeholder="Nombre y Apellido" class="form-input">
+                    <label for="whatsappField" class="sr-only">WhatsApp</label>
+                    <input type="text" inputmode="tel" id="whatsappField" name="entry.135638054" placeholder="WhatsApp" class="form-input">
+                    <input type="hidden" name="entry.593198354" value="">
+                `;
+            } else {
+                container.innerHTML = `
+                    <input type="hidden" name="entry.1321869567" value="">
+                    <input type="hidden" name="entry.135638054" value="">
+                    <label for="mailField" class="sr-only">Correo electrónico</label>
+                    <input type="email" id="mailField" name="entry.593198354" placeholder="Correo electrónico" class="form-input" required>
+                `;
+            }
+        }
+
+        function handleFormSubmit() {
+            if (currentMode === 'wa') {
+                const name = document.getElementById('nameField').value.trim();
+                const wa = document.getElementById('whatsappField').value.trim();
+                if (name === "" || wa === "") {
+                    alert("Por favor, completá nombre y celular.");
+                    return false;
+                }
+            }
+            const action = "https://docs.google.com/forms/d/e/1FAIpQLScC1OTPDh4_Xupab8GMIwe9XqWdxTLCPYgv4H8UqDOL3YZE2A/formResponse";
+            document.getElementById('contactForm').action = action;
+            submitted = true;
+            return true;
+        }
+
+        function showSuccess() {
+            document.getElementById('formSection').innerHTML = `
+                <div class="text-center py-6">
+                    <h3 class="text-2xl font-black uppercase italic text-white">¡Gracias por sumarte!</h3>
+                </div>
+            `;
+        }
+
         renderGrid();
+        setFormMode('wa');
     </script>
 </body>
 </html>
