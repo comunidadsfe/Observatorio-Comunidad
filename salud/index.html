@@ -88,6 +88,11 @@
             <p class="text-sm mt-2 opacity-90 font-medium italic">Variación de precios de bonos y órdenes de IAPOS, y de una canasta de 19 medicamentos, entre diciembre de 2023 y hoy.</p>
         </div>
 
+        <div class="max-w-md mx-auto mb-8">
+            <p class="text-center text-white font-black uppercase text-xs italic mb-2 animate-pulse">👇 Cargá tu ingreso para ver cuánto rinde</p>
+            <div id="incomeControls" class="bg-white rounded-2xl p-5 shadow-xl" style="border: 3px solid var(--comunidad-fucsia);"></div>
+        </div>
+
         <div id="svcGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
 
         <div class="mt-8 max-w-[700px] mx-auto rounded-2xl px-6 py-5 text-center" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);">
@@ -146,6 +151,54 @@
         const services = [{"key": "bono_consulta", "label": "IAPOS — Bono de consulta", "p23": 70, "ph": 1000, "consumo": "Coseguro por consulta médica", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1328.6}, {"key": "orden_consulta", "label": "IAPOS — Orden de consulta", "p23": 350, "ph": 4000, "consumo": "Orden para acceder a una consulta", "nivel_nota": null, "levels": null, "extra": null, "variacion": 1042.9}, {"key": "orden_internacion", "label": "IAPOS — Orden de internación", "p23": 1380, "ph": 40000, "consumo": "Orden para una internación", "nivel_nota": null, "levels": null, "extra": null, "variacion": 2798.6}, {"key": "sistema_abierto", "label": "IAPOS — Sistema Abierto (titular solo)", "p23": 36392, "ph": 291954, "consumo": "Cuota mensual, titular sin grupo familiar", "nivel_nota": "Incluye obra social + Servicio Complementario. Diciembre 2023: $34.192 + $2.200. 2025: $266.954 + $25.000. Es para quienes dejaron de ser empleados públicos y pagan de forma particular para sostener la cobertura de IAPOS.", "levels": null, "extra": null, "variacion": 702.2}, {"key": "medicamentos", "label": "Medicamentos (promedio de 19 fármacos)", "p23": null, "ph": null, "consumo": "Promedio de 19 medicamentos de uso frecuente", "nivel_nota": "Promedio simple de los aumentos de 19 medicamentos relevados por Comunidad entre 2023 y 2026 (ver el detalle de cada uno debajo).", "levels": [{"label": "Acenocumarol (Anticoagulante)", "p23": 11050, "ph": 33672.67, "variacion": 204.7}, {"label": "Allopurinol (Para la gota)", "p23": 1721, "ph": 6933.15, "variacion": 302.9}, {"label": "Amlodipina (Antihipertensivo)", "p23": 8852, "ph": 37423.93, "variacion": 322.8}, {"label": "Atenolol (Antiarrítmico)", "p23": 3874, "ph": 22405.62, "variacion": 478.4}, {"label": "Atorvastatín (Dislipemia)", "p23": 10462, "ph": 44713.77, "variacion": 327.4}, {"label": "Budesonide/Formoterol (EPOC / Asma)", "p23": 31136, "ph": 143650.69, "variacion": 361.4}, {"label": "Carbamazepina (Antiepiléptico)", "p23": 5561, "ph": 25349.31, "variacion": 355.8}, {"label": "Carvedilol (Antiarrítmico)", "p23": 6082, "ph": 24199.88, "variacion": 297.9}, {"label": "Dorzolamida/Timolol (Glaucoma)", "p23": 10747, "ph": 54150.33, "variacion": 403.9}, {"label": "Enalapril (Antihipertensivo)", "p23": 3191, "ph": 11537.54, "variacion": 261.6}, {"label": "Furosemida (Diurético)", "p23": 11008, "ph": 29376.23, "variacion": 166.9}, {"label": "Gabapentin (Anticonvulsivo)", "p23": 5698, "ph": 28600.44, "variacion": 401.9}, {"label": "Levotiroxina (Hipotiroidismo)", "p23": 8234, "ph": 40886.99, "variacion": 396.6}, {"label": "Losartán (Hipertensivo)", "p23": 7207, "ph": 30907.65, "variacion": 328.9}, {"label": "Oxcarbazepina (Antiepiléptico)", "p23": 36484, "ph": 155007.18, "variacion": 324.9}, {"label": "Risperidona (Antipsicótico)", "p23": 31385, "ph": 135492.58, "variacion": 331.7}, {"label": "Salbutamol (Asma / EPOC)", "p23": 1979, "ph": 7058.26, "variacion": 256.7}, {"label": "Clopidogrel (Antiag. Plaquetario)", "p23": 17161, "ph": 77074.22, "variacion": 349.1}, {"label": "Mesalazina (Tto. Colitis ulcerosa)", "p23": 38893, "ph": 197870.88, "variacion": 408.8}], "extra": "Inflación general medida por IPEC en el mismo período: 336%.", "variacion_manual": null, "variacion": 330.6}];
         const icons = {"bono_consulta": "<rect x=\"10\" y=\"6\" width=\"28\" height=\"36\" rx=\"2\"/><line x1=\"16\" y1=\"16\" x2=\"32\" y2=\"16\"/><line x1=\"16\" y1=\"24\" x2=\"32\" y2=\"24\"/><line x1=\"16\" y1=\"32\" x2=\"26\" y2=\"32\"/>", "orden_consulta": "<rect x=\"10\" y=\"8\" width=\"28\" height=\"34\" rx=\"3\"/><rect x=\"17\" y=\"4\" width=\"14\" height=\"8\" rx=\"2\"/><polyline points=\"16,24 21,29 32,18\"/>", "orden_internacion": "<rect x=\"6\" y=\"26\" width=\"36\" height=\"10\" rx=\"2\"/><line x1=\"10\" y1=\"26\" x2=\"10\" y2=\"14\"/><rect x=\"10\" y=\"14\" width=\"14\" height=\"8\" rx=\"2\"/><line x1=\"6\" y1=\"36\" x2=\"6\" y2=\"42\"/><line x1=\"42\" y1=\"36\" x2=\"42\" y2=\"42\"/>", "sistema_abierto": "<rect x=\"6\" y=\"10\" width=\"36\" height=\"26\" rx=\"4\"/><circle cx=\"16\" cy=\"20\" r=\"4\"/><line x1=\"24\" y1=\"18\" x2=\"36\" y2=\"18\"/><line x1=\"24\" y1=\"24\" x2=\"36\" y2=\"24\"/><line x1=\"10\" y1=\"30\" x2=\"22\" y2=\"30\"/>", "medicamentos": "<rect x=\"6\" y=\"18\" width=\"36\" height=\"12\" rx=\"6\"/><line x1=\"24\" y1=\"18\" x2=\"24\" y2=\"30\"/>"};
 
+        const preguntas = { bono_consulta: "los bonos de consulta", orden_consulta: "las órdenes de consulta", orden_internacion: "las órdenes de internación", sistema_abierto: "el sistema abierto", medicamentos: "los medicamentos" };
+
+        const presets = {"smvm": {"v23": 156000, "vh": 363000, "label": "Salario Mínimo (SMVM)", "fuente": "Fuente: Datos oficiales."}, "jubilacion": {"v23": 160713, "vh": 463174, "label": "Jubilación Mínima", "fuente": "Fuente: Datos oficiales."}, "municipal": {"v23": 246008, "vh": 975000, "label": "Mínimo Garantizado Municipal", "fuente": "Fuente: Mínimo Garantizado FESTRAM"}, "comercio": {"v23": 332959, "vh": 1023016.21, "label": "Salario Comercio", "fuente": "Fuente: CUEC"}, "docente": {"v23": 269522, "vh": 1037205, "label": "Salario Docente", "fuente": "Fuente: Maestro de Grado, 25 horas"}};
+        let presetKey = '';
+        let customIncome = { v23: 0, vh: 0 };
+
+        function getIncome() {
+            if (presetKey === 'custom') return customIncome;
+            if (presetKey === '' || !presets[presetKey]) return { v23: 0, vh: 0 };
+            return presets[presetKey];
+        }
+
+        function handlePresetChange(sel) {
+            presetKey = sel.value;
+            renderIncomeControls();
+            renderGrid();
+        }
+
+        function formatCustomIncome(input, key) {
+            let v = input.value.replace(/\D/g, "");
+            input.value = v !== "" ? "$ " + fmt(v) : "";
+            customIncome[key] = parseFloat(v) || 0;
+            renderGrid();
+        }
+
+        function renderIncomeControls() {
+            const cont = document.getElementById('incomeControls');
+            let html = `<p class="text-[10px] uppercase font-black text-slate-400 mb-2 tracking-widest">Ingreso de referencia</p>
+                <select onchange="handlePresetChange(this)" class="w-full p-3 bg-white border-2 rounded-lg font-black text-sm text-slate-700" style="border-color:var(--comunidad-violeta)">
+                <option value="" ${presetKey===''?'selected':''} disabled>Elegí tu ingreso de referencia...</option>
+                ${Object.keys(presets).map(k => `<option value="${k}" ${presetKey===k?'selected':''}>${presets[k].label}</option>`).join('')}
+                <option value="custom" ${presetKey==='custom'?'selected':''}>Cargar mi propio ingreso</option>
+                </select>`;
+            if (presetKey === 'custom') {
+                html += `<div class="grid grid-cols-2 gap-2 mt-3">
+                    <input type="text" inputmode="numeric" placeholder="$ Dic-23" oninput="formatCustomIncome(this,'v23')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
+                    <input type="text" inputmode="numeric" placeholder="$ Hoy" oninput="formatCustomIncome(this,'vh')" class="p-2 border-2 rounded-lg text-center font-bold text-sm">
+                </div>`;
+            } else if (presetKey !== '') {
+                html += `<p class="text-[11px] font-bold mt-3" style="color:var(--comunidad-violeta)">${presets[presetKey].fuente}</p>`;
+            }
+            cont.innerHTML = html;
+        }
+
+        function pctChangeFromVariacion(i23, iH, variacionPct) {
+            return (((iH / i23) / (1 + variacionPct / 100)) - 1) * 100;
+        }
+
         let revealed = [];
         const fmt = (n) => new Intl.NumberFormat('es-AR').format(Math.round(n));
         const arNum = (n) => n.toFixed(1).replace('.', ',');
@@ -197,29 +250,45 @@
         }
 
         function buildFrase(s) {
-            return `<b>${s.label}</b> aumentó <b>${arNum(s.variacion)}%</b> entre diciembre de 2023 y 2025`;
+            return `<b>${s.label}</b> aumentó <b>${arNum(s.variacion)}%</b> entre diciembre de 2023 y hoy`;
+        }
+
+        function buildFraseIncome(s, v) {
+            const magnitud = arNum(Math.abs(v));
+            const direccion = v < 0 ? "menos" : "más";
+            return `Tus ingresos rinden <b>${magnitud}% ${direccion}</b> frente a ${preguntas[s.key] || s.label}`;
         }
 
         function renderGrid() {
             const cont = document.getElementById('svcGrid');
+            const income = getIncome();
+            const hasIncome = income.v23 > 0 && income.vh > 0;
             cont.innerHTML = services.map((s, idx) => {
                 const iconHtml = `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${icons[s.key]}</svg>`;
                 const infoHtml = buildInfoHtml(s, idx);
+                const noteStr = (s.p23 !== null && s.ph !== null) ? `${s.consumo}: $${fmt(s.p23)} → $${fmt(s.ph)}` : s.consumo;
+                const rawBlock = `<div class="placa-note">${noteStr}</div><div class="text-2xl font-black italic text-loss">+${arNum(s.variacion)}%</div>`;
                 if (!revealed.includes(idx)) {
                     return `<div class="placa">
                         ${infoHtml}
                         <div class="icon-badge">${iconHtml}</div>
                         <div class="placa-name">${s.label}</div>
-                        <button type="button" onclick="toggleReveal(${idx})" class="placa-btn">¿Cuánto aumentó?</button>
+                        ${rawBlock}
+                        <button type="button" onclick="toggleReveal(${idx})" class="placa-btn">Tus ingresos en comparación con ${preguntas[s.key] || s.label.toLowerCase()}</button>
                     </div>`;
                 }
-                const noteStr = (s.p23 !== null && s.ph !== null) ? `${s.consumo}: $${fmt(s.p23)} → $${fmt(s.ph)}` : s.consumo;
+                const incomeExtra = hasIncome ? (() => {
+                    const v = pctChangeFromVariacion(income.v23, income.vh, s.variacion);
+                    const vClass = v < 0 ? 'text-loss' : 'text-gain';
+                    const vStr = (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+                    return `<div class="placa-note" style="margin-top:0;">Tus ingresos vs esto</div><div class="text-lg font-black italic ${vClass}">${vStr}</div>`;
+                })() : `<div class="text-[10px] font-black uppercase text-slate-400 py-2 border-t border-b border-slate-200 leading-snug">👆 Elegí tu ingreso de referencia arriba para ver cuánto rinde</div>`;
                 return `<div class="placa">
                     ${infoHtml}
                     <div class="icon-badge revealed">${iconHtml}</div>
                     <div class="placa-name">${s.label}</div>
-                    <div class="placa-note">${noteStr}</div>
-                    <div class="text-2xl font-black italic text-loss">+${arNum(s.variacion)}%</div>
+                    ${rawBlock}
+                    ${incomeExtra}
                     <div class="grid grid-cols-2 gap-1 w-full">
                         <button type="button" onclick="toggleReveal(${idx})" class="py-2 rounded-lg text-[9px] font-black uppercase border-2 border-slate-300 text-slate-500">Ocultar</button>
                         <button type="button" onclick="handlePoster(${idx})" class="py-2 rounded-lg text-white text-[9px] font-black uppercase" style="background:var(--comunidad-fucsia)">Compartir</button>
@@ -261,8 +330,16 @@
 
         function handlePoster(idx) {
             const s = services[idx];
-            const pctStr = "+" + arNum(s.variacion) + "%";
-            createPoster(pctStr, buildFrase(s), s.key);
+            const income = getIncome();
+            const hasIncome = income.v23 > 0 && income.vh > 0;
+            if (hasIncome) {
+                const v = pctChangeFromVariacion(income.v23, income.vh, s.variacion);
+                const pctStr = (v > 0 ? "+" : "") + arNum(v) + "%";
+                createPoster(pctStr, buildFraseIncome(s, v), s.key);
+            } else {
+                const pctStr = "+" + arNum(s.variacion) + "%";
+                createPoster(pctStr, buildFrase(s), s.key);
+            }
         }
 
         let currentMode = 'wa';
@@ -313,6 +390,7 @@
             `;
         }
 
+        renderIncomeControls();
         renderGrid();
         setFormMode('wa');
     </script>

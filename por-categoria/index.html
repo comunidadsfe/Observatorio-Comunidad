@@ -161,7 +161,7 @@
     <script>
         const categories = [{"key": "alimentos", "label": "Alimentos", "p23": 81143.17, "ph": 335791.61, "note": "Costo total de la canasta de 48 productos IPEC", "link": "../alimentos/"}, {"key": "indumentaria", "label": "Indumentaria", "p23": 5316.24, "ph": 14160.83, "note": "Índice IPC — ropa, calzado y accesorios"}, {"key": "vivienda", "label": "Vivienda y servicios básicos", "p23": 3687.22, "ph": 26585.85, "note": "Índice IPC — alquiler, gas, agua, electricidad"}, {"key": "equipamiento", "label": "Equipamiento y mant. del hogar", "p23": 5582.47, "ph": 17295.5, "note": "Índice IPC"}, {"key": "salud", "label": "Atención médica y salud", "p23": 6098.36, "ph": 30251.8, "note": "Índice IPC"}, {"key": "transporte", "label": "Transporte y comunicaciones", "p23": 5474.3, "ph": 25629.58, "note": "Índice IPC"}, {"key": "esparcimiento", "label": "Esparcimiento", "p23": 5132.52, "ph": 18148.91, "note": "Índice IPC"}, {"key": "educacion", "label": "Educación", "p23": 5070.76, "ph": 23285.99, "note": "Índice IPC"}, {"key": "otros", "label": "Otros bienes y servicios", "p23": 4973.88, "ph": 26486.53, "note": "Índice IPC"}, {"key": "nafta", "label": "Nafta", "p23": 470, "ph": 2094, "note": "Precio surtidor, dato propio (no IPEC)"}];
         const nivelGeneral = {"p23": 5407.62, "ph": 23577.41};
-        const presets = {"smvm": {"v23": 156000, "vh": 363000, "label": "Salario Mínimo (SMVM)", "fuente": "Fuente: Salario Mínimo Vital y Móvil"}, "jubilacion": {"v23": 160713, "vh": 463174, "label": "Jubilación Mínima", "fuente": "Fuente: ANSES, Jubilación Mínima"}, "municipal": {"v23": 246008, "vh": 975000, "label": "Mínimo Garantizado Municipal", "fuente": "Fuente: Paritarias Festram"}, "comercio": {"v23": 332959, "vh": 1023016.21, "label": "Salario Comercio", "fuente": "Fuente: CUEC, Categoría Maestranza A, sin antigüedad"}, "docente": {"v23": 269522, "vh": 1037205, "label": "Salario Docente", "fuente": "Fuente: Paritaria docente, Maestro de Grado, sin antigüedad"}};
+        const presets = {"smvm": {"v23": 156000, "vh": 363000, "label": "Salario Mínimo (SMVM)", "fuente": "Fuente: Datos oficiales."}, "jubilacion": {"v23": 160713, "vh": 463174, "label": "Jubilación Mínima", "fuente": "Fuente: Datos oficiales."}, "municipal": {"v23": 246008, "vh": 975000, "label": "Mínimo Garantizado Municipal", "fuente": "Fuente: Mínimo Garantizado FESTRAM"}, "comercio": {"v23": 332959, "vh": 1023016.21, "label": "Salario Comercio", "fuente": "Fuente: CUEC"}, "docente": {"v23": 269522, "vh": 1037205, "label": "Salario Docente", "fuente": "Fuente: Maestro de Grado, 25 horas"}};
         const icons = {
             nivelgeneral: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,34 18,22 26,28 42,10"/><polyline points="32,10 42,10 42,20"/></svg>`,
             alimentos: `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16,18 C16,8 32,8 32,18"/><polygon points="8,18 40,18 34,42 14,42"/><line x1="14" y1="27" x2="34" y2="27"/></svg>`,
@@ -273,29 +273,30 @@
                     <button type="button" class="info-btn" onclick="toggleInfo(${idx}, event)">ⓘ</button>
                     <div id="info-${idx}" class="info-pop">${tooltips[c.key] || ''}</div>
                 </div>`;
+                const infl = inflacion(c.p23, c.ph);
+                const inflStr = (infl > 0 ? '+' : '') + infl.toFixed(1) + '%';
+                const rawBlock = `<div class="placa-note">Aumento total</div><div class="text-2xl font-black italic text-loss">${inflStr}</div>`;
                 if (!revealed.includes(idx)) {
                     return `<div class="placa">
                         ${infoHtml}
                         <div class="icon-badge">${iconHtml}</div>
                         <div class="placa-name">${c.label}</div>
-                        <button type="button" onclick="toggleReveal(${idx})" class="placa-btn">¿Cuánto aumentó ${c.label}?</button>
+                        ${rawBlock}
+                        <button type="button" onclick="toggleReveal(${idx})" class="placa-btn">Tus ingresos en comparación con ${c.label.toLowerCase()}</button>
                     </div>`;
                 }
-                const infl = inflacion(c.p23, c.ph);
-                const inflStr = (infl > 0 ? '+' : '') + infl.toFixed(1) + '%';
                 const incomeExtra = hasIncome ? (() => {
                     const v = pctChange(income.v23, income.vh, c.p23, c.ph);
                     const vClass = v < 0 ? 'text-loss' : 'text-gain';
                     const vStr = (v > 0 ? '+' : '') + v.toFixed(1) + '%';
                     return `<div class="placa-note" style="margin-top:0;">Tus ingresos vs esto</div><div class="text-lg font-black italic ${vClass}">${vStr}</div>`;
-                })() : '';
+                })() : `<div class="text-[10px] font-black uppercase text-slate-400 py-2 border-t border-b border-slate-200 leading-snug">👆 Elegí tu ingreso de referencia arriba para ver cuánto rinde</div>`;
                 const linkHtml = c.link ? `<a href="${c.link}" target="_blank" class="text-[9px] font-black uppercase underline" style="color:var(--comunidad-fucsia)">Detalle producto x producto →</a>` : '';
                 return `<div class="placa">
                     ${infoHtml}
                     <div class="icon-badge revealed">${iconHtml}</div>
                     <div class="placa-name">${c.label}</div>
-                    <div class="placa-note">Aumento total</div>
-                    <div class="text-2xl font-black italic text-loss">${inflStr}</div>
+                    ${rawBlock}
                     ${incomeExtra}
                     <div class="grid grid-cols-2 gap-1 w-full">
                         <button type="button" onclick="toggleReveal(${idx})" class="py-2 rounded-lg text-[9px] font-black uppercase border-2 border-slate-300 text-slate-500">Ocultar</button>

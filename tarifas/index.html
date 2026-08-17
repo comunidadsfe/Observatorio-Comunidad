@@ -142,7 +142,7 @@
         const services = [{"key": "luz", "label": "Luz (EPE)", "pregunta": "la luz", "p23": 9376.35, "ph": 137168.42, "consumo": "400 kWh bimestrales", "nivel_nota": "Valor mostrado: Nivel de ingresos medios (N3), tarifa Sin Subsidio.", "levels": null, "extra": "Desde agosto de 2026 ya no hay niveles de ingreso: existe tarifa \"Sin Subsidio\" (plena), \"Con Subsidio\" (por zona) y Tarifa Social.", "variacion": 1362.9}, {"key": "agua", "label": "Agua (ASSA)", "pregunta": "el agua", "p23": 3167, "ph": 43300.29, "consumo": "60 m³ bimestrales", "nivel_nota": "ASSA no segmenta sus tarifas por nivel de ingresos: hay un único valor para todos los usuarios residenciales.", "levels": null, "extra": null, "variacion": 1267.2}, {"key": "gas", "label": "Gas (Litoral Gas)", "pregunta": "el gas", "p23": 3740.4, "ph": 42845.42, "consumo": "114 m³ bimestrales", "nivel_nota": "Valor mostrado: Nivel de ingresos medios (N3).", "levels": null, "extra": "Desde 2026 ya no hay segmentación por ingresos en gas: todos los usuarios R1 pagan la misma categoría (\"SinSEF\").", "variacion": 1045.5}, {"key": "colectivo", "label": "Colectivo", "pregunta": "el colectivo", "p23": 220, "ph": 1900, "consumo": "Tarifa básica", "nivel_nota": "Tarifas oficiales.", "levels": null, "extra": null, "variacion": 763.6}, {"key": "seom", "label": "SEOM", "pregunta": "el SEOM", "p23": 270, "ph": 1000, "consumo": "Primera hora", "nivel_nota": "Tarifas oficiales.", "levels": null, "extra": null, "variacion": 270.4}];
         const icons = {"luz": "<polygon points=\"26,4 10,26 22,26 18,44 38,18 24,18\"/>", "agua": "<path d=\"M24,6 C34,20 38,28 38,34 C38,42 32,44 24,44 C16,44 10,42 10,34 C10,28 14,20 24,6 Z\"/>", "gas": "<path d=\"M24,5 C29,13 33,19 33,27 C33,36 29,42 24,42 C19,42 15,36 15,28 C15,24 17,21 19,19 C19,25 22,27 22,23 C22,16 20,10 24,5 Z\"/>", "colectivo": "<path d=\"M6,30 L10,18 L38,18 L42,30 Z\"/><rect x=\"4\" y=\"28\" width=\"40\" height=\"10\"/><circle cx=\"14\" cy=\"40\" r=\"4\"/><circle cx=\"34\" cy=\"40\" r=\"4\"/>", "seom": "<rect x=\"8\" y=\"8\" width=\"32\" height=\"32\" rx=\"6\"/><path d=\"M19,34 V14 h7 a6,6 0 0 1 0,12 h-7\"/>"};
 
-        const presets = {"smvm": {"v23": 156000, "vh": 363000, "label": "Salario Mínimo (SMVM)", "fuente": "Fuente: Salario Mínimo Vital y Móvil"}, "jubilacion": {"v23": 160713, "vh": 463174, "label": "Jubilación Mínima", "fuente": "Fuente: ANSES, Jubilación Mínima"}, "municipal": {"v23": 246008, "vh": 975000, "label": "Mínimo Garantizado Municipal", "fuente": "Fuente: Paritarias Festram"}, "comercio": {"v23": 332959, "vh": 1023016.21, "label": "Salario Comercio", "fuente": "Fuente: CUEC, Categoría Maestranza A, sin antigüedad"}, "docente": {"v23": 269522, "vh": 1037205, "label": "Salario Docente", "fuente": "Fuente: Paritaria docente, Maestro de Grado, sin antigüedad"}};
+        const presets = {"smvm": {"v23": 156000, "vh": 363000, "label": "Salario Mínimo (SMVM)", "fuente": "Fuente: Datos oficiales."}, "jubilacion": {"v23": 160713, "vh": 463174, "label": "Jubilación Mínima", "fuente": "Fuente: Datos oficiales."}, "municipal": {"v23": 246008, "vh": 975000, "label": "Mínimo Garantizado Municipal", "fuente": "Fuente: Mínimo Garantizado FESTRAM"}, "comercio": {"v23": 332959, "vh": 1023016.21, "label": "Salario Comercio", "fuente": "Fuente: CUEC"}, "docente": {"v23": 269522, "vh": 1037205, "label": "Salario Docente", "fuente": "Fuente: Maestro de Grado, 25 horas"}};
         let presetKey = '';
         let customIncome = { v23: 0, vh: 0 };
 
@@ -220,36 +220,47 @@
         }
 
         function buildFrase(s) {
-            return `La tarifa de <b>${s.label}</b> aumentó <b>${arNum(s.variacion)}%</b> entre diciembre de 2023 y agosto de 2026`;
+            return `La tarifa de <b>${s.label}</b> aumentó <b>${arNum(s.variacion)}%</b> entre diciembre de 2023 y hoy`;
+        }
+
+        function buildFraseIncome(s, v) {
+            const magnitud = arNum(Math.abs(v));
+            const direccion = v < 0 ? "menos" : "más";
+            return `Tus ingresos rinden <b>${magnitud}% ${direccion}</b> frente a ${s.pregunta}`;
+        }
+
+        function deContract(pregunta) {
+            return pregunta.startsWith('el ') ? 'del ' + pregunta.slice(3) : 'de ' + pregunta;
         }
 
         function renderGrid() {
             const cont = document.getElementById('svcGrid');
+            const income = getIncome();
+            const hasIncome = income.v23 > 0 && income.vh > 0;
             cont.innerHTML = services.map((s, idx) => {
                 const iconHtml = `<svg class="w-full h-full" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${icons[s.key]}</svg>`;
                 const infoHtml = buildInfoHtml(s, idx);
+                const rawBlock = `<div class="placa-note">${s.consumo}: $${fmt(s.p23)} → $${fmt(s.ph)}</div><div class="text-2xl font-black italic text-loss">+${arNum(s.variacion)}%</div>`;
                 if (!revealed.includes(idx)) {
                     return `<div class="placa">
                         ${infoHtml}
                         <div class="icon-badge">${iconHtml}</div>
                         <div class="placa-name">${s.label}</div>
-                        <button type="button" onclick="toggleReveal(${idx})" class="placa-btn">¿Cuánto aumentó ${s.pregunta}?</button>
+                        ${rawBlock}
+                        <button type="button" onclick="toggleReveal(${idx})" class="placa-btn">Tus ingresos en comparación con el aumento ${deContract(s.pregunta)}</button>
                     </div>`;
                 }
-                const income = getIncome();
-                const hasIncome = income.v23 > 0 && income.vh > 0;
                 const incomeExtra = hasIncome ? (() => {
                     const v = pctChange(income.v23, income.vh, s.p23, s.ph);
                     const vClass = v < 0 ? 'text-loss' : 'text-gain';
                     const vStr = (v > 0 ? '+' : '') + v.toFixed(1) + '%';
                     return `<div class="placa-note" style="margin-top:0;">Tus ingresos vs esto</div><div class="text-lg font-black italic ${vClass}">${vStr}</div>`;
-                })() : '';
+                })() : `<div class="text-[10px] font-black uppercase text-slate-400 py-2 border-t border-b border-slate-200 leading-snug">👆 Elegí tu ingreso de referencia arriba para ver cuánto rinde</div>`;
                 return `<div class="placa">
                     ${infoHtml}
                     <div class="icon-badge revealed">${iconHtml}</div>
                     <div class="placa-name">${s.label}</div>
-                    <div class="placa-note">${s.consumo}: $${fmt(s.p23)} → $${fmt(s.ph)}</div>
-                    <div class="text-2xl font-black italic text-loss">+${arNum(s.variacion)}%</div>
+                    ${rawBlock}
                     ${incomeExtra}
                     <div class="grid grid-cols-2 gap-1 w-full">
                         <button type="button" onclick="toggleReveal(${idx})" class="py-2 rounded-lg text-[9px] font-black uppercase border-2 border-slate-300 text-slate-500">Ocultar</button>
@@ -292,8 +303,16 @@
 
         function handlePoster(idx) {
             const s = services[idx];
-            const pctStr = "+" + arNum(s.variacion) + "%";
-            createPoster(pctStr, buildFrase(s), s.key);
+            const income = getIncome();
+            const hasIncome = income.v23 > 0 && income.vh > 0;
+            if (hasIncome) {
+                const v = pctChange(income.v23, income.vh, s.p23, s.ph);
+                const pctStr = (v > 0 ? "+" : "") + arNum(v) + "%";
+                createPoster(pctStr, buildFraseIncome(s, v), s.key);
+            } else {
+                const pctStr = "+" + arNum(s.variacion) + "%";
+                createPoster(pctStr, buildFrase(s), s.key);
+            }
         }
 
         let currentMode = 'wa';
