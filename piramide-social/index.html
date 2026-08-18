@@ -24,8 +24,11 @@
 
         .informe-card { background: white; border-radius:16px; padding:16px; color: var(--comunidad-violeta); display:flex; flex-direction:column; align-items:center; box-shadow: 0 10px 25px rgba(0,0,0,0.18); }
         .informe-title { font-weight:900; text-transform:uppercase; font-size:0.8rem; margin-bottom:10px; text-align:center; }
-        .pdf-viewer { width:100%; height:180px; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:12px; }
-        .btn-descargar-pdf { background: var(--comunidad-fucsia); color:white; text-align:center; padding:10px 14px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.7rem; text-decoration:none; }
+        .pdf-preview { width:100%; height:120px; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:12px; display:flex; align-items:center; justify-content:center; color:#cbd5e1; background:#f8fafc; }
+        .pdf-preview svg { width:44px; height:44px; }
+        .pdf-botones { display:flex; gap:8px; width:100%; }
+        .btn-ver-pdf { flex:1; background: var(--comunidad-violeta); color:white; text-align:center; padding:10px 8px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.68rem; text-decoration:none; }
+        .btn-descargar-pdf { flex:1; background: var(--comunidad-fucsia); color:white; text-align:center; padding:10px 8px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.68rem; text-decoration:none; }
         .form-container { background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:28px 24px; max-width:480px; margin:0 auto; }
         .option-btn { flex:1; padding:10px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.7rem; background:rgba(255,255,255,0.1); color:white; border:2px solid rgba(255,255,255,0.3); }
         .option-btn.active { background: var(--comunidad-fucsia); border-color: var(--comunidad-fucsia); }
@@ -107,18 +110,27 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
                 <div class="informe-card">
                     <div class="informe-title">Informe de Tarifas</div>
-                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf&embedded=true"></iframe>
-                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf" target="_blank">Descargar PDF</a>
+                    <div class="pdf-preview"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="10" y="6" width="28" height="36" rx="2"/><line x1="16" y1="18" x2="32" y2="18"/><line x1="16" y1="26" x2="32" y2="26"/><line x1="16" y1="34" x2="26" y2="34"/></svg></div>
+                    <div class="pdf-botones">
+                        <a class="btn-ver-pdf" href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf&embedded=true" target="_blank" rel="noopener">Ver informe</a>
+                        <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf" target="_blank" rel="noopener">Descargar PDF</a>
+                    </div>
                 </div>
                 <div class="informe-card">
                     <div class="informe-title">Informe de Prepagas y Medicamentos</div>
-                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf&embedded=true"></iframe>
-                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf" target="_blank">Descargar PDF</a>
+                    <div class="pdf-preview"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="10" y="6" width="28" height="36" rx="2"/><line x1="16" y1="18" x2="32" y2="18"/><line x1="16" y1="26" x2="32" y2="26"/><line x1="16" y1="34" x2="26" y2="34"/></svg></div>
+                    <div class="pdf-botones">
+                        <a class="btn-ver-pdf" href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf&embedded=true" target="_blank" rel="noopener">Ver informe</a>
+                        <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf" target="_blank" rel="noopener">Descargar PDF</a>
+                    </div>
                 </div>
                 <div class="informe-card">
                     <div class="informe-title">Informe de Alquileres</div>
-                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf&embedded=true"></iframe>
-                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf" target="_blank">Descargar PDF</a>
+                    <div class="pdf-preview"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="10" y="6" width="28" height="36" rx="2"/><line x1="16" y1="18" x2="32" y2="18"/><line x1="16" y1="26" x2="32" y2="26"/><line x1="16" y1="34" x2="26" y2="34"/></svg></div>
+                    <div class="pdf-botones">
+                        <a class="btn-ver-pdf" href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf&embedded=true" target="_blank" rel="noopener">Ver informe</a>
+                        <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf" target="_blank" rel="noopener">Descargar PDF</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,7 +156,7 @@
 
     <script>
         const estratos = [
-            { key: "alta", nombre: "Clase Alta / Estrato Superior", deciles: "Deciles 9-10", pob: 20, rango: "Más de $3.300.000", promedio: 5096657, color: "#3D1488", desc: "Capa de mayores ingresos, con alta capacidad de ahorro y consumo." },
+            { key: "alta", nombre: "Clase Alta / Estrato Superior", deciles: "Deciles 9-10", pob: 20, rango: "Más de $3.300.000", promedio: 5096657, color: "#5B2EA6", desc: "Capa de mayores ingresos, con alta capacidad de ahorro y consumo." },
             { key: "media", nombre: "Clase Media Consolidada", deciles: "Deciles 5-8", pob: 40, rango: "De $1.650.000 a $3.300.000", promedio: 2414868, color: "#78217E", desc: "Núcleo de la población, con estabilidad presupuestaria y niveles de consumo intermedios." },
             { key: "media-baja", nombre: "Clase Media-Baja / Vulnerable", deciles: "Deciles 3-4", pob: 20, rango: "De $1.080.000 a $1.650.000", promedio: 1367108, color: "#B32E75", desc: "Cobertura de necesidades básicas, pero alta exposición a caer en la pobreza ante una crisis o la pérdida del empleo." },
             { key: "baja", nombre: "Clase Baja", deciles: "Deciles 1-2", pob: 20, rango: "De $0 a $1.080.000", promedio: 724978, color: "#EF3C6B", desc: "Hogares en situación de vulnerabilidad extrema o pobreza." }
@@ -168,7 +180,7 @@
             estratos.forEach((e, idx) => {
                 const yTop = idx * (100 / n), yBottom = (idx + 1) * (100 / n);
                 const wTop = apex + step * idx, wBottom = apex + step * (idx + 1);
-                polys += `<polygon points="${trapPoints(yTop, yBottom, wTop, wBottom)}" fill="${e.color}"></polygon>`;
+                polys += `<polygon points="${trapPoints(yTop, yBottom, wTop, wBottom)}" fill="${e.color}" stroke="rgba(255,255,255,0.3)" stroke-width="0.5" vector-effect="non-scaling-stroke"></polygon>`;
             });
             const svg = `<svg class="piramide-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${polys}</svg>`;
 
