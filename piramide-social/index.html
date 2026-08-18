@@ -38,18 +38,33 @@
         .piramide-wrap { position: relative; max-width: 640px; height: 420px; margin: 0 auto; }
         .piramide-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
         .banda-row { position: absolute; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px 16px; cursor: pointer; text-align: center; color: white; z-index: 10; }
-        .banda-row:hover, .banda-row.expanded { z-index: 50; }
+        .banda-row.expanded { z-index: 50; }
         .banda-inner { border-radius: 14px; padding: 8px 14px; transition: background .15s ease, box-shadow .15s ease; }
-        .banda-row:hover .banda-inner, .banda-row.expanded .banda-inner { background: var(--banda-color); box-shadow: 0 10px 28px rgba(0,0,0,0.4); }
+        .banda-row.expanded .banda-inner { background: var(--banda-color); box-shadow: 0 10px 28px rgba(0,0,0,0.4); }
         .banda-header { display: flex; align-items: flex-start; justify-content: center; gap: 8px; flex-wrap: wrap; text-align: center; }
         .banda-badge { flex-shrink: 0; font-size: 0.6rem; font-weight: 800; background: rgba(255,255,255,0.22); padding: 3px 9px; border-radius: 999px; letter-spacing: .01em; white-space: nowrap; margin-top: 1px; }
         .banda-nombre { font-weight: 900; text-transform: uppercase; font-size: 0.72rem; letter-spacing: .03em; opacity: .92; text-shadow: 0 1px 4px rgba(0,0,0,0.35); }
         .banda-monto { font-weight: 900; font-size: 1.55rem; margin-top: 3px; text-align: center; text-shadow: 0 1px 4px rgba(0,0,0,0.35); }
         .banda-monto-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; opacity: .85; letter-spacing: .04em; text-align: center; text-shadow: 0 1px 4px rgba(0,0,0,0.35); }
         .banda-detalle { max-height: 0; overflow: hidden; transition: max-height .3s ease, margin-top .3s ease; font-size: 0.74rem; line-height: 1.45; text-align: left; opacity: .96; }
-        .banda-row:hover .banda-detalle, .banda-row.expanded .banda-detalle { max-height: 140px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.3); }
+        .banda-row.expanded .banda-detalle { max-height: 140px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.3); }
+        .banda-close { position: absolute; top: 6px; right: 10px; width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.28); color: white; border: none; font-size: 14px; font-weight: 900; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .15s ease, background .15s ease; z-index: 60; }
+        .banda-close:hover { background: rgba(255,255,255,0.45); }
+        .banda-row.expanded .banda-close { opacity: 1; pointer-events: auto; }
         .banda-detalle b { display: block; font-size: 0.78rem; margin-bottom: 3px; }
         @media (max-width: 480px) { .piramide-wrap { height: 380px; } }
+        /* El hover (pasar el mouse) solo se activa en dispositivos con mouse real.
+           En touch queda excluido a propósito: algunos navegadores móviles (WhatsApp
+           in-app incluido) "pegan" el estado :hover tras un toque y no lo sueltan
+           hasta tocar otro elemento, lo que impedía cerrar el detalle. En touch,
+           el detalle se controla únicamente con la clase .expanded (toque, X, o
+           tocar afuera). */
+        @media (hover: hover) and (pointer: fine) {
+            .banda-row:hover { z-index: 50; }
+            .banda-row:hover .banda-inner { background: var(--banda-color); box-shadow: 0 10px 28px rgba(0,0,0,0.4); }
+            .banda-row:hover .banda-detalle { max-height: 140px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.3); }
+            .banda-row:hover .banda-close { opacity: 1; pointer-events: auto; }
+        }
 
         .tabla-tecnica { width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
         .tabla-tecnica th, .tabla-tecnica td { padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.12); }
@@ -186,6 +201,7 @@
 
             const rows = estratos.map((e, idx) => `
                 <div class="banda-row" style="top:${idx * 100 / n}%; height:${100 / n}%; --banda-color:${e.color};" onclick="toggleBanda(${idx})">
+                    <button class="banda-close" onclick="event.stopPropagation(); closeAllBandas();" aria-label="Cerrar detalle">✕</button>
                     <div class="banda-inner">
                         <div class="banda-header">
                             <div class="banda-nombre">${e.nombre}</div>
@@ -205,8 +221,18 @@
 
         function toggleBanda(idx) {
             const filas = document.querySelectorAll('.banda-row');
-            filas[idx].classList.toggle('expanded');
+            const yaAbierta = filas[idx].classList.contains('expanded');
+            filas.forEach(f => f.classList.remove('expanded'));
+            if (!yaAbierta) filas[idx].classList.add('expanded');
         }
+
+        function closeAllBandas() {
+            document.querySelectorAll('.banda-row.expanded').forEach(f => f.classList.remove('expanded'));
+        }
+
+        document.addEventListener('click', function (ev) {
+            if (!ev.target.closest('.banda-row')) closeAllBandas();
+        });
 
         function renderTabla() {
             document.getElementById('tablaBody').innerHTML = estratos.map(e => `
