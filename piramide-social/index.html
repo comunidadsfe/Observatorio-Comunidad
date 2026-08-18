@@ -32,18 +32,21 @@
         .form-input { width:100%; padding:12px; border-radius:10px; border:2px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.95); font-weight:700; margin-bottom:10px; }
         .btn-submit { width:100%; background: var(--comunidad-fucsia); color:white; text-align:center; padding:12px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.75rem; border:none; cursor:pointer; }
 
-        .piramide-wrap { max-width: 640px; margin: 0 auto; }
-        .banda { margin: 0 auto; border-radius: 14px; padding: 14px 18px; color: white; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.28); transition: transform .15s ease; }
-        .banda:hover { transform: translateY(-2px); }
-        .banda + .banda { margin-top: 8px; }
+        .piramide-wrap { position: relative; max-width: 640px; height: 420px; margin: 0 auto; }
+        .piramide-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .banda-row { position: absolute; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px 16px; cursor: pointer; text-align: center; color: white; z-index: 10; }
+        .banda-row:hover, .banda-row.expanded { z-index: 50; }
+        .banda-inner { border-radius: 14px; padding: 8px 14px; transition: background .15s ease, box-shadow .15s ease; }
+        .banda-row:hover .banda-inner, .banda-row.expanded .banda-inner { background: var(--banda-color); box-shadow: 0 10px 28px rgba(0,0,0,0.4); }
         .banda-header { display: flex; align-items: flex-start; justify-content: center; gap: 8px; flex-wrap: wrap; text-align: center; }
         .banda-badge { flex-shrink: 0; font-size: 0.6rem; font-weight: 800; background: rgba(255,255,255,0.22); padding: 3px 9px; border-radius: 999px; letter-spacing: .01em; white-space: nowrap; margin-top: 1px; }
-        .banda-nombre { font-weight: 900; text-transform: uppercase; font-size: 0.72rem; letter-spacing: .03em; opacity: .92; }
-        .banda-monto { font-weight: 900; font-size: 1.55rem; margin-top: 3px; text-align: center; }
-        .banda-monto-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; opacity: .8; letter-spacing: .04em; text-align: center; }
+        .banda-nombre { font-weight: 900; text-transform: uppercase; font-size: 0.72rem; letter-spacing: .03em; opacity: .92; text-shadow: 0 1px 4px rgba(0,0,0,0.35); }
+        .banda-monto { font-weight: 900; font-size: 1.55rem; margin-top: 3px; text-align: center; text-shadow: 0 1px 4px rgba(0,0,0,0.35); }
+        .banda-monto-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; opacity: .85; letter-spacing: .04em; text-align: center; text-shadow: 0 1px 4px rgba(0,0,0,0.35); }
         .banda-detalle { max-height: 0; overflow: hidden; transition: max-height .3s ease, margin-top .3s ease; font-size: 0.74rem; line-height: 1.45; text-align: left; opacity: .96; }
-        .banda:hover .banda-detalle, .banda.expanded .banda-detalle { max-height: 180px; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.25); }
+        .banda-row:hover .banda-detalle, .banda-row.expanded .banda-detalle { max-height: 140px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.3); }
         .banda-detalle b { display: block; font-size: 0.78rem; margin-bottom: 3px; }
+        @media (max-width: 480px) { .piramide-wrap { height: 380px; } }
 
         .tabla-tecnica { width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
         .tabla-tecnica th, .tabla-tecnica td { padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.12); }
@@ -94,7 +97,7 @@
             </div>
 
             <div class="mt-6 text-[10px] text-white/60 leading-relaxed space-y-3 max-w-[850px] mx-auto">
-                <p><strong class="text-white/80">¿Por qué CEDLAS?</strong> La metodología de estratificación social del CEDLAS (Centro de Estudios Distributivos, Laborales y Sociales, UNLP) divide a la población en cuatro estratos según su posición relativa en la distribución del ingreso —por deciles—, y no según montos fijos en pesos. Esto la hace resistente a la distorsión inflacionaria: un corte en pesos pierde vigencia en pocos meses, mientras que una posición relativa dentro de la distribución mantiene su significado en el tiempo. Se calcula directamente sobre los microdatos de la Encuesta Permanente de Hogares (EPH) del INDEC, lo que permite aplicarla a nivel del aglomerado Gran Santa Fe y compararla con la evolución nacional o la de otros aglomerados urbanos bajo una misma regla de medición, con respaldo metodológico de organismos como el Banco Mundial y el BID.</p>
+                <p><strong class="text-white/80">¿Por qué CEDLAS?</strong> La metodología de estratificación social del CEDLAS (Centro de Estudios Distributivos, Laborales y Sociales, UNLP) divide a la población en cuatro estratos según su posición relativa en la distribución del ingreso —por deciles—, y no según montos fijos en pesos. Esto la hace resistente a la distorsión inflacionaria: un corte en pesos pierde vigencia en pocos meses, mientras que una posición relativa dentro de la distribución mantiene su significado en el tiempo. Se calcula directamente sobre los microdatos de la Encuesta Permanente de Hogares (EPH) del INDEC, lo que permite aplicarla a nivel del aglomerado Gran Santa Fe y compararla con la evolución nacional o la de otros aglomerados urbanos bajo una misma regla de medición.</p>
                 <p><strong class="text-white/80">Fuente:</strong> Encuesta Permanente de Hogares (INDEC), aglomerado Gran Santa Fe, 1er trimestre de 2026. Estratificación según metodología CEDLAS (UNLP). Los montos corresponden al Ingreso Total Familiar (ITF) por hogar, no al ingreso per cápita.</p>
             </div>
         </div>
@@ -141,35 +144,56 @@
 
     <script>
         const estratos = [
-            { key: "alta", nombre: "Clase Alta / Estrato Superior", deciles: "Deciles 9-10", pob: 20, rango: "Más de $3.300.000", promedio: 5096657, ancho: 78, color: "#3D1488", desc: "Capa de mayores ingresos, con alta capacidad de ahorro y consumo." },
-            { key: "media", nombre: "Clase Media Consolidada", deciles: "Deciles 5-8", pob: 40, rango: "De $1.650.000 a $3.300.000", promedio: 2414868, ancho: 100, color: "#78217E", desc: "Núcleo de la población, con estabilidad presupuestaria y niveles de consumo intermedios." },
-            { key: "media-baja", nombre: "Clase Media-Baja / Vulnerable", deciles: "Deciles 3-4", pob: 20, rango: "De $1.080.000 a $1.650.000", promedio: 1367108, ancho: 78, color: "#B32E75", desc: "Cobertura de necesidades básicas, pero alta exposición a caer en la pobreza ante una crisis o la pérdida del empleo." },
-            { key: "baja", nombre: "Clase Baja", deciles: "Deciles 1-2", pob: 20, rango: "De $0 a $1.080.000", promedio: 724978, ancho: 78, color: "#EF3C6B", desc: "Hogares en situación de vulnerabilidad extrema o pobreza." }
+            { key: "alta", nombre: "Clase Alta / Estrato Superior", deciles: "Deciles 9-10", pob: 20, rango: "Más de $3.300.000", promedio: 5096657, color: "#3D1488", desc: "Capa de mayores ingresos, con alta capacidad de ahorro y consumo." },
+            { key: "media", nombre: "Clase Media Consolidada", deciles: "Deciles 5-8", pob: 40, rango: "De $1.650.000 a $3.300.000", promedio: 2414868, color: "#78217E", desc: "Núcleo de la población, con estabilidad presupuestaria y niveles de consumo intermedios." },
+            { key: "media-baja", nombre: "Clase Media-Baja / Vulnerable", deciles: "Deciles 3-4", pob: 20, rango: "De $1.080.000 a $1.650.000", promedio: 1367108, color: "#B32E75", desc: "Cobertura de necesidades básicas, pero alta exposición a caer en la pobreza ante una crisis o la pérdida del empleo." },
+            { key: "baja", nombre: "Clase Baja", deciles: "Deciles 1-2", pob: 20, rango: "De $0 a $1.080.000", promedio: 724978, color: "#EF3C6B", desc: "Hogares en situación de vulnerabilidad extrema o pobreza." }
         ];
 
         const fmt = (n) => "$" + new Intl.NumberFormat('es-AR').format(Math.round(n));
 
+        // Geometría del triángulo: ancho del vértice (arriba) 30%, base (abajo) 100%,
+        // interpolado en 4 franjas iguales, para que sea una pirámide real y no una escalera de anchos por población.
+        function trapPoints(yTop, yBottom, wTop, wBottom) {
+            const l1 = (100 - wTop) / 2, r1 = 100 - l1;
+            const l2 = (100 - wBottom) / 2, r2 = 100 - l2;
+            return `${l1},${yTop} ${r1},${yTop} ${r2},${yBottom} ${l2},${yBottom}`;
+        }
+
         function renderPiramide() {
-            const cont = document.getElementById('piramide');
-            cont.innerHTML = estratos.map((e, idx) => `
-                <div class="banda" style="width:${e.ancho}%; background:${e.color};" onclick="toggleBanda(${idx})">
-                    <div class="banda-header">
-                        <div class="banda-nombre">${e.nombre}</div>
-                        <div class="banda-badge">${e.pob}% de los hogares</div>
-                    </div>
-                    <div class="banda-monto-label">Ingreso promedio del hogar</div>
-                    <div class="banda-monto">${fmt(e.promedio)}</div>
-                    <div class="banda-detalle">
-                        <b>Rango de ingreso familiar (ITF): ${e.rango}</b>
-                        ${e.deciles} del aglomerado Gran Santa Fe.<br>${e.desc}
+            const svgNS = "http://www.w3.org/2000/svg";
+            const apex = 30, base = 100, n = estratos.length;
+            const step = (base - apex) / n;
+            let polys = '';
+            estratos.forEach((e, idx) => {
+                const yTop = idx * (100 / n), yBottom = (idx + 1) * (100 / n);
+                const wTop = apex + step * idx, wBottom = apex + step * (idx + 1);
+                polys += `<polygon points="${trapPoints(yTop, yBottom, wTop, wBottom)}" fill="${e.color}"></polygon>`;
+            });
+            const svg = `<svg class="piramide-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${polys}</svg>`;
+
+            const rows = estratos.map((e, idx) => `
+                <div class="banda-row" style="top:${idx * 100 / n}%; height:${100 / n}%; --banda-color:${e.color};" onclick="toggleBanda(${idx})">
+                    <div class="banda-inner">
+                        <div class="banda-header">
+                            <div class="banda-nombre">${e.nombre}</div>
+                            <div class="banda-badge">${e.pob}% de los hogares</div>
+                        </div>
+                        <div class="banda-monto-label">Ingreso promedio del hogar</div>
+                        <div class="banda-monto">${fmt(e.promedio)}</div>
+                        <div class="banda-detalle">
+                            ${e.deciles} del aglomerado Gran Santa Fe.<br>${e.desc}
+                        </div>
                     </div>
                 </div>
             `).join('');
+
+            document.getElementById('piramide').innerHTML = svg + rows;
         }
 
         function toggleBanda(idx) {
-            const bandas = document.querySelectorAll('.banda');
-            bandas[idx].classList.toggle('expanded');
+            const filas = document.querySelectorAll('.banda-row');
+            filas[idx].classList.toggle('expanded');
         }
 
         function renderTabla() {
