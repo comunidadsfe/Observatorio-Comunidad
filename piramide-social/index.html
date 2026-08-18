@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pirámide social de Santa Fe</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Pirámide social de Santa Fe">
+    <meta property="og:description" content="Así se reparte el ingreso familiar en los hogares de Santa Fe, según la metodología CEDLAS (EPH-INDEC, 2026).">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://comunidadsfe.github.io/Observatorio-Comunidad/og-observatorio.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAABvklEQVR42u3Vu24TQRgF4HNmZ3YXbxwrJUIiiDSIIlyq0NBR0FDRpuIBqHg9XgAK6FJyE0YgmRDHe5udORR2jC2LiAILCe1omh3NnE/659csD4cvsM1hsOXRAz3QA/8pkPwBS4Ab55eLlwECJtFMIw1hsDbn5w2QEF4IgAFKcbEIBKAReQkgwDA+G02fFOVZQCmW4jTyPHIW2YiNWIpfu+Qwbw+sryIfD6pWKCMn0VxLugd5Va0bdpU6i+b53rSVXnt3vHsu6kcwt9LghXFwY28cdd11AxNngZUzj3aqqyY0MvtpfVKnT0flSW1fVoOCCpsAAUEFw4fWDY3u534ScHvQvOtSgHez+ktrM4cM4ZN394q2EN42mSEf5uWdK9VR3r73iWWkFlmL2OUPh0AHDBmPR9Oxd62YER+7JGEEgah915H83Nnvwd50/luX3Ej9aeAuYwWeRnPg/Jsme1XnGSVsAEtjFmkBEEYktbyeIAqyZAIFEVR3ccMCCAXAEflK+lqJ5ikW2DMXO4ywupeal1HAHCY1D9evIiOud5HdbNOw+vGbobXu79+iHuiBfwzYGLVdoNhJF48I/3a2AOInLwnN8lu9droAAAAASUVORK5CYII=">
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAxElEQVR42s2RzUoDQRCEv5qf7AYNiK+QnD36Zj6qNy8i8exBhMzOTnnYjAZy2ovYNHRBU1RVtx52T6ypwMr6h4S0DIFBIKBj9xXQLgmCyYryyZoNIkKDCO49yIuZJDhZh810yOVY021otj5auIttF+YRvdd4H+djjc9l2MqpR/FWfhxLpDUY5S+HUba1zyUFv33enC0tci8lv065WvVs1DPSRZIoD3JbMhiyaBC7oiHhn/R02u+VrhfX4M8eZ68k5M06kW/DZ1EKsBMj+gAAAABJRU5ErkJggg==">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --comunidad-violeta: #3D1488; --comunidad-fucsia: #EF3C6B; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--comunidad-violeta); padding-bottom: 40px; }
+
+        .informe-card { background: white; border-radius:16px; padding:16px; color: var(--comunidad-violeta); display:flex; flex-direction:column; align-items:center; box-shadow: 0 10px 25px rgba(0,0,0,0.18); }
+        .informe-title { font-weight:900; text-transform:uppercase; font-size:0.8rem; margin-bottom:10px; text-align:center; }
+        .pdf-viewer { width:100%; height:180px; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:12px; }
+        .btn-descargar-pdf { background: var(--comunidad-fucsia); color:white; text-align:center; padding:10px 14px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.7rem; text-decoration:none; }
+        .form-container { background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:28px 24px; max-width:480px; margin:0 auto; }
+        .option-btn { flex:1; padding:10px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.7rem; background:rgba(255,255,255,0.1); color:white; border:2px solid rgba(255,255,255,0.3); }
+        .option-btn.active { background: var(--comunidad-fucsia); border-color: var(--comunidad-fucsia); }
+        .form-input { width:100%; padding:12px; border-radius:10px; border:2px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.95); font-weight:700; margin-bottom:10px; }
+        .btn-submit { width:100%; background: var(--comunidad-fucsia); color:white; text-align:center; padding:12px; border-radius:10px; font-weight:800; text-transform:uppercase; font-size:0.75rem; border:none; cursor:pointer; }
+
+        .piramide-wrap { max-width: 640px; margin: 0 auto; }
+        .banda { margin: 0 auto; border-radius: 14px; padding: 14px 18px; color: white; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.28); transition: transform .15s ease; }
+        .banda:hover { transform: translateY(-2px); }
+        .banda + .banda { margin-top: 8px; }
+        .banda-header { display: flex; align-items: flex-start; justify-content: center; gap: 8px; flex-wrap: wrap; text-align: center; }
+        .banda-badge { flex-shrink: 0; font-size: 0.6rem; font-weight: 800; background: rgba(255,255,255,0.22); padding: 3px 9px; border-radius: 999px; letter-spacing: .01em; white-space: nowrap; margin-top: 1px; }
+        .banda-nombre { font-weight: 900; text-transform: uppercase; font-size: 0.72rem; letter-spacing: .03em; opacity: .92; }
+        .banda-monto { font-weight: 900; font-size: 1.55rem; margin-top: 3px; text-align: center; }
+        .banda-monto-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; opacity: .8; letter-spacing: .04em; text-align: center; }
+        .banda-detalle { max-height: 0; overflow: hidden; transition: max-height .3s ease, margin-top .3s ease; font-size: 0.74rem; line-height: 1.45; text-align: left; opacity: .96; }
+        .banda:hover .banda-detalle, .banda.expanded .banda-detalle { max-height: 180px; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.25); }
+        .banda-detalle b { display: block; font-size: 0.78rem; margin-bottom: 3px; }
+
+        .tabla-tecnica { width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
+        .tabla-tecnica th, .tabla-tecnica td { padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.12); }
+        .tabla-tecnica th { text-transform: uppercase; font-size: 0.62rem; letter-spacing: .04em; color: rgba(255,255,255,0.6); font-weight: 800; }
+        .tabla-tecnica td { color: rgba(255,255,255,0.92); font-weight: 600; }
+        .tabla-tecnica td.num { font-weight: 800; }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-40" style="background: rgba(0,0,0,0.15);">
+        <div class="max-w-[1200px] mx-auto px-6 py-3 flex items-center justify-between text-white">
+            <a href="../" class="font-black uppercase italic text-sm tracking-wide">Comunidad</a>
+            <div class="hidden md:flex gap-6 text-[11px] font-black uppercase tracking-wide opacity-90">
+                <a href="../#herramientas" class="hover:opacity-70">Herramientas</a>
+                <a href="../#informes" class="hover:opacity-70">Informes</a>
+                <a href="https://www.instagram.com/comunidadsf/" target="_blank" class="hover:opacity-70">Instagram</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-[1200px] mx-auto pt-10 px-4 md:px-6">
+        <div class="text-center text-white mb-10">
+            <h2 class="text-2xl md:text-4xl font-black uppercase italic">Pirámide social de Santa Fe</h2>
+            <p class="text-sm mt-2 opacity-90 font-medium italic">¿Cuánto debe ganar una familia para ser clase media?</p>
+        </div>
+
+        <p class="text-center text-white font-black uppercase text-xs italic mb-4 opacity-90">
+            👆 Pasá el mouse o tocá cada escalón para ver el detalle
+        </p>
+
+        <div class="piramide-wrap mb-10" id="piramide"></div>
+
+        <div class="max-w-[900px] mx-auto mt-14 mb-10">
+            <h3 class="text-white text-center font-black uppercase italic text-lg mb-5">Los datos, en detalle</h3>
+            <div class="bg-white/5 border border-white/15 rounded-2xl p-5 md:p-6 overflow-x-auto">
+                <table class="tabla-tecnica">
+                    <thead>
+                        <tr>
+                            <th>Estrato social (CEDLAS)</th>
+                            <th>% Población</th>
+                            <th>Rango de ingreso familiar (ITF)</th>
+                            <th>Ingreso promedio del hogar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaBody"></tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 text-[10px] text-white/60 leading-relaxed space-y-3 max-w-[850px] mx-auto">
+                <p><strong class="text-white/80">¿Por qué CEDLAS?</strong> La metodología de estratificación social del CEDLAS (Centro de Estudios Distributivos, Laborales y Sociales, UNLP) divide a la población en cuatro estratos según su posición relativa en la distribución del ingreso —por deciles—, y no según montos fijos en pesos. Esto la hace resistente a la distorsión inflacionaria: un corte en pesos pierde vigencia en pocos meses, mientras que una posición relativa dentro de la distribución mantiene su significado en el tiempo. Se calcula directamente sobre los microdatos de la Encuesta Permanente de Hogares (EPH) del INDEC, lo que permite aplicarla a nivel del aglomerado Gran Santa Fe y compararla con la evolución nacional o la de otros aglomerados urbanos bajo una misma regla de medición, con respaldo metodológico de organismos como el Banco Mundial y el BID.</p>
+                <p><strong class="text-white/80">Fuente:</strong> Encuesta Permanente de Hogares (INDEC), aglomerado Gran Santa Fe, 1er trimestre de 2026. Estratificación según metodología CEDLAS (UNLP). Los montos corresponden al Ingreso Total Familiar (ITF) por hogar, no al ingreso per cápita.</p>
+            </div>
+        </div>
+
+        <div class="mt-4 mb-10">
+            <h3 class="text-white text-center font-black uppercase italic text-lg mb-6">¿Cómo calculamos estos datos? Leé nuestros informes</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Tarifas</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Tarifas.pdf" target="_blank">Descargar PDF</a>
+                </div>
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Prepagas y Medicamentos</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Prepagas%20y%20Medicamentos.pdf" target="_blank">Descargar PDF</a>
+                </div>
+                <div class="informe-card">
+                    <div class="informe-title">Informe de Alquileres</div>
+                    <iframe class="pdf-viewer" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf&embedded=true"></iframe>
+                    <a class="btn-descargar-pdf" href="https://raw.githubusercontent.com/comunidadsfe/Lo-que-cuesta-vivir-en-Santa-Fe/main/Informes/Informe%20Alquileres%20COMUNIDAD.pdf" target="_blank">Descargar PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container" id="formSection">
+            <h3 class="text-white text-lg font-black uppercase italic mb-6 text-center">¿Querés recibir nuestros informes?</h3>
+            <div class="flex gap-4 mb-6">
+                <button type="button" onclick="setFormMode('wa')" id="optWA" class="option-btn active italic">Por WhatsApp</button>
+                <button type="button" onclick="setFormMode('mail')" id="optMail" class="option-btn italic">Por Mail</button>
+            </div>
+            <form id="contactForm" target="hidden_iframe" onsubmit="return handleFormSubmit()">
+                <div id="fieldsContainer"></div>
+                <button type="submit" class="btn-submit italic">Enviar Datos</button>
+            </form>
+            <script>var submitted = false;</script>
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {showSuccess();}"></iframe>
+        </div>
+
+        <div class="text-center pt-8 pb-4">
+            <a href="../" class="inline-block text-white text-[11px] font-black uppercase underline underline-offset-4 opacity-70 hover:opacity-100">← Volver a Observatorio Comunidad</a>
+        </div>
+    </div>
+
+    <script>
+        const estratos = [
+            { key: "alta", nombre: "Clase Alta / Estrato Superior", deciles: "Deciles 9-10", pob: 20, rango: "Más de $3.300.000", promedio: 5096657, ancho: 78, color: "#3D1488", desc: "Capa de mayores ingresos, con alta capacidad de ahorro y consumo." },
+            { key: "media", nombre: "Clase Media Consolidada", deciles: "Deciles 5-8", pob: 40, rango: "De $1.650.000 a $3.300.000", promedio: 2414868, ancho: 100, color: "#78217E", desc: "Núcleo de la población, con estabilidad presupuestaria y niveles de consumo intermedios." },
+            { key: "media-baja", nombre: "Clase Media-Baja / Vulnerable", deciles: "Deciles 3-4", pob: 20, rango: "De $1.080.000 a $1.650.000", promedio: 1367108, ancho: 78, color: "#B32E75", desc: "Cobertura de necesidades básicas, pero alta exposición a caer en la pobreza ante una crisis o la pérdida del empleo." },
+            { key: "baja", nombre: "Clase Baja", deciles: "Deciles 1-2", pob: 20, rango: "De $0 a $1.080.000", promedio: 724978, ancho: 78, color: "#EF3C6B", desc: "Hogares en situación de vulnerabilidad extrema o pobreza." }
+        ];
+
+        const fmt = (n) => "$" + new Intl.NumberFormat('es-AR').format(Math.round(n));
+
+        function renderPiramide() {
+            const cont = document.getElementById('piramide');
+            cont.innerHTML = estratos.map((e, idx) => `
+                <div class="banda" style="width:${e.ancho}%; background:${e.color};" onclick="toggleBanda(${idx})">
+                    <div class="banda-header">
+                        <div class="banda-nombre">${e.nombre}</div>
+                        <div class="banda-badge">${e.pob}% de los hogares</div>
+                    </div>
+                    <div class="banda-monto-label">Ingreso promedio del hogar</div>
+                    <div class="banda-monto">${fmt(e.promedio)}</div>
+                    <div class="banda-detalle">
+                        <b>Rango de ingreso familiar (ITF): ${e.rango}</b>
+                        ${e.deciles} del aglomerado Gran Santa Fe.<br>${e.desc}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleBanda(idx) {
+            const bandas = document.querySelectorAll('.banda');
+            bandas[idx].classList.toggle('expanded');
+        }
+
+        function renderTabla() {
+            document.getElementById('tablaBody').innerHTML = estratos.map(e => `
+                <tr>
+                    <td>${e.nombre} <span class="opacity-60">(${e.deciles})</span></td>
+                    <td class="num">${e.pob}%</td>
+                    <td>${e.rango}</td>
+                    <td class="num">${fmt(e.promedio)}</td>
+                </tr>
+            `).join('');
+        }
+
+        let currentMode = 'wa';
+
+        function setFormMode(mode) {
+            currentMode = mode;
+            const container = document.getElementById('fieldsContainer');
+            document.getElementById('optWA').className = mode === 'wa' ? 'option-btn active italic' : 'option-btn italic';
+            document.getElementById('optMail').className = mode === 'mail' ? 'option-btn active italic' : 'option-btn italic';
+            if (mode === 'wa') {
+                container.innerHTML = `
+                    <label for="nameField" class="sr-only">Nombre y Apellido</label>
+                    <input type="text" id="nameField" name="entry.1321869567" placeholder="Nombre y Apellido" class="form-input">
+                    <label for="whatsappField" class="sr-only">WhatsApp</label>
+                    <input type="text" inputmode="tel" id="whatsappField" name="entry.135638054" placeholder="WhatsApp" class="form-input">
+                    <input type="hidden" name="entry.593198354" value="">
+                `;
+            } else {
+                container.innerHTML = `
+                    <input type="hidden" name="entry.1321869567" value="">
+                    <input type="hidden" name="entry.135638054" value="">
+                    <label for="mailField" class="sr-only">Correo electrónico</label>
+                    <input type="email" id="mailField" name="entry.593198354" placeholder="Correo electrónico" class="form-input" required>
+                `;
+            }
+        }
+
+        function handleFormSubmit() {
+            if (currentMode === 'wa') {
+                const name = document.getElementById('nameField').value.trim();
+                const wa = document.getElementById('whatsappField').value.trim();
+                if (name === "" || wa === "") {
+                    alert("Por favor, completá nombre y celular.");
+                    return false;
+                }
+            }
+            const action = "https://docs.google.com/forms/d/e/1FAIpQLScC1OTPDh4_Xupab8GMIwe9XqWdxTLCPYgv4H8UqDOL3YZE2A/formResponse";
+            document.getElementById('contactForm').action = action;
+            submitted = true;
+            return true;
+        }
+
+        function showSuccess() {
+            document.getElementById('formSection').innerHTML = `
+                <div class="text-center py-6">
+                    <h3 class="text-2xl font-black uppercase italic text-white">¡Gracias por sumarte!</h3>
+                </div>
+            `;
+        }
+
+        renderPiramide();
+        renderTabla();
+        setFormMode('wa');
+    </script>
+</body>
+</html>
